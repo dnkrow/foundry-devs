@@ -180,7 +180,29 @@ fiches projets, en attendant les captures réelles. Aucun portrait n'est génér
 
 ## Déploiement
 
+**En ligne : <https://agence-sand-one.vercel.app>**
+
 Le build produit un site statique dans `dist/`, plus une fonction serveur pour
-`/api/contact`. Sur Vercel, aucune configuration n'est nécessaire : le dossier
-`api/` est détecté automatiquement. Pensez à déclarer les variables
-d'environnement du formulaire dans le projet avant la première mise en ligne.
+`/api/contact` — le dossier `api/` est détecté automatiquement.
+
+```bash
+vercel deploy --prod
+```
+
+`vercel.json` fixe les en-têtes de cache : un an immuable sur les polices,
+un jour avec revalidation en arrière-plan sur les images.
+
+### Deux points à connaître
+
+**TypeScript est épinglé en 5.9.** Le builder de fonctions Vercel utilise le
+TypeScript du projet et échoue avec la 7.x, dont l'API interne diffère
+(`Cannot read properties of undefined (reading 'readFile')`). Ne remontez pas
+la version sans vérifier que le déploiement passe encore.
+
+**Le formulaire répond 503 tant que le transport n'est pas configuré.** C'est
+volontaire. Déclarez les variables d'environnement (voir plus haut) dans les
+réglages du projet, puis redéployez.
+
+L'URL Vercel est provisoire. Pour passer au domaine définitif, remplacez-la
+dans `index.html`, `public/robots.txt`, `public/sitemap.xml` et
+`src/data/site.ts`.

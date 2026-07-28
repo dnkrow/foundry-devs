@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Remplacer le domaine avant mise en ligne. Ajouter une entrée par étude de
-     cas le jour où elles obtiennent leur propre URL. -->
+<!-- URL Vercel provisoire, à remplacer par le domaine définitif. Ajouter une
+     entrée par étude de cas le jour où elles obtiennent leur propre URL. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://REMPLACER-PAR-VOTRE-DOMAINE.fr/</loc>
+    <loc>https://agence-sand-one.vercel.app/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>

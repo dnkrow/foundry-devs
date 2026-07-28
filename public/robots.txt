@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-# Remplacer par le domaine définitif avant mise en ligne.
-Sitemap: https://REMPLACER-PAR-VOTRE-DOMAINE.fr/sitemap.xml
+# URL Vercel provisoire, à remplacer par le domaine définitif.
+Sitemap: https://agence-sand-one.vercel.app/sitemap.xml

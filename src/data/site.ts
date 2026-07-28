@@ -17,8 +17,9 @@ export const site = {
   tagline: 'Studio de développement indépendant',
   city: 'Toulouse',
   area: 'Toulouse et à distance',
-  /** Renseigner le domaine définitif : sert au canonical, à l'OG et au sitemap. */
-  url: 'https://[DOMAINE].fr',
+  /** URL Vercel provisoire. Remplacer par le domaine définitif ici, dans
+   *  index.html, public/robots.txt et public/sitemap.xml. */
+  url: 'https://agence-sand-one.vercel.app',
   description:
     'Atelier Rose est un collectif de développeurs à Toulouse : sites web sur mesure, applications, intégration IA, API et back-end.',
 } as const;

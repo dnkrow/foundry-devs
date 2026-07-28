@@ -1,0 +1,7 @@
+# Master de l'image : inutile au build, les déclinaisons sont dans public/assets.
+assets-source
+
+# Outils de développement, hors chemin de build.
+scripts
+.claude
+CLAUDE.md
