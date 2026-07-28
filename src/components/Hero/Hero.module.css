@@ -54,6 +54,26 @@
 
 /* ---- Texte ---- */
 
+/* Panneau translucide sous le bloc de texte.
+   Le voile en dégradé dépend du contenu de l'image ; ce panneau, non : il
+   garantit le contraste quel que soit le visuel et quel que soit le recadrage.
+   Il s'efface vers la droite pour laisser la matière visible. */
+.copy::before {
+  content: '';
+  position: absolute;
+  inset: -2rem -34% -4rem -50%;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    96deg,
+    color-mix(in srgb, var(--c-limestone) 94%, transparent) 0%,
+    color-mix(in srgb, var(--c-limestone) 91%, transparent) 52%,
+    color-mix(in srgb, var(--c-limestone) 80%, transparent) 74%,
+    color-mix(in srgb, var(--c-limestone) 44%, transparent) 89%,
+    transparent 100%
+  );
+}
+
 .copy {
   position: relative;
   z-index: 1;
