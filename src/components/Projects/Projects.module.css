@@ -1,0 +1,311 @@
+.section {
+  padding-block: var(--section-y) 0;
+  background: var(--c-limestone-warm);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.title {
+  font-size: var(--t-display);
+  max-width: 16ch;
+}
+
+.title em {
+  color: var(--c-accent);
+}
+
+.intro {
+  max-width: var(--measure);
+  color: var(--c-ink-soft);
+}
+
+/* ---- Boutons de défilement (mobile) ---- */
+
+.railNav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.railButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--c-silver);
+  border-radius: 50%;
+  color: var(--c-ink);
+  transition: background-color var(--d-micro) var(--e-out),
+    color var(--d-micro) var(--e-out), border-color var(--d-micro) var(--e-out);
+}
+
+.railButton:hover {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: var(--c-limestone);
+}
+
+/* ---- Mobile : rail horizontal natif avec aimantation ---- */
+
+.stack {
+  list-style: none;
+  margin: 0;
+  padding: 0 var(--gutter) var(--section-y);
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+}
+
+.stack::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  flex: 0 0 min(86%, 26rem);
+  scroll-snap-align: start;
+}
+
+.cardInner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--c-limestone);
+  border: 1px solid color-mix(in srgb, var(--c-silver) 60%, transparent);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+/* ---- Média ---- */
+
+.cardMedia {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--c-silver-soft);
+}
+
+.shot,
+.crop {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.crop {
+  will-change: transform;
+}
+
+.crop > * {
+  width: 100%;
+  height: 100%;
+}
+
+.detail {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  padding: 1.1rem 1.35rem;
+  /* 94 % : en dessous, le texte passe sous 4.5:1 quand le média est clair. */
+  background: color-mix(in srgb, var(--c-night) 94%, transparent);
+  backdrop-filter: blur(8px);
+  color: var(--c-on-night);
+  translate: 0 0;
+  transition: translate var(--d-macro) var(--e-out);
+}
+
+.detailLabel {
+  font-size: var(--t-label);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-on-night-accent);
+  margin-bottom: 0.45rem;
+}
+
+.stackList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--t-small);
+  color: var(--c-on-night-soft);
+}
+
+/* ---- Texte ---- */
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: clamp(1.4rem, 3vw, 2.25rem);
+  flex: 1;
+}
+
+.number {
+  font-size: var(--t-label);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-ink-soft);
+}
+
+.name {
+  font-size: var(--t-title);
+  letter-spacing: -0.03em;
+}
+
+/* Un gabarit non renseigné est signalé, jamais présenté comme un vrai projet. */
+.name[data-draft='true'] {
+  color: var(--c-ink-soft);
+  font-family: var(--f-text);
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.65rem);
+  letter-spacing: 0.04em;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2rem;
+  margin: 0;
+  padding-block: 1rem;
+  border-block: var(--line);
+  width: 100%;
+}
+
+.meta dt {
+  font-size: var(--t-label);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin-bottom: 0.3rem;
+}
+
+.meta dd {
+  margin: 0;
+  font-size: var(--t-small);
+}
+
+.outcome {
+  max-width: 46ch;
+  color: var(--c-ink-soft);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: auto;
+  padding-block: 0.35rem;
+  font-size: var(--t-small);
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  border-bottom: 1px solid var(--c-accent);
+  color: var(--c-accent);
+}
+
+.link svg {
+  transition: translate var(--d-micro) var(--e-out);
+}
+
+.link:hover svg {
+  translate: 4px 0;
+}
+
+.linkPending {
+  margin-top: auto;
+  font-size: var(--t-small);
+  color: var(--c-ink-soft);
+  font-style: italic;
+}
+
+/* ---- Desktop : pile collée ---- */
+
+@media (min-width: 62rem) {
+  .head {
+    padding-bottom: clamp(3rem, 7vw, 6rem);
+  }
+
+  .railNav {
+    display: none;
+  }
+
+  .stack {
+    display: block;
+    overflow: visible;
+    scroll-snap-type: none;
+    padding: 0 0 var(--section-y);
+  }
+
+  .card {
+    position: sticky;
+    /* Décalage progressif : les cartes précédentes restent lisibles. */
+    top: calc(var(--nav-h) + 1.5rem + var(--i) * 1.25rem);
+    padding-inline: var(--gutter);
+    margin-bottom: clamp(4rem, 9vw, 8rem);
+  }
+
+  .card:last-child {
+    margin-bottom: 0;
+  }
+
+  .cardInner {
+    width: min(100%, 96rem);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    min-height: min(74svh, 40rem);
+    /* Le fond se décale très légèrement d'une carte à l'autre. */
+    background: color-mix(
+      in srgb,
+      var(--c-limestone) calc(100% - var(--i) * 5%),
+      var(--c-silver) calc(var(--i) * 5%)
+    );
+    box-shadow: 0 -1px 0 color-mix(in srgb, var(--c-silver) 80%, transparent),
+      0 30px 60px -50px rgb(23 61 51 / 0.55);
+  }
+
+  .cardMedia {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+
+  /* Le détail technique reste caché tant qu'il n'est ni survolé ni focalisé. */
+  .detail {
+    translate: 0 100%;
+  }
+
+  .cardInner:hover .detail,
+  .cardInner:focus-within .detail {
+    translate: 0 0;
+  }
+
+  .cardBody {
+    padding: clamp(2rem, 3.5vw, 3.5rem);
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stack {
+    scroll-behavior: auto;
+  }
+
+  .card {
+    position: static;
+  }
+
+  .detail {
+    translate: 0 0;
+  }
+}

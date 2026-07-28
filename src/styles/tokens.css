@@ -1,0 +1,54 @@
+/**
+ * Jetons de conception — palette froide, accent unique, thème clair.
+ * Les couples couleur/fond utilisés dans le site sont tous ≥ 4.5:1 (WCAG AA).
+ */
+
+:root {
+  /* ---- Couleurs ---- */
+  --c-limestone: #eef1ee; /* fond principal — gris calcaire */
+  --c-limestone-warm: #e6eae6; /* variation de surface, très légère */
+  --c-silver: #c4cbc7; /* argent fumé — filets, bordures */
+  --c-silver-soft: #d7ddd9;
+  --c-ink: #18201e; /* encre minérale — texte principal (14.6:1) */
+  --c-ink-soft: #5a6560; /* texte secondaire sur calcaire (5.3:1) */
+  --c-accent: #315e50; /* accent unique — vert profond (6.5:1) */
+  --c-accent-deep: #274c41;
+  --c-night: #173d33; /* surface sombre — contact et pied de page */
+  --c-night-soft: #1e4a3e;
+  --c-on-night: #eef1ee; /* texte sur vert nuit (10.5:1) */
+  --c-on-night-soft: #a9bab2; /* texte secondaire sur vert nuit (5.9:1) */
+  --c-on-night-accent: #8fbfae; /* accent lisible sur vert nuit */
+  --c-danger: #8c2f26; /* erreurs de formulaire sur fond clair (6.1:1) */
+  --c-danger-on-night: #f0a99f;
+
+  /* ---- Typographie ---- */
+  --f-display: 'Schibsted Grotesk Variable', 'Schibsted Grotesk', system-ui,
+    sans-serif;
+  --f-accent: 'Instrument Serif', Georgia, serif;
+  --f-text: 'Inter Tight Variable', 'Inter Tight', system-ui, sans-serif;
+
+  /* Échelle fluide. La borne haute du hero est calée sur la largeur réelle de
+     la plus longue ligne du titre : elle tient sur deux lignes dès 1280 px. */
+  --t-hero: clamp(2.25rem, 0.6rem + 5vw, 5.4rem);
+  --t-display: clamp(2.25rem, 1.1rem + 5.1vw, 5rem);
+  --t-title: clamp(1.75rem, 1.2rem + 2.4vw, 3rem);
+  --t-lead: clamp(1.0625rem, 0.98rem + 0.42vw, 1.3125rem);
+  --t-body: clamp(1rem, 0.96rem + 0.18vw, 1.0625rem);
+  --t-small: 0.875rem;
+  --t-label: 0.75rem;
+
+  /* ---- Rythme ---- */
+  --measure: 62ch; /* ≈ 65 caractères par ligne */
+  --gutter: clamp(1.25rem, 4vw, 4.5rem);
+  --section-y: clamp(5.5rem, 11vh + 3rem, 11rem);
+  --nav-h: 72px;
+
+  /* ---- Mouvement ---- */
+  --e-out: cubic-bezier(0.16, 1, 0.3, 1); /* décélération physique */
+  --e-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --d-micro: 220ms; /* micro-interactions : 180–300 ms */
+  --d-macro: 720ms; /* grands changements : 500–900 ms */
+
+  --radius: 3px; /* discret : la DA ne repose pas sur les arrondis */
+  --line: 1px solid var(--c-silver);
+}

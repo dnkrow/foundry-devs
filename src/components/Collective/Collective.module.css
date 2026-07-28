@@ -1,0 +1,204 @@
+.section {
+  padding-block: var(--section-y);
+  background: var(--c-limestone-warm);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.title {
+  font-size: var(--t-display);
+  max-width: 18ch;
+}
+
+.title em {
+  color: var(--c-accent);
+}
+
+.intro {
+  max-width: var(--measure);
+  font-size: var(--t-lead);
+  color: var(--c-ink-soft);
+  line-height: 1.55;
+}
+
+/* ---- Phases ---- */
+
+.phasesWrap {
+  position: relative;
+  margin-top: clamp(3rem, 7vw, 6rem);
+  padding-top: 2.5rem;
+}
+
+.progress {
+  position: absolute;
+  top: 0;
+  left: var(--gutter);
+  right: var(--gutter);
+  height: 1px;
+  background: var(--c-accent);
+  transform-origin: left;
+}
+
+.phases {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(2rem, 4vw, 3rem);
+}
+
+.phase {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.phaseTitle {
+  font-size: clamp(1.35rem, 1.1rem + 1vw, 1.85rem);
+  letter-spacing: -0.03em;
+}
+
+.phaseSummary {
+  color: var(--c-ink-soft);
+  max-width: 42ch;
+}
+
+.phaseDeliverable {
+  margin-top: 0.4rem;
+  padding-top: 0.9rem;
+  border-top: var(--line);
+  font-size: var(--t-small);
+  max-width: 42ch;
+}
+
+.phaseLabel {
+  display: block;
+  font-size: var(--t-label);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin-bottom: 0.35rem;
+}
+
+/* ---- Équipe ---- */
+
+.membersWrap {
+  margin-top: clamp(3.5rem, 8vw, 7rem);
+  padding-top: clamp(2rem, 4vw, 3rem);
+  border-top: var(--line);
+}
+
+.membersTitle {
+  font-size: var(--t-label);
+  font-family: var(--f-text);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin-bottom: 2rem;
+}
+
+.members {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.member {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.photo {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+/* Composition typographique de remplacement, jamais un faux portrait. */
+.initials {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 5;
+  margin-bottom: 1rem;
+  background: linear-gradient(
+    150deg,
+    var(--c-limestone) 0%,
+    var(--c-silver-soft) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--c-silver) 70%, transparent);
+  font-family: var(--f-accent);
+  font-style: italic;
+  font-size: clamp(3rem, 8vw, 4.5rem);
+  color: color-mix(in srgb, var(--c-accent) 78%, transparent);
+  letter-spacing: -0.02em;
+}
+
+.memberName {
+  font-family: var(--f-display);
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+}
+
+.memberName[data-draft='true'] {
+  font-family: var(--f-text);
+  font-size: var(--t-small);
+  letter-spacing: 0.06em;
+  color: var(--c-ink-soft);
+}
+
+.memberRole {
+  font-size: var(--t-small);
+  color: var(--c-ink-soft);
+}
+
+.membersNote {
+  margin-top: 2rem;
+  font-size: var(--t-small);
+  font-style: italic;
+  color: var(--c-ink-soft);
+}
+
+@media (min-width: 48rem) {
+  .phases {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .members {
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+}
+
+@media (min-width: 62rem) {
+  .phases {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Décalage vertical progressif : la ligne de phases n'est pas une grille plate. */
+  .phase:nth-child(2) {
+    margin-top: 2.25rem;
+  }
+
+  .phase:nth-child(3) {
+    margin-top: 4.5rem;
+  }
+
+  .phase:nth-child(4) {
+    margin-top: 6.75rem;
+  }
+
+  .members {
+    grid-template-columns: repeat(3, minmax(0, 20rem));
+  }
+}

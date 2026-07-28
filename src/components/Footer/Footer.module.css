@@ -1,0 +1,91 @@
+.footer {
+  background: var(--c-night);
+  color: var(--c-on-night);
+  padding-bottom: 2.5rem;
+}
+
+.inner {
+  display: grid;
+  gap: 2.5rem;
+  padding-top: clamp(3rem, 7vw, 5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid color-mix(in srgb, var(--c-on-night) 18%, transparent);
+}
+
+.name {
+  font-family: var(--f-display);
+  font-size: 1.25rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.tagline {
+  margin-top: 0.5rem;
+  font-size: var(--t-small);
+  color: var(--c-on-night-soft);
+  max-width: 32ch;
+}
+
+.links ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.15rem;
+}
+
+.links a,
+.reach a {
+  display: inline-block;
+  /* Cible tactile ≥ 24 px de haut (WCAG 2.5.8). */
+  padding-block: 0.4rem;
+  font-size: var(--t-small);
+  color: var(--c-on-night);
+  text-decoration-color: color-mix(in srgb, var(--c-on-night) 40%, transparent);
+  transition: text-decoration-color var(--d-micro) var(--e-out);
+}
+
+.links a:hover,
+.reach a:hover {
+  text-decoration-color: var(--c-on-night-accent);
+}
+
+.reach {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.9rem;
+}
+
+.pending {
+  font-size: var(--t-small);
+  font-style: italic;
+  color: var(--c-on-night-soft);
+}
+
+.note {
+  font-size: var(--t-label);
+  line-height: 1.6;
+  color: var(--c-on-night-soft);
+  max-width: 36ch;
+}
+
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid color-mix(in srgb, var(--c-on-night) 12%, transparent);
+  font-size: var(--t-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-on-night-soft);
+}
+
+@media (min-width: 48rem) {
+  .inner {
+    grid-template-columns: 1.2fr 0.7fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+}

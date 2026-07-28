@@ -1,0 +1,169 @@
+.hero {
+  position: relative;
+  /* Le premier viewport contient la composition entière ; la hauteur
+     supplémentaire (desktop) sert uniquement à dérouler la contraction. */
+  height: 100svh;
+  background: var(--c-limestone);
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: grid;
+}
+
+/* ---- Média ---- */
+
+.media {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0% 0% 0% 0% round 0px);
+  will-change: clip-path;
+}
+
+.mediaInner {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.mediaInner > * {
+  width: 100%;
+  height: 100%;
+}
+
+/* Voile froid : assure le contraste du texte sans effacer la matière.
+   Dosé sur les pixels réels de l'image, mesurés sous chaque bloc de texte. */
+.veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+      100deg,
+      color-mix(in srgb, var(--c-limestone) 74%, transparent) 0%,
+      color-mix(in srgb, var(--c-limestone) 52%, transparent) 38%,
+      color-mix(in srgb, var(--c-limestone) 6%, transparent) 72%
+    ),
+    linear-gradient(
+      to top,
+      color-mix(in srgb, var(--c-limestone) 72%, transparent) 0%,
+      transparent 46%
+    );
+}
+
+/* ---- Texte ---- */
+
+.copy {
+  position: relative;
+  z-index: 1;
+  align-self: end;
+  width: min(100%, 96rem);
+  margin-inline: auto;
+  padding: 0 var(--gutter) clamp(2.5rem, 8vh, 5.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(1rem, 2.2vh, 1.75rem);
+}
+
+.eyebrow {
+  font-size: var(--t-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-ink-soft);
+}
+
+.city {
+  color: var(--c-accent);
+}
+
+.title {
+  /* Seconde borne, verticale : sur un écran bas le titre cède avant de
+     pousser le reste de la composition hors du premier viewport. */
+  font-size: min(var(--t-hero), 12.5svh);
+}
+
+.title em {
+  color: var(--c-accent);
+}
+
+.lead {
+  max-width: 46ch;
+  font-size: var(--t-lead);
+  color: var(--c-ink-soft);
+  line-height: 1.45;
+}
+
+/* ---- Actions ---- */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  margin-top: clamp(0.25rem, 1.5vh, 1rem);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.95rem 1.6rem;
+  background: var(--c-accent);
+  color: var(--c-limestone);
+  font-size: var(--t-small);
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  border-radius: var(--radius);
+  transition: background-color var(--d-micro) var(--e-out);
+}
+
+.cta svg {
+  transition: translate var(--d-micro) var(--e-out);
+}
+
+.cta:hover {
+  background: var(--c-accent-deep);
+}
+
+.cta:hover svg {
+  translate: 4px 0;
+}
+
+.ctaGhost {
+  padding: 0.95rem 0.25rem;
+  font-size: var(--t-small);
+  letter-spacing: 0.06em;
+  color: var(--c-ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--c-silver);
+  transition: border-color var(--d-micro) var(--e-out),
+    color var(--d-micro) var(--e-out);
+}
+
+.ctaGhost:hover {
+  color: var(--c-accent);
+  border-bottom-color: var(--c-accent);
+}
+
+@media (min-width: 62rem) {
+  .hero {
+    /* 100svh visibles + 100svh de course pour la contraction du média. */
+    height: 200svh;
+  }
+
+  .copy {
+    padding-bottom: clamp(3rem, 10vh, 7rem);
+  }
+
+  .lead {
+    max-width: 38ch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero {
+    height: 100svh;
+  }
+}

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#eef1ee" />
+
+    <title>Atelier Rose — Studio de développement indépendant à Toulouse</title>
+    <meta
+      name="description"
+      content="Atelier Rose est un collectif de développeurs à Toulouse : sites web sur mesure, applications, intégration IA, API et back-end. Vous travaillez directement avec ceux qui construisent."
+    />
+
+    <!-- À REMPLACER par le domaine définitif (canonical, OG, sitemap.xml). -->
+    <link rel="canonical" href="https://REMPLACER-PAR-VOTRE-DOMAINE.fr/" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- Visuel du hero : c'est le LCP, on le demande avant tout le reste. -->
+    <link
+      rel="preload"
+      as="image"
+      type="image/avif"
+      href="/assets/hero-1600.avif"
+      imagesrcset="/assets/hero-640.avif 640w, /assets/hero-1024.avif 1024w, /assets/hero-1600.avif 1600w, /assets/hero-2048.avif 2048w"
+      imagesizes="100vw"
+      fetchpriority="high"
+    />
+
+    <!-- Polices du chemin critique : toutes trois apparaissent dans le hero. -->
+    <link
+      rel="preload"
+      href="/fonts/schibsted-grotesk-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/inter-tight-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/instrument-serif-latin-400-italic.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="Atelier Rose" />
+    <meta
+      property="og:title"
+      content="Atelier Rose — Studio de développement indépendant à Toulouse"
+    />
+    <meta
+      property="og:description"
+      content="Collectif de développeurs à Toulouse. Nous concevons, construisons et faisons évoluer des produits web sur mesure."
+    />
+    <meta property="og:url" content="https://REMPLACER-PAR-VOTRE-DOMAINE.fr/" />
+    <meta
+      property="og:image"
+      content="https://REMPLACER-PAR-VOTRE-DOMAINE.fr/og.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Atelier Rose — studio de développement indépendant, Toulouse."
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Atelier Rose — Studio de développement indépendant à Toulouse"
+    />
+    <meta
+      name="twitter:description"
+      content="Collectif de développeurs à Toulouse. Nous concevons, construisons et faisons évoluer des produits web sur mesure."
+    />
+    <meta
+      name="twitter:image"
+      content="https://REMPLACER-PAR-VOTRE-DOMAINE.fr/og.png"
+    />
+
+    <!--
+      Données structurées limitées aux informations réellement connues :
+      ni adresse postale, ni téléphone, ni note client tant qu'ils ne sont pas
+      fournis. Compléter `url`, `email` et `sameAs` avant mise en ligne.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Atelier Rose",
+        "description": "Collectif de développeurs indépendants à Toulouse : sites web sur mesure, applications et logiciels, intégration IA, API et back-end.",
+        "url": "https://REMPLACER-PAR-VOTRE-DOMAINE.fr/",
+        "areaServed": { "@type": "City", "name": "Toulouse" },
+        "knowsLanguage": "fr",
+        "serviceType": [
+          "Développement web",
+          "Développement d'applications",
+          "Intégration d'intelligence artificielle",
+          "Développement d'API et back-end"
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <p style="padding: 1.5rem; font-family: system-ui">
+        Ce site utilise JavaScript pour l’affichage. Écrivez-nous directement
+        pour nous joindre.
+      </p>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

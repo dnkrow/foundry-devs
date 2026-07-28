@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Atelier Rose">
+  <rect width="64" height="64" rx="8" fill="#173D33" />
+  <path d="M14 45 22 19h4l8 26h-5l-1.6-5.6h-8.3L17.5 45H14zm5.9-9.6h6.4L23.1 24.2 19.9 35.4z" fill="#EEF1EE" />
+  <path d="M38 45V19h8.3c4.6 0 7.4 2.6 7.4 6.9 0 3.2-1.6 5.5-4.3 6.4L54.5 45h-5l-4.6-11.4h-3.2V45H38zm3.7-14.6h4.3c2.5 0 4-1.4 4-3.6s-1.5-3.5-4-3.5h-4.3v7.1z" fill="#8FBFAE" />
+</svg>

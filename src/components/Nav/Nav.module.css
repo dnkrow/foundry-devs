@@ -1,0 +1,191 @@
+.header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  transition: background-color var(--d-macro) var(--e-out),
+    box-shadow var(--d-macro) var(--e-out);
+}
+
+.header[data-scrolled='true'] {
+  background: color-mix(in srgb, var(--c-limestone) 78%, transparent);
+  backdrop-filter: blur(14px) saturate(1.1);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--c-silver) 70%, transparent);
+}
+
+.bar {
+  height: var(--nav-h);
+  width: min(100%, 96rem);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* ---- Marque ---- */
+
+.brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.monogram {
+  font-family: var(--f-display);
+  font-weight: 500;
+  font-size: 1.0625rem;
+  letter-spacing: 0.04em;
+  color: var(--c-accent);
+}
+
+.brandName {
+  font-family: var(--f-display);
+  font-size: 0.9375rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ---- Liens desktop ---- */
+
+.links {
+  display: none;
+  list-style: none;
+  padding: 0;
+  gap: clamp(1.5rem, 3vw, 3rem);
+}
+
+.link {
+  position: relative;
+  display: inline-block;
+  padding-block: 0.35rem;
+  font-size: var(--t-small);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--c-ink-soft);
+  transition: color var(--d-micro) var(--e-out);
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--c-accent);
+  scale: 0 1;
+  transform-origin: left;
+  transition: scale var(--d-micro) var(--e-out);
+}
+
+.link:hover,
+.link[data-active='true'] {
+  color: var(--c-ink);
+}
+
+.link[data-active='true'] {
+  color: var(--c-accent);
+}
+
+.link:hover::after,
+.link[data-active='true']::after {
+  scale: 1 1;
+}
+
+/* ---- Bouton menu ---- */
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-inline-end: -10px;
+}
+
+.toggleIcon {
+  display: block;
+  position: relative;
+  width: 24px;
+  height: 10px;
+}
+
+.toggleIcon i {
+  position: absolute;
+  inset-inline: 0;
+  height: 1.5px;
+  background: var(--c-ink);
+  transition: translate var(--d-micro) var(--e-out),
+    rotate var(--d-micro) var(--e-out);
+}
+
+.toggleIcon i:first-child {
+  top: 0;
+}
+
+.toggleIcon i:last-child {
+  bottom: 0;
+}
+
+.toggleIcon[data-open='true'] i:first-child {
+  translate: 0 4px;
+  rotate: 45deg;
+}
+
+.toggleIcon[data-open='true'] i:last-child {
+  translate: 0 -4px;
+  rotate: -45deg;
+}
+
+/* ---- Panneau mobile ---- */
+
+/* La hauteur est animée par GSAP (voir Collapse) : pas de valeur magique. */
+.panel {
+  background: color-mix(in srgb, var(--c-limestone) 96%, transparent);
+  backdrop-filter: blur(18px);
+}
+
+.panelList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--d-macro) var(--e-out);
+}
+
+.panelList[data-open='true'] {
+  border-bottom-color: var(--c-silver);
+}
+
+.panelLink {
+  display: block;
+  padding: 1.15rem var(--gutter);
+  font-family: var(--f-display);
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  border-top: 1px solid color-mix(in srgb, var(--c-silver) 55%, transparent);
+}
+
+.panelList li:first-child .panelLink {
+  border-top: 0;
+  padding-top: 0.5rem;
+}
+
+.panelList li:last-child .panelLink {
+  padding-bottom: 1.75rem;
+}
+
+@media (min-width: 62rem) {
+  .links {
+    display: flex;
+  }
+
+  .toggle,
+  .panel {
+    display: none;
+  }
+}

@@ -1,0 +1,8 @@
+# Normalise les fins de ligne : l'équipe travaille sur des OS différents.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.webp binary
+*.avif binary
+*.woff2 binary
