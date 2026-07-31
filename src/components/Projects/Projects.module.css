@@ -87,10 +87,12 @@
 
 /* ---- Média ---- */
 
+/* Rapport de la capture source (1690 × 912), tenu à toutes les tailles :
+   l'image remplit le cadre exactement, sans marge ni rognage. */
 .cardMedia {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1690 / 912;
   background: var(--c-silver-soft);
 }
 
@@ -100,12 +102,11 @@
   object-fit: cover;
 }
 
-/* Capture d'interface : posée dans le cadre, jamais rognée. Le fond calcaire
-   tient lieu de passe-partout quand le rapport ne coïncide pas. */
+/* Capture d'interface : le cadre adopte le rapport de la capture, si bien
+   qu'elle le remplit exactement sans être rognée. */
 .shot {
   width: 100%;
   height: 100%;
-  padding: clamp(1rem, 2.5vw, 2rem);
   background: var(--c-limestone-warm);
 }
 
@@ -272,7 +273,9 @@
     margin-inline: auto;
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
-    min-height: min(74svh, 40rem);
+    /* La hauteur vient du média, dont le rapport est calé sur la capture.
+       Le plancher garantit une carte lisible quand le texte est court. */
+    min-height: min(56svh, 30rem);
     /* Le fond se décale très légèrement d'une carte à l'autre. */
     background: color-mix(
       in srgb,
@@ -284,8 +287,8 @@
   }
 
   .cardMedia {
-    aspect-ratio: auto;
-    height: 100%;
+    height: auto;
+    align-self: stretch;
   }
 
   /* Le détail technique reste caché tant qu'il n'est ni survolé ni focalisé. */

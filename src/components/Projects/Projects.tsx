@@ -142,7 +142,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                    viewport. Un `sizes` en vw y faisait choisir le 640. */
                 sizes="(min-width: 96rem) 52rem, (min-width: 62rem) 45vw, 82vw"
                 widths={project.imageWidths}
-                fit="contain"
               />
             </div>
           ) : (
