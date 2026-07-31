@@ -1,4 +1,4 @@
-# Atelier Rose — site vitrine
+# Foundry Devs — site vitrine
 
 Site portfolio d'un collectif de développeurs indépendants basé à Toulouse.
 Page unique, sept chapitres, thème clair avec une seule bascule vers le vert
@@ -71,9 +71,9 @@ dans la page, plutôt que d'être masquée.
 | `src/data/site.ts` | `url`, `email`, `linkedin`, `github`, `availability` |
 | `src/data/projects.ts` | Les 4 fiches projets, leurs captures et leurs liens |
 | `src/data/method.ts` | Noms, rôles et photos des membres |
-| `index.html` | `REMPLACER-PAR-VOTRE-DOMAINE.fr` (canonical, OG, JSON-LD) |
-| `public/robots.txt` | même domaine |
-| `public/sitemap.xml` | même domaine |
+
+Le domaine `foundrydevs.codes` est déjà en place dans `index.html`,
+`public/robots.txt`, `public/sitemap.xml` et `src/data/site.ts`.
 
 Pour ajouter une capture de projet : déposez le fichier dans `assets-source/`,
 lancez `npm run images`, puis renseignez `image` et `imageAlt` dans
@@ -180,7 +180,7 @@ fiches projets, en attendant les captures réelles. Aucun portrait n'est génér
 
 ## Déploiement
 
-**En ligne : <https://agence-sand-one.vercel.app>**
+**En ligne : <https://foundrydevs.codes>**
 
 Le build produit un site statique dans `dist/`, plus une fonction serveur pour
 `/api/contact` — le dossier `api/` est détecté automatiquement.
@@ -203,6 +203,6 @@ la version sans vérifier que le déploiement passe encore.
 volontaire. Déclarez les variables d'environnement (voir plus haut) dans les
 réglages du projet, puis redéployez.
 
-L'URL Vercel est provisoire. Pour passer au domaine définitif, remplacez-la
-dans `index.html`, `public/robots.txt`, `public/sitemap.xml` et
-`src/data/site.ts`.
+Le domaine `foundrydevs.codes` et son `www` sont rattachés au projet Vercel.
+Pour en changer, remplacez-le dans `index.html`, `public/robots.txt`,
+`public/sitemap.xml` et `src/data/site.ts`.

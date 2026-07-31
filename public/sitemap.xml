@@ -3,7 +3,7 @@
      entrée par étude de cas le jour où elles obtiennent leur propre URL. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://agence-sand-one.vercel.app/</loc>
+    <loc>https://foundrydevs.codes/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>

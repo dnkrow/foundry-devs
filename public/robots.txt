@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# URL Vercel provisoire, à remplacer par le domaine définitif.
-Sitemap: https://agence-sand-one.vercel.app/sitemap.xml
+Sitemap: https://foundrydevs.codes/sitemap.xml

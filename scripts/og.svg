@@ -37,12 +37,12 @@
   <path d="M 0 470 L 700 440 L 700 630 L 0 630 Z" fill="#E9EDE9" />
   <rect x="699" y="440" width="2" height="190" fill="#315E50" opacity="0.5" />
 
-  <!-- Monogramme « AR », tracés vectoriels. -->
+  <!-- Monogramme « FD », tracés vectoriels. -->
   <g transform="translate(96 96)">
     <rect width="112" height="112" rx="12" fill="#173D33" />
     <g transform="translate(6 6) scale(1.5625)">
-      <path d="M14 45 22 19h4l8 26h-5l-1.6-5.6h-8.3L17.5 45H14zm5.9-9.6h6.4L23.1 24.2 19.9 35.4z" fill="#EEF1EE" />
-      <path d="M38 45V19h8.3c4.6 0 7.4 2.6 7.4 6.9 0 3.2-1.6 5.5-4.3 6.4L54.5 45h-5l-4.6-11.4h-3.2V45H38zm3.7-14.6h4.3c2.5 0 4-1.4 4-3.6s-1.5-3.5-4-3.5h-4.3v7.1z" fill="#8FBFAE" />
+      <path d="M13 19h17v5.4H18.6v6H27v5.4h-8.4V45H13z" fill="#EEF1EE" />
+      <path d="M34 19h9.2c6.6 0 10.8 5.1 10.8 13s-4.2 13-10.8 13H34zm5.6 5.4v15.2h3.2c3.5 0 5.6-2.9 5.6-7.6s-2.1-7.6-5.6-7.6z" fill="#8FBFAE" fill-rule="evenodd" />
     </g>
   </g>
 

@@ -2,7 +2,7 @@
 
 Instructions pour Claude Code sur ce dépôt. À lire avant toute modification.
 
-Le site est le portfolio d'**Atelier Rose**, collectif de développeurs
+Le site est le portfolio de **Foundry Devs**, collectif de développeurs
 indépendants à Toulouse. Page unique, sept chapitres, français.
 
 ---
@@ -143,6 +143,6 @@ réserver la place. Jamais de hotlink vers un média distant.
 - `src/data/site.ts` — url, email, LinkedIn, GitHub, disponibilité
 - `src/data/projects.ts` — les quatre fiches et leurs captures
 - `src/data/method.ts` — membres du collectif
-- `index.html`, `public/robots.txt`, `public/sitemap.xml` —
-  remplacer `REMPLACER-PAR-VOTRE-DOMAINE.fr`
 - Variables d'environnement du formulaire chez l'hébergeur
+
+Le domaine est en place partout : `foundrydevs.codes`.

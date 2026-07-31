@@ -1,5 +1,5 @@
 /**
- * Génère les marques d'Atelier Rose en SVG vectoriel.
+ * Génère les marques de Foundry Devs en SVG vectoriel.
  *
  * La rose est construite géométriquement (spirale logarithmique échantillonnée
  * en segments droits) plutôt que décalquée : les contours sont exacts, la forme
@@ -113,20 +113,19 @@ const roseMark = (color = C.rose, id = 'r') => {
  * ------------------------------------------------------------------ */
 
 /**
- * A et R construits en tracés, sans dépendance à une police installée.
- * Le contrepoinçon du R est un pétale plutôt qu'un ovale : la rose s'y
- * rappelle discrètement.
+ * F et D construits en tracés, sans dépendance à une police installée.
+ * Le D est ouvert d'une fente sur son flanc : la coulée de la fonderie.
  */
 const monogram = (color = C.rose) => `<g fill="${color}">
-    <!-- A : deux jambages et une barre, sommet tronqué -->
-    <path d="M 26 152 L 62 44 L 84 44 L 120 152 L 96 152 L 88 126 L 58 126 L 50 152 Z
-             M 64 106 L 82 106 L 73 74 Z" fill-rule="evenodd" />
-    <!-- R : fût, panse et jambe oblique -->
-    <path d="M 134 152 L 134 44 L 176 44 C 199 44 212 58 212 78
-             C 212 93 204 104 190 109 L 216 152 L 190 152 L 168 113 L 156 113 L 156 152 Z" />
-    <!-- Contrepoinçon en pétale -->
-    <path d="M 156 64 L 174 64 C 185 64 190 70 190 78 C 190 87 185 93 174 93 L 156 93 Z"
-          fill="${C.limestone}" />
+    <!-- F : fût, barre haute et barre médiane -->
+    <path d="M 26 44 L 104 44 L 104 66 L 52 66 L 52 88 L 96 88 L 96 110 L 52 110
+             L 52 152 L 26 152 Z" />
+    <!-- D : fût et panse -->
+    <path d="M 130 44 L 168 44 C 200 44 218 66 218 98 C 218 130 200 152 168 152
+             L 130 152 Z" />
+    <!-- Contreforme de la panse -->
+    <path d="M 156 66 L 168 66 C 186 66 196 78 196 98 C 196 118 186 130 168 130
+             L 156 130 Z" fill="${C.limestone}" />
   </g>`;
 
 /* ------------------------------------------------------------------ *
@@ -150,7 +149,7 @@ async function embeddedFonts() {
  * ------------------------------------------------------------------ */
 
 const svg = (w, h, body, extra = '') =>
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" role="img" aria-label="Atelier Rose">${extra}${body}</svg>\n`;
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" role="img" aria-label="Foundry Devs">${extra}${body}</svg>\n`;
 
 const files = {};
 
@@ -180,20 +179,20 @@ const fonts = await embeddedFonts();
 // les feraient se chevaucher dès que la police change de chasse.
 const wordmark = (inkColor = C.ink, roseColor = C.rose) =>
   `<text x="4" y="86" font-size="76" fill="${inkColor}">
-     <tspan font-family="AR Grotesk" font-weight="500" letter-spacing="-2.6">Atelier</tspan><tspan font-family="AR Serif" font-style="italic" font-size="82" fill="${roseColor}" dx="14">Rose</tspan>
+     <tspan font-family="AR Grotesk" font-weight="500" letter-spacing="-2.6">Foundry</tspan><tspan font-family="AR Serif" font-style="italic" font-size="82" fill="${roseColor}" dx="14">Devs</tspan>
    </text>`;
 
 // Largeurs mesurées dans le navigateur avec les polices réelles du projet,
 // puis reportées ici : le cadre colle au dessin, sans blanc mort.
-files['logo-wordmark.svg'] = svg(376, 112, wordmark(), fonts);
+files['logo-wordmark.svg'] = svg(436, 112, wordmark(), fonts);
 
 // 1b — Rose + nom.
 files['logo-rose-lockup.svg'] = svg(
-  556,
+  584,
   200,
   `<g transform="translate(0 4) scale(0.96)">${roseMark(C.rose, 'lock')}</g>
    <text x="230" y="106" font-size="62" fill="${C.ink}">
-     <tspan font-family="AR Grotesk" font-weight="500" letter-spacing="-2.2">Atelier</tspan><tspan font-family="AR Serif" font-style="italic" font-size="67" fill="${C.rose}" dx="11">Rose</tspan>
+     <tspan font-family="AR Grotesk" font-weight="500" letter-spacing="-2.2">Foundry</tspan><tspan font-family="AR Serif" font-style="italic" font-size="67" fill="${C.rose}" dx="11">Devs</tspan>
    </text>
    <text x="232" y="140" font-family="AR Grotesk" font-weight="500" font-size="15" letter-spacing="4.4" fill="#5A6560">STUDIO DE DÉVELOPPEMENT</text>`,
   fonts,

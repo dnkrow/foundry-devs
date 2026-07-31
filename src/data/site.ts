@@ -12,16 +12,14 @@ export const isPlaceholder = (value: string): boolean =>
   value.startsWith('[') && value.endsWith(']');
 
 export const site = {
-  name: 'Atelier Rose',
-  monogram: 'AR',
+  name: 'Foundry Devs',
+  monogram: 'FD',
   tagline: 'Studio de développement indépendant',
   city: 'Toulouse',
   area: 'Toulouse et à distance',
-  /** URL Vercel provisoire. Remplacer par le domaine définitif ici, dans
-   *  index.html, public/robots.txt et public/sitemap.xml. */
-  url: 'https://agence-sand-one.vercel.app',
+  url: 'https://foundrydevs.codes',
   description:
-    'Atelier Rose est un collectif de développeurs à Toulouse : sites web sur mesure, applications, intégration IA, API et back-end.',
+    'Foundry Devs est un collectif de développeurs à Toulouse : sites web sur mesure, applications, intégration IA, API et back-end.',
 } as const;
 
 export const contact = {
