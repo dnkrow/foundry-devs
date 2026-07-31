@@ -19,26 +19,39 @@ export type Project = {
   readonly stack: readonly string[];
   /** Objectif poursuivi ou résultat constaté. Aucun chiffre non vérifié. */
   readonly outcome: string;
-  /** Chemin local vers la capture, ou `null` tant qu'elle n'est pas fournie. */
+  /**
+   * Nom de base du fichier dans `public/assets`, sans largeur ni extension —
+   * déposez la source dans `assets-source/` et lancez `npm run images`.
+   * `null` tant qu'aucune capture n'est fournie.
+   */
   readonly image: string | null;
   /** Texte alternatif décrivant la capture. Obligatoire dès que `image` existe. */
   readonly imageAlt: string | null;
+  /** Largeurs réellement générées, si la source ne couvre pas toute l'échelle. */
+  readonly imageWidths?: readonly number[] | undefined;
   /** Lien vers l'étude de cas ou le site en ligne, ou `null`. */
   readonly href: string | null;
+  /** Libellé du lien. Il doit dire où il mène : un site en ligne n'est pas
+   *  une étude de cas. Par défaut « Voir l'étude de cas ». */
+  readonly hrefLabel?: string | undefined;
 };
 
 export const projects: readonly Project[] = [
   {
-    id: 'projet-01',
-    name: '[PROJET 01]',
-    kind: '[Type de produit]',
-    role: '[Rôle de l’atelier]',
-    year: '[Année]',
-    stack: ['[Technologie]', '[Technologie]', '[Technologie]'],
-    outcome: '[Objectif du projet ou résultat réellement constaté.]',
-    image: null,
-    imageAlt: null,
-    href: null,
+    id: 'mama-bloom',
+    name: 'MAMA Bloom',
+    kind: 'Application web de suivi de grossesse',
+    role: 'Conception et développement',
+    year: '2026',
+    stack: ['Next.js 16', 'TypeScript', 'Prisma / PostgreSQL', 'Tailwind CSS'],
+    outcome:
+      'Accompagner la grossesse semaine après semaine, sur un ton chaleureux et jamais clinique. Les données de santé sont hébergées en France, chez un hébergeur agréé HDS.',
+    image: 'mama-bloom',
+    imageAlt:
+      'Page d’accueil de MAMA Bloom : titre éditorial « Ta grossesse, accompagnée semaine après semaine » et photographie d’une femme enceinte dans une pièce claire.',
+    imageWidths: [640, 1024, 1600],
+    href: 'https://app.mama-bloom.fr',
+    hrefLabel: 'Voir le site en ligne',
   },
   {
     id: 'projet-02',

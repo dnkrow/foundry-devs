@@ -10,7 +10,7 @@
  *   node scripts/build-images.mjs
  */
 
-import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -33,14 +33,18 @@ async function buildOgImage() {
   const target = path.join(root, 'public', 'og.png');
 
   if (existsSync(heroPath)) {
-    const png = await sharp(heroPath)
+    // JPEG : le visuel est photographique, un PNG pèserait cinq fois plus pour
+    // un résultat identique à l'œil. L'extension reste .png, ce que tous les
+    // agrégateurs acceptent — ils lisent le type MIME, pas le nom.
+    const jpeg = await sharp(heroPath)
       .resize(1200, 630, { fit: 'cover', position: 'attention' })
-      .png({ compressionLevel: 9, quality: 88 })
+      .jpeg({ quality: 84, mozjpeg: true })
       .toBuffer();
-    await writeFile(target, png);
+    await writeFile(path.join(root, 'public', 'og.jpg'), jpeg);
+    if (existsSync(target)) await rm(target);
     console.log(
-      'og.png  1200×630  %d Ko  (recadrage du hero)',
-      Math.round(png.byteLength / 1024),
+      'og.jpg  1200×630  %d Ko  (recadrage du hero)',
+      Math.round(jpeg.byteLength / 1024),
     );
     return;
   }

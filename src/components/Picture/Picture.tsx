@@ -1,6 +1,10 @@
 import styles from './Picture.module.css';
 
-/** Largeurs produites par `npm run images`. */
+/**
+ * Largeurs produites par `npm run images`. Une source plus petite que la borne
+ * haute n'est pas agrandie : il faut alors restreindre `widths`, sinon le
+ * `srcset` annonce un fichier qui n'existe pas.
+ */
 const WIDTHS = [640, 1024, 1600, 2048] as const;
 
 type PictureProps = {
@@ -17,10 +21,12 @@ type PictureProps = {
   priority?: boolean;
   /** Point d'ancrage du recadrage, pour réutiliser un même visuel. */
   objectPosition?: string | undefined;
+  /** Largeurs réellement générées, si la source ne couvre pas toute l'échelle. */
+  widths?: readonly number[] | undefined;
 };
 
-const srcset = (name: string, ext: string) =>
-  WIDTHS.map((w) => `/assets/${name}-${w}.${ext} ${w}w`).join(', ');
+const srcset = (name: string, ext: string, widths: readonly number[]) =>
+  widths.map((w) => `/assets/${name}-${w}.${ext} ${w}w`).join(', ');
 
 /**
  * Image responsive auto-hébergée.
@@ -37,15 +43,25 @@ export function Picture({
   className,
   priority = false,
   objectPosition,
+  widths = WIDTHS,
 }: PictureProps) {
+  const largest = widths[widths.length - 1] ?? 1600;
   return (
     <picture className={styles.picture}>
-      <source type="image/avif" srcSet={srcset(name, 'avif')} sizes={sizes} />
-      <source type="image/webp" srcSet={srcset(name, 'webp')} sizes={sizes} />
+      <source
+        type="image/avif"
+        srcSet={srcset(name, 'avif', widths)}
+        sizes={sizes}
+      />
+      <source
+        type="image/webp"
+        srcSet={srcset(name, 'webp', widths)}
+        sizes={sizes}
+      />
       <img
         className={`${styles.img}${className ? ` ${className}` : ''}`}
-        src={`/assets/${name}-1600.jpg`}
-        srcSet={srcset(name, 'jpg')}
+        src={`/assets/${name}-${largest}.jpg`}
+        srcSet={srcset(name, 'jpg', widths)}
         sizes={sizes}
         alt={alt}
         width={width}

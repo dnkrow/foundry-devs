@@ -2,6 +2,7 @@ import { useCallback, useRef } from 'react';
 import { projects, type Project } from '../../data/projects';
 import { isPlaceholder } from '../../data/site';
 import { Surface } from '../Surface/Surface';
+import { Picture } from '../Picture/Picture';
 import {
   D,
   EASE,
@@ -130,15 +131,17 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       <article className={styles.cardInner} aria-label={`Projet ${project.name}`}>
         <div className={styles.cardMedia}>
           {project.image ? (
-            <img
-              src={project.image}
-              alt={project.imageAlt ?? ''}
-              width={1200}
-              height={900}
-              loading="lazy"
-              decoding="async"
-              className={styles.shot}
-            />
+            <div className={styles.shot}>
+              <Picture
+                name={project.image}
+                alt={project.imageAlt ?? ''}
+                width={1690}
+                height={912}
+                sizes="(min-width: 62rem) 55vw, 86vw"
+                widths={project.imageWidths}
+                objectPosition="top left"
+              />
+            </div>
           ) : (
             <div className={styles.crop} data-project-crop>
               <Surface variant={variant} ratio="4:3" />
@@ -185,8 +188,13 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           <p className={styles.outcome}>{project.outcome}</p>
 
           {project.href ? (
-            <a className={styles.link} href={project.href}>
-              Voir l’étude de cas
+            <a
+              className={styles.link}
+              href={project.href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {project.hrefLabel ?? 'Voir l’étude de cas'}
               <Arrow direction="right" />
             </a>
           ) : (
