@@ -23,6 +23,12 @@ type PictureProps = {
   objectPosition?: string | undefined;
   /** Largeurs réellement générées, si la source ne couvre pas toute l'échelle. */
   widths?: readonly number[] | undefined;
+  /**
+   * `cover` remplit le cadre en rognant — bon pour une photographie.
+   * `contain` montre l'image entière — nécessaire pour une capture
+   * d'interface, qu'on ne peut pas amputer sans la trahir.
+   */
+  fit?: 'cover' | 'contain' | undefined;
 };
 
 const srcset = (name: string, ext: string, widths: readonly number[]) =>
@@ -44,6 +50,7 @@ export function Picture({
   priority = false,
   objectPosition,
   widths = WIDTHS,
+  fit = 'cover',
 }: PictureProps) {
   const largest = widths[widths.length - 1] ?? 1600;
   return (
@@ -69,7 +76,7 @@ export function Picture({
         loading={priority ? 'eager' : 'lazy'}
         fetchPriority={priority ? 'high' : 'auto'}
         decoding={priority ? 'sync' : 'async'}
-        style={objectPosition ? { objectPosition } : undefined}
+        style={{ objectFit: fit, ...(objectPosition ? { objectPosition } : {}) }}
       />
     </picture>
   );

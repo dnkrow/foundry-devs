@@ -137,9 +137,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 alt={project.imageAlt ?? ''}
                 width={1690}
                 height={912}
-                sizes="(min-width: 62rem) 55vw, 86vw"
+                /* Mesuré sur le rendu : au-delà de 96rem la carte est plafonnée
+                   par le shell, la largeur cesse d'être proportionnelle au
+                   viewport. Un `sizes` en vw y faisait choisir le 640. */
+                sizes="(min-width: 96rem) 52rem, (min-width: 62rem) 45vw, 82vw"
                 widths={project.imageWidths}
-                objectPosition="top left"
+                fit="contain"
               />
             </div>
           ) : (

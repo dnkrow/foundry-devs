@@ -21,6 +21,9 @@ const SOURCE_DIR = path.join(root, 'assets-source');
 const OUT_DIR = path.join(root, 'public', 'assets');
 const WIDTHS = [640, 1024, 1600, 2048];
 
+/** Captures d'interface, à encoder en haute qualité (voir plus bas). */
+const UI_CAPTURES = new Set(['mama-bloom']);
+
 /**
  * Image de partage social.
  *
@@ -82,22 +85,40 @@ async function buildAssets() {
     const input = sharp(path.join(SOURCE_DIR, file));
     const { width = 0 } = await input.metadata();
 
+    /**
+     * Les captures d'interface contiennent du texte fin : les réglages calibrés
+     * pour la photographie y produisent un halo visible autour des lettres.
+     * Convention : un fichier suffixé `-ui` est traité en haute qualité.
+     */
+    const isUi = /-ui$/.test(name) || UI_CAPTURES.has(name);
+    const q = isUi
+      ? { avif: 80, webp: 92, jpeg: 92 }
+      : { avif: 62, webp: 78, jpeg: 82 };
+
     for (const target of WIDTHS) {
       if (target > width) continue;
-      const resized = input.clone().resize({ width: target });
+      // Rééchantillonnage net : `lanczos3` préserve les contours du texte.
+      const resized = input
+        .clone()
+        .resize({ width: target, kernel: 'lanczos3' });
       await resized
         .clone()
-        .avif({ quality: 62 })
+        .avif({ quality: q.avif })
         .toFile(path.join(OUT_DIR, `${name}-${target}.avif`));
       await resized
         .clone()
-        .webp({ quality: 78 })
+        .webp({ quality: q.webp })
         .toFile(path.join(OUT_DIR, `${name}-${target}.webp`));
       await resized
         .clone()
-        .jpeg({ quality: 82, mozjpeg: true })
+        .jpeg({ quality: q.jpeg, mozjpeg: true })
         .toFile(path.join(OUT_DIR, `${name}-${target}.jpg`));
-      console.log('%s → %dpx (avif, webp, jpg)', name, target);
+      console.log(
+        '%s → %dpx (%s)',
+        name,
+        target,
+        isUi ? 'capture, haute qualité' : 'photo',
+      );
     }
   }
 }
