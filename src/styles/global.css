@@ -163,13 +163,22 @@ p {
   display: block;
   overflow: hidden;
   /*
-   * Réserve pour les jambages et les accents. Instrument Serif italique
-   * descend jusqu'à 0.21em sous la ligne de base : avec 0.06em il ne restait
-   * que 2 px de marge à 80 px de corps, et l'antialiasing du « g » rognait.
-   * Les marges négatives annulent l'effet sur le flux.
+   * Réserve pour les jambages, les accents et l'inclinaison de l'italique.
+   *
+   * Verticalement : Instrument Serif italique descend jusqu'à 0.21em sous la
+   * ligne de base ; 0.06em ne laissait que 2 px de marge à 80 px de corps.
+   *
+   * Horizontalement : la boucle du « g » italique déborde de 0.08em à gauche
+   * de l'origine du texte. Quand le mot ouvre la ligne, `overflow: hidden` la
+   * tranchait — c'est ce qui se voyait sur « grand studio ».
+   *
+   * Les marges négatives annulent l'effet de ces réserves sur le flux : ni
+   * l'interligne ni l'alignement des lignes ne bougent.
    */
   padding-block: 0.08em 0.18em;
   margin-block: -0.08em -0.18em;
+  padding-inline: 0.14em 0;
+  margin-inline: -0.14em 0;
 }
 
 /* ---------- Mouvement réduit ---------- */
