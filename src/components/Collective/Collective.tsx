@@ -25,7 +25,7 @@ export function Collective() {
 
   useAnimation(root, () => {
     gsap.from('[data-line]', {
-      yPercent: 110,
+      yPercent: 132,
       duration: D.macro,
       stagger: 0.08,
       ease: EASE,

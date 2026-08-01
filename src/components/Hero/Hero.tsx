@@ -29,7 +29,7 @@ export function Hero() {
     const intro = gsap.timeline({ defaults: { ease: EASE } });
     intro
       .from('[data-hero-line]', {
-        yPercent: 112,
+        yPercent: 132,
         duration: 0.9,
         stagger: 0.09,
       })
