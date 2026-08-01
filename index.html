@@ -16,7 +16,10 @@
     <link rel="canonical" href="https://foundrydevs.codes/" />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <!-- Safari ignore le SVG ici : ce doit être un PNG, sinon iOS place une
+         vignette de la page sur l'écran d'accueil. Régénéré par `npm run images`
+         depuis scripts/apple-touch-icon.svg. -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <!-- Visuel du hero : c'est le LCP, on le demande avant tout le reste. -->
     <link

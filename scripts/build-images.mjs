@@ -2,7 +2,8 @@
  * Chaîne de traitement des images.
  *
  * 1. Rasterise `scripts/og.svg` en `public/og.png` (1200 × 630).
- * 2. Décline chaque fichier de `assets-source/` en AVIF, WebP et JPEG, en
+ * 2. Rasterise `scripts/apple-touch-icon.svg` en `public/apple-touch-icon.png`.
+ * 3. Décline chaque fichier de `assets-source/` en AVIF, WebP et JPEG, en
  *    plusieurs largeurs, vers `public/assets/`.
  *
  * Aucun média distant n'est référencé : tout est servi depuis le domaine.
@@ -59,6 +60,30 @@ async function buildOgImage() {
     .toBuffer();
   await writeFile(target, png);
   console.log('og.png  1200×630  %d Ko  (repli SVG)', Math.round(png.byteLength / 1024));
+}
+
+/**
+ * Icône d'écran d'accueil iOS.
+ *
+ * Safari ignore le SVG pour `apple-touch-icon` : sans ce PNG, iOS fabrique une
+ * vignette de la page à la place. 180 px couvre les écrans @3x actuels, et iOS
+ * rééchantillonne lui-même vers les tailles inférieures.
+ *
+ * Fond aplati sur le calcaire : le format n'admet pas la transparence, qu'iOS
+ * rendrait en noir.
+ */
+async function buildAppleTouchIcon() {
+  const svg = await readFile(path.join(root, 'scripts', 'apple-touch-icon.svg'));
+  // `density` fixe la résolution de rastérisation du SVG : au défaut de 72 ppp,
+  // la source de 180 unités serait tramée trop petit puis agrandie, et les
+  // bords des cercles ressortiraient crénelés.
+  const png = await sharp(svg, { density: 384 })
+    .resize(180, 180)
+    .flatten({ background: '#eef1ee' })
+    .png({ compressionLevel: 9 })
+    .toBuffer();
+  await writeFile(path.join(root, 'public', 'apple-touch-icon.png'), png);
+  console.log('apple-touch-icon.png  180×180  %d Ko', Math.round(png.byteLength / 1024));
 }
 
 async function buildAssets() {
@@ -124,4 +149,5 @@ async function buildAssets() {
 }
 
 await buildOgImage();
+await buildAppleTouchIcon();
 await buildAssets();

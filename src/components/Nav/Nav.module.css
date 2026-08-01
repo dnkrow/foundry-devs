@@ -27,22 +27,21 @@
 
 .brand {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: 0.6rem;
   text-decoration: none;
   flex-shrink: 0;
 }
 
-.monogram {
-  font-family: var(--f-display);
-  font-weight: 500;
-  font-size: 1.0625rem;
-  letter-spacing: 0.04em;
-  color: var(--c-accent);
+.mark {
+  display: block;
+  width: 1.75rem;
+  height: 1.75rem;
 }
 
 .brandName {
   font-family: var(--f-display);
+  font-weight: 700;
   font-size: 0.9375rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;

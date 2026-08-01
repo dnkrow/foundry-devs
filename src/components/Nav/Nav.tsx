@@ -134,9 +134,13 @@ export function Nav() {
           className={styles.brand}
           onClick={(event) => goTo(event, 'top')}
         >
-          <span className={styles.monogram} aria-hidden="true">
-            {site.monogram}
-          </span>
+          <img
+            src="/logo-mark.svg"
+            alt=""
+            width={17}
+            height={17}
+            className={styles.mark}
+          />
           <span className={styles.brandName}>{site.name}</span>
         </a>
 

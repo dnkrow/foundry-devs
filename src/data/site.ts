@@ -13,7 +13,6 @@ export const isPlaceholder = (value: string): boolean =>
 
 export const site = {
   name: 'Foundry Devs',
-  monogram: 'FD',
   tagline: 'Studio de développement indépendant',
   city: 'Toulouse',
   area: 'Toulouse et à distance',

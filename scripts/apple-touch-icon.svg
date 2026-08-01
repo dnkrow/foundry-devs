@@ -1,18 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Foundry Devs">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180" role="img" aria-label="Foundry Devs">
   <!--
-    Pastille calcaire plutôt que fond transparent : le carré sombre de la marque
-    disparaîtrait sur la barre d'onglets d'un navigateur en thème sombre. Le
-    calcaire est déjà la couleur du disque central du logo, aucune couleur n'est
-    ajoutée à la palette.
+    Source de `public/apple-touch-icon.png`. Deux écarts volontaires avec
+    `public/favicon.svg` :
 
-    Le facteur 0.269 cadre les quatre formes (193 unités sur 283) à 52 px dans
-    la pastille de 64. Les traits du monogramme central se fondent dans le
-    disque en dessous de 32 px — c'est alors la silhouette en quatre-feuilles
-    qui porte la reconnaissance. On les garde tout de même : le fichier sert
-    aussi d'apple-touch-icon, rendu à 180 px, où leur absence se remarquerait.
+    1. Carré plein, sans `rx`. iOS applique son propre masque arrondi ; des
+       coins déjà arrondis laisseraient un liseré du fond de l'écran d'accueil.
+    2. Cadrage plus large (0.63 contre 0.269 rapporté à sa boîte). Le point le
+       plus extérieur de la marque est le bord du cercle rose sur la diagonale,
+       à 120 unités du centre — c'est lui, et non la largeur, qui décide du
+       recouvrement. À 0.63 il tombe à 76 px du centre, sous la limite du
+       masque d'iOS (~83 px à 45°).
   -->
-  <rect width="64" height="64" rx="8" fill="#eef1ee"/>
-  <g transform="translate(32 32) scale(0.269) translate(-141.73 -141.73)">
+  <rect width="180" height="180" fill="#eef1ee"/>
+  <g transform="translate(90 90) scale(0.63) translate(-141.73 -141.73)">
     <circle cx="141.73" cy="141.76" r="34.25" fill="#eef1ee"/>
     <g fill="#e85d88">
       <path d="M142.37,149.86c-.43,1.74-1.9,2.76-2.98,2.56-1.21-.22-2.55-1.78-2.15-3.4l3.95-15.91c.36-1.47,1.77-2.15,2.85-2.01,1.29.17,2.58,1.52,2.16,3.23l-3.83,15.53Z"/>
