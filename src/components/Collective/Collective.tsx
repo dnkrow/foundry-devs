@@ -140,10 +140,13 @@ export function Collective() {
             );
           })}
         </ul>
-        <p className={styles.membersNote}>
-          Noms, rôles et photographies seront ajoutés dès qu’ils nous seront
-          transmis.
-        </p>
+        {members.some((member) => member.photo === null) ? (
+          <p className={styles.membersNote}>
+            Les portraits seront ajoutés dès qu’ils seront disponibles. En
+            attendant, chacun est représenté par ses initiales — nous ne
+            générons pas de visage.
+          </p>
+        ) : null}
       </div>
     </section>
   );

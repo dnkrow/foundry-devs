@@ -52,23 +52,21 @@ export const members: readonly Member[] = [
     photo: null,
     github: 'https://github.com/dnkrow',
   },
-  // Noms repris des profils GitHub publics : à faire valider par chacun,
-  // comme les rôles.
   {
     name: 'Lucas N.',
-    role: '[Rôle]',
+    role: 'Développeur full-stack',
     photo: null,
     github: 'https://github.com/LucasN-ux',
   },
   {
     name: 'Mario Colomas',
-    role: '[Rôle]',
+    role: 'Développeur full-stack',
     photo: null,
     github: 'https://github.com/Writingway',
   },
   {
     name: 'Matéo Marques',
-    role: '[Rôle]',
+    role: 'Développeur full-stack',
     photo: null,
     github: 'https://github.com/serkam31',
   },
