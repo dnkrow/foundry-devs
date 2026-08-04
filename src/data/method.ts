@@ -44,7 +44,8 @@ export type Member = {
  * typographiquement à partir des initiales.
  */
 export const members: readonly Member[] = [
-  { name: '[MEMBRE 01]', role: '[Rôle]', photo: null },
+  { name: 'Malou Valdes', role: '[Rôle]', photo: null },
   { name: '[MEMBRE 02]', role: '[Rôle]', photo: null },
   { name: '[MEMBRE 03]', role: '[Rôle]', photo: null },
+  { name: '[MEMBRE 04]', role: '[Rôle]', photo: null },
 ];

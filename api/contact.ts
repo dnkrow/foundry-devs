@@ -11,6 +11,8 @@
  *                            (service d'e-mail, automatisation, CRM…).
  *   • RESEND_API_KEY + CONTACT_TO + CONTACT_FROM
  *                          → envoi direct par l'API HTTP de Resend.
+ *   • BREVO_API_KEY + CONTACT_TO [+ CONTACT_FROM]
+ *                          → envoi direct par l'API HTTP de Brevo.
  *
  * Sans configuration, la route répond 503 avec un message explicite : le
  * formulaire ne fait jamais semblant d'avoir envoyé quoi que ce soit.
@@ -98,6 +100,32 @@ async function deliver(data: Payload): Promise<'sent' | 'unconfigured'> {
     });
     if (!response.ok) {
       throw new Error(`Envoi en échec : ${response.status}`);
+    }
+    return 'sent';
+  }
+
+  if (env.BREVO_API_KEY && env.CONTACT_TO) {
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'api-key': env.BREVO_API_KEY,
+        'Content-Type': 'application/json',
+        accept: 'application/json',
+      },
+      body: JSON.stringify({
+        // L'expéditeur doit être une adresse validée dans Brevo, jamais celle
+        // du visiteur : usurper son domaine ferait tomber le message en spam.
+        sender: { name: 'Site Foundry Devs', email: env.CONTACT_FROM ?? env.CONTACT_TO },
+        to: [{ email: env.CONTACT_TO }],
+        // La réponse part vers le prospect, pas vers la boîte d'envoi.
+        replyTo: { email: data.email, name: data.name },
+        subject: `Demande de projet — ${data.name}`,
+        textContent: format(data),
+      }),
+    });
+    if (!response.ok) {
+      const detail = await response.text().catch(() => '');
+      throw new Error(`Brevo a refusé l'envoi : ${response.status} ${detail.slice(0, 200)}`);
     }
     return 'sent';
   }

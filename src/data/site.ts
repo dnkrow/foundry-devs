@@ -22,7 +22,7 @@ export const site = {
 } as const;
 
 export const contact = {
-  email: '[EMAIL]',
+  email: 'devsfoundry@gmail.com',
   linkedin: '[URL LINKEDIN]',
   github: '[URL GITHUB]',
   /** Ne renseigner que si la disponibilité est réelle, sinon laisser `null`. */
