@@ -104,6 +104,17 @@ CONTACT_TO=contact@votre-domaine.fr
 CONTACT_FROM=site@votre-domaine.fr
 ```
 
+```bash
+# Option C — envoi direct par l'API HTTP de Brevo (en place)
+BREVO_API_KEY=…
+CONTACT_TO=devsfoundry@gmail.com
+CONTACT_FROM=devsfoundry@gmail.com   # expéditeur validé côté Brevo
+```
+
+**En production, c'est Brevo qui est branché**, vérifié par un envoi réel : le
+message arrive en boîte de réception. Le champ « répondre à » porte l'adresse
+du prospect, il suffit donc de répondre au message reçu.
+
 **Sans configuration, la route répond 503** avec un message explicite. Le
 formulaire n'annonce jamais un envoi qui n'a pas eu lieu — y compris en
 développement, où la route n'existe pas : le client refuse toute réponse qui
