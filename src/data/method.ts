@@ -37,6 +37,8 @@ export type Member = {
   readonly role: string;
   /** Photo réelle uniquement. `null` déclenche un rendu typographique. */
   readonly photo: string | null;
+  /** Profil GitHub public, ou `null`. */
+  readonly github?: string | undefined;
 };
 
 /**
@@ -44,8 +46,30 @@ export type Member = {
  * typographiquement à partir des initiales.
  */
 export const members: readonly Member[] = [
-  { name: 'Malou Valdes', role: '[Rôle]', photo: null },
-  { name: '[MEMBRE 02]', role: '[Rôle]', photo: null },
-  { name: '[MEMBRE 03]', role: '[Rôle]', photo: null },
-  { name: '[MEMBRE 04]', role: '[Rôle]', photo: null },
+  {
+    name: 'Malou Valdes',
+    role: 'Développeur full-stack',
+    photo: null,
+    github: 'https://github.com/dnkrow',
+  },
+  // Noms repris des profils GitHub publics : à faire valider par chacun,
+  // comme les rôles.
+  {
+    name: 'Lucas N.',
+    role: '[Rôle]',
+    photo: null,
+    github: 'https://github.com/LucasN-ux',
+  },
+  {
+    name: 'Mario Colomas',
+    role: '[Rôle]',
+    photo: null,
+    github: 'https://github.com/Writingway',
+  },
+  {
+    name: 'Matéo Marques',
+    role: '[Rôle]',
+    photo: null,
+    github: 'https://github.com/serkam31',
+  },
 ];

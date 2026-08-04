@@ -125,6 +125,17 @@ export function Collective() {
                   {member.name}
                 </p>
                 <p className={styles.memberRole}>{member.role}</p>
+                {member.github ? (
+                  <a
+                    className={styles.memberLink}
+                    href={member.github}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    GitHub
+                    <span className="sr-only"> de {member.name}</span>
+                  </a>
+                ) : null}
               </li>
             );
           })}

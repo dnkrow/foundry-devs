@@ -161,6 +161,23 @@
   color: var(--c-ink-soft);
 }
 
+.memberLink {
+  align-self: flex-start;
+  margin-top: 0.35rem;
+  /* Cible tactile ≥ 24 px (WCAG 2.5.8). */
+  padding-block: 0.3rem;
+  font-size: var(--t-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  text-decoration-color: color-mix(in srgb, var(--c-accent) 40%, transparent);
+  transition: text-decoration-color var(--d-micro) var(--e-out);
+}
+
+.memberLink:hover {
+  text-decoration-color: var(--c-accent);
+}
+
 .membersNote {
   margin-top: 2rem;
   font-size: var(--t-small);
