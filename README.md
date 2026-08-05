@@ -24,7 +24,7 @@ Le site est servi sur <http://localhost:5173>.
 | `npm run build` | Vérification des types puis build de production dans `dist/` |
 | `npm run preview` | Sert le build de production localement |
 | `npm run typecheck` | Vérification TypeScript seule |
-| `npm run images` | Régénère `public/og.png` et décline `assets-source/` en AVIF/WebP/JPEG |
+| `npm run images` | Régénère `public/og.jpg` et décline `assets-source/` en AVIF/WebP/JPEG |
 
 ---
 
@@ -52,32 +52,38 @@ src/
   styles/        fonts.css, tokens.css, global.css
   components/    Un dossier par section, .tsx + .module.css
 api/contact.ts   Route serveur du formulaire (format Web standard)
-scripts/         og.svg et chaîne de traitement d'images
-public/          fonts, favicon, og.png, robots.txt, sitemap.xml
+scripts/         chaîne de traitement d'images et composition de bannière
+brand/           logo, déclinaisons et bannières de profil
+public/          fonts, favicon, og.jpg, robots.txt, sitemap.xml
 ```
 
 **Pour modifier un contenu, éditez `src/data/` — jamais les composants.**
 
 ---
 
-## À compléter avant mise en ligne
+## Ce qui reste à compléter
 
-Le site est fonctionnel mais volontairement incomplet : rien n'a été inventé.
-Chaque valeur manquante apparaît entre crochets et **s'affiche comme telle**
-dans la page, plutôt que d'être masquée.
+Le site est en ligne et fonctionnel. Ce qui manque encore apparaît entre
+crochets et **s'affiche comme tel** dans la page, plutôt que d'être masqué :
+rien n'est inventé pour combler.
 
-| Fichier | À renseigner |
+| Fichier | Reste à renseigner |
 | --- | --- |
-| `src/data/site.ts` | `url`, `email`, `linkedin`, `github`, `availability` |
-| `src/data/projects.ts` | Les 4 fiches projets, leurs captures et leurs liens |
-| `src/data/method.ts` | Noms, rôles et photos des membres |
+| `src/data/projects.ts` | 3 fiches sur 4 — MAMA Bloom est renseigné |
+| `src/data/method.ts` | Les portraits des quatre membres |
+| `src/data/site.ts` | `linkedin`, `github`, `availability` |
 
-Le domaine `foundrydevs.codes` est déjà en place dans `index.html`,
-`public/robots.txt`, `public/sitemap.xml` et `src/data/site.ts`.
+Identité, domaine, adresse de contact et les quatre membres sont en place.
 
 Pour ajouter une capture de projet : déposez le fichier dans `assets-source/`,
-lancez `npm run images`, puis renseignez `image` et `imageAlt` dans
-`projects.ts`. Les dimensions sont réservées côté CSS, le CLS reste nul.
+lancez `npm run images`, puis renseignez `image`, `imageAlt` et `imageWidths`
+dans `projects.ts`. Inscrivez aussi le nom du fichier dans `UI_CAPTURES`
+(`scripts/build-images.mjs`) s'il s'agit d'une capture d'interface : les
+réglages d'encodage de la photographie brouillent le texte fin.
+
+Le cadre des fiches projets suit le rapport de la capture de MAMA Bloom
+(1690 × 912). Cadrez les suivantes au même rapport, sinon elles seront
+rognées.
 
 Tant qu'aucune photo de membre n'est fournie, chaque personne est représentée
 par une composition typographique — aucun portrait n'est généré.
@@ -171,7 +177,7 @@ Vérifié sur le rendu réel, pas seulement dans le code :
 ## Visuels
 
 **Un seul visuel** porte tout le site : `assets-source/hero.png`, image générée
-(Higgsfield, Seedream 5.0 Pro, 2720 × 1536). Elle est réutilisée quatre fois
+(Higgsfield, Seedream 5.0 Pro, 2720 × 1536). Elle est réutilisée cinq fois
 par recadrage, jamais dupliquée :
 
 | Emplacement | Traitement |
@@ -179,7 +185,8 @@ par recadrage, jamais dupliquée :
 | Fond du hero | plein cadre, `object-position: 60% 50%` |
 | Manifeste | macro-recadrage à 1,32×, glissant au scroll |
 | Aperçus Expertise | cinq points d'ancrage différents, un par domaine |
-| `public/og.png` | recadrage 1200 × 630 |
+| `public/og.jpg` | recadrage 1200 × 630 |
+| Bannière de profil | bande panoramique, `scripts/build-banner.mjs` |
 
 `npm run images` régénère l'ensemble : quatre largeurs × trois formats (AVIF,
 WebP, JPEG), soit 19 Ko en AVIF 640 et 99 Ko en AVIF 1600.

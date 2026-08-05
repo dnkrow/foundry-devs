@@ -13,7 +13,7 @@ indépendants à Toulouse. Page unique, sept chapitres, français.
 npm run dev        # serveur de développement — http://localhost:5173
 npm run build      # tsc -b puis vite build
 npm run typecheck  # types seuls
-npm run images     # régénère public/assets et public/og.png depuis assets-source/
+npm run images     # régénère public/assets et public/og.jpg depuis assets-source/
 ```
 
 **Le build doit passer avant toute livraison.** TypeScript est en mode strict
@@ -80,7 +80,7 @@ scroll et délègue son horloge au ticker GSAP.
 - `prefers-reduced-motion` doit être respecté partout : `useAnimation` ne crée
   rien, et la composition finale s'affiche directement.
 
-### Deux pièges déjà rencontrés
+### Trois pièges déjà rencontrés
 
 1. **`gsap.matchMedia` imbriqué dans un `gsap.context` perd ses écouteurs** au
    double montage de StrictMode et ne se réarme jamais au redimensionnement.
@@ -89,6 +89,12 @@ scroll et délègue son horloge au ticker GSAP.
    `min-height: 0` annule la contribution min-content de la piste. Les
    ouvertures de panneaux passent par le composant `Collapse`, qui mesure
    `scrollHeight` et anime avec GSAP.
+3. **`.line-mask` tranche l'italique.** Instrument Serif descend à 0.21em sous
+   la ligne de base, et la boucle du « g » déborde de 0.08em **à gauche** de
+   l'origine du texte : un mot en `.accent-word` qui ouvre sa ligne se fait
+   couper par l'`overflow`. Les réserves sont dans `global.css`, compensées par
+   des marges négatives. Si vous les touchez, ajustez aussi le `yPercent` de
+   départ des révélations, sinon le texte apparaît avant son entrée.
 
 Chaque animation doit servir une fonction : hiérarchie, progression narrative,
 retour utilisateur ou transition d'état. Pas d'animation décorative.
@@ -114,8 +120,8 @@ retour utilisateur ou transition d'état. Pas d'animation décorative.
 **N'inventez jamais de donnée commerciale.** Ni client, ni témoignage, ni
 chiffre de performance, ni logo, ni portrait, ni adresse, ni disponibilité.
 
-Les valeurs manquantes sont des placeholders entre crochets (`[PROJET 01]`,
-`[EMAIL]`) et **s'affichent comme tels** dans la page — l'helper
+Les valeurs manquantes sont des placeholders entre crochets (`[PROJET 02]`,
+`[Type de produit]`) et **s'affichent comme tels** dans la page — l'helper
 `isPlaceholder()` de `src/data/site.ts` adapte le rendu. Ne les masquez pas,
 ne les remplacez pas par du contenu plausible : remplacez-les uniquement par
 des informations réelles fournies par l'équipe.
@@ -127,22 +133,81 @@ pas de portrait.
 
 ## Images
 
-Un seul visuel généré porte le site, réutilisé par recadrage à quatre endroits
-(voir README). **Ne générez pas de nouveau média sans accord explicite** — les
-générations sont payantes. Privilégiez toujours un recadrage, un masque ou un
-changement de composition sur l'existant.
+Un seul visuel généré porte le site — `assets-source/hero.png` — réutilisé par
+recadrage à cinq endroits : fond du hero, macro-recadrage du manifeste, aperçus
+de l'expertise, image de partage et bannière de profil. **Ne générez pas de
+nouveau média sans accord explicite**, les générations sont payantes.
+Privilégiez toujours un recadrage, un masque ou un changement de composition.
 
 Nouveau visuel : déposer dans `assets-source/`, lancer `npm run images`, puis
 utiliser le composant `Picture`. Toujours renseigner `width`/`height` pour
 réserver la place. Jamais de hotlink vers un média distant.
 
+Deux points appris à l'usage :
+
+- **Une capture d'interface n'est pas une photographie.** Les réglages
+  d'encodage calibrés pour la photo laissent un halo autour du texte fin.
+  Inscrivez le nom du fichier dans `UI_CAPTURES` (`scripts/build-images.mjs`)
+  pour un encodage haute qualité.
+- **`sizes` doit refléter la largeur réelle**, pas une approximation en `vw` :
+  au-delà de 96rem les cartes sont plafonnées par le shell et cessent de
+  suivre le viewport. Un `vw` y fait télécharger une image trop petite, donc
+  floue. Mesurez sur le rendu avant d'écrire la valeur.
+
+La bannière de profil se régénère par
+`node scripts/build-banner.mjs [largeur] [hauteur] [left|right]`.
+
 ---
 
-## À compléter avant mise en ligne
+## Marque
 
-- `src/data/site.ts` — url, email, LinkedIn, GitHub, disponibilité
-- `src/data/projects.ts` — les quatre fiches et leurs captures
-- `src/data/method.ts` — membres du collectif
-- Variables d'environnement du formulaire chez l'hébergeur
+Le logo est de Lucas : `public/logo-mark.svg` (symbole seul, dans la nav),
+`brand/logo-lockup.svg` et les exports PNG. `brand/FoundryDevsTypo.png` porte
+le lockup complet en raster, avec transparence — utile en composition, car les
+rendus SVG hors navigateur ne chargent pas les polices embarquées et retombent
+sur une police de substitution.
 
-Le domaine est en place partout : `foundrydevs.codes`.
+Le rose `#D94F70` de la marque n'existe **que** sur le logo. L'interface reste
+sur l'accent vert. N'introduisez pas de rose dans le site.
+
+---
+
+## Déploiement
+
+Production : <https://foundrydevs.codes>, projet Vercel `agence`.
+
+```bash
+vercel deploy --prod
+```
+
+**TypeScript est épinglé en 5.9.** Le builder de fonctions Vercel utilise le
+TypeScript du projet et échoue avec la 7.x, dont l'API interne diffère
+(`Cannot read properties of undefined (reading 'readFile')`). Ne remontez pas
+la version sans vérifier que le déploiement passe.
+
+Le formulaire est **actif** : transport Brevo, variables `BREVO_API_KEY`,
+`CONTACT_TO` et `CONTACT_FROM` définies sur le projet Vercel. Sans elles la
+route répond 503 plutôt que de simuler un envoi.
+
+---
+
+## Travail à plusieurs
+
+Le dépôt est partagé entre quatre personnes. **`git pull --rebase` avant de
+commencer et avant chaque push.** Jamais de `git push --force` : cela efface le
+travail des autres sans avertissement.
+
+---
+
+## État des contenus
+
+Renseignés : identité, domaine, coordonnées, les quatre membres, et le premier
+projet (MAMA Bloom).
+
+Restent des placeholders visibles : trois fiches projets et les portraits des
+membres. Ils s'affichent tels quels dans la page — c'est voulu, ne les masquez
+pas et ne les comblez pas.
+
+Chantier connu, non engagé : le HTML servi ne contient aucun titre, tout le
+contenu étant injecté par React. Un prérendu au build est nécessaire pour que
+les moteurs voient la page.
