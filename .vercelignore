@@ -1,7 +1,11 @@
 # Master de l'image : inutile au build, les déclinaisons sont dans public/assets.
 assets-source
 
-# Outils de développement, hors chemin de build.
-scripts
+# Outils de développement, hors chemin de build. scripts/prerender.mjs reste
+# inclus : le build de production en dépend (npm run build).
+scripts/build-images.mjs
+scripts/build-banner.mjs
+scripts/apple-touch-icon.svg
+scripts/og.svg
 .claude
 CLAUDE.md
