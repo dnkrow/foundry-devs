@@ -425,6 +425,31 @@
   font-style: italic;
 }
 
+/* Sur petit écran, le tableau débordait et défilait horizontalement : les noms
+   d'agents en `nowrap` le rendaient plus large que la gouttière. On les laisse
+   revenir à la ligne et on resserre les colonnes — les nombres, eux, restent
+   insécables. */
+@media (max-width: 47.99rem) {
+  .table {
+    font-size: 0.8rem;
+  }
+
+  .table td,
+  .table th {
+    padding-inline-start: 0.55rem;
+  }
+
+  .table th[scope='row'] {
+    white-space: normal;
+    hyphens: auto;
+  }
+
+  .table th[scope='col'] {
+    font-size: 0.62rem;
+    letter-spacing: 0.02em;
+  }
+}
+
 .pending {
   color: var(--c-ink-soft);
   font-size: var(--t-small);
