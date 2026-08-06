@@ -35,6 +35,31 @@ type Snapshot = {
 
 const pct = (n: number) => `${n > 0 ? '+' : ''}${n.toFixed(2)} %`;
 
+/**
+ * Âge de l'instantané, en clair.
+ *
+ * Le bot tourne sur une machine qui peut être éteinte. Une page qui aurait
+ * l'air vivante en affichant des chiffres vieux de trois jours serait plus
+ * trompeuse qu'une page qui admet son retard : au-delà d'une heure et demie,
+ * on le dit.
+ */
+const freshness = (iso: string, nowMs: number) => {
+  const t = new Date(iso).getTime();
+  if (Number.isNaN(t)) return null;
+
+  const minutes = Math.max(0, Math.floor((nowMs - t) / 60_000));
+  const stale = minutes > 90;
+
+  if (minutes < 1) return { label: 'à l’instant', stale };
+  if (minutes < 60) return { label: `il y a ${minutes} min`, stale };
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return { label: `il y a ${hours} h`, stale };
+
+  const days = Math.floor(hours / 24);
+  return { label: `il y a ${days} j`, stale };
+};
+
 const frDate = (iso: string | null) => {
   if (!iso) return null;
   const d = new Date(iso);
@@ -77,19 +102,63 @@ export function Lab() {
     });
   });
 
+  /**
+   * Interrogation régulière de l'instantané.
+   *
+   * Pas de connexion permanente : les données ne bougent qu'au rythme des
+   * cycles du bot, un flux ouvert en continu coûterait des invocations sans
+   * rien apporter. Le cache CDN court fait que la plupart de ces requêtes
+   * n'atteignent jamais la fonction.
+   *
+   * La boucle s'arrête quand l'onglet passe en arrière-plan, et rattrape
+   * immédiatement au retour : inutile d'interroger une page que personne
+   * ne regarde.
+   */
   useEffect(() => {
     let cancelled = false;
-    fetch('/api/snapshot')
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
-      .then((json: Snapshot) => {
-        if (!cancelled) setData(json);
-      })
-      .catch(() => {
-        if (!cancelled) setFailed(true);
-      });
+    let timer: number | undefined;
+
+    const load = () => {
+      fetch('/api/snapshot')
+        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+        .then((json: Snapshot) => {
+          if (cancelled) return;
+          setData(json);
+          setFailed(false);
+        })
+        .catch(() => {
+          // Un échec ponctuel ne doit pas effacer des chiffres déjà affichés.
+          if (!cancelled) setFailed((previous) => previous || true);
+        });
+    };
+
+    const schedule = () => {
+      window.clearInterval(timer);
+      if (!document.hidden) timer = window.setInterval(load, 30_000);
+    };
+
+    const onVisibility = () => {
+      if (!document.hidden) load();
+      schedule();
+    };
+
+    load();
+    schedule();
+    document.addEventListener('visibilitychange', onVisibility);
+
     return () => {
       cancelled = true;
+      window.clearInterval(timer);
+      document.removeEventListener('visibilitychange', onVisibility);
     };
+  }, []);
+
+  // Horloge de l'indicateur de fraîcheur. Dix secondes suffisent : afficher
+  // « il y a 3 s » à la seconde près ferait re-rendre la page pour rien.
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const tick = window.setInterval(() => setNow(Date.now()), 10_000);
+    return () => window.clearInterval(tick);
   }, []);
 
   const all = data ? [...data.agents.map((a) => a.curve), data.benchmark.curve] : [];
@@ -194,6 +263,23 @@ export function Lab() {
 
             {data ? (
               <>
+                {(() => {
+                  const f = freshness(data.generated_at, now);
+                  return f ? (
+                    <p
+                      className={styles.freshness}
+                      data-stale={f.stale}
+                      role="status"
+                      aria-live="polite"
+                    >
+                      <span className={styles.dot} aria-hidden="true" />
+                      {f.stale
+                        ? `Banc d’essai en pause — dernière mise à jour ${f.label}.`
+                        : `Mis à jour ${f.label}.`}
+                    </p>
+                  ) : null;
+                })()}
+
                 <p className={styles.period}>
                   Rendements depuis le lancement, du {frDate(data.since)} au{' '}
                   {frDate(data.until)}. Tous les portefeuilles partent du même

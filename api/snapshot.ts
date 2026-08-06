@@ -112,8 +112,11 @@ export async function GET(): Promise<Response> {
     const upstream = await fetch(blob.url, { cache: 'no-store' });
     if (!upstream.ok) return json({ error: 'Instantané illisible.' }, 502);
 
-    // Court en CDN, revalidation en arrière-plan : le bot pousse par à-coups.
-    return json(await upstream.json(), 200, 'public, s-maxage=60, stale-while-revalidate=3600');
+    // Cache CDN court : la page interroge toutes les 30 s, l'essentiel des
+    // requêtes est donc servi par le bord sans réveiller la fonction. Sans
+    // ça, chaque visiteur qui laisse l'onglet ouvert coûterait une
+    // invocation toutes les 30 secondes.
+    return json(await upstream.json(), 200, 'public, s-maxage=15, stale-while-revalidate=300');
   } catch {
     return json({ error: 'Stockage indisponible.' }, 503);
   }
