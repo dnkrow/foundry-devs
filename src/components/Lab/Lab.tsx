@@ -97,6 +97,19 @@ export function Lab() {
   const min = flat.length ? Math.min(...flat) : 0;
   const max = flat.length ? Math.max(...flat) : 0;
 
+  /** Agents et indice classés ensemble, du meilleur au moins bon. */
+  const ranked: (Partial<Agent> & { label: string; return_pct: number; bench: boolean })[] =
+    data
+      ? [
+          ...data.agents.map((a) => ({ ...a, bench: false })),
+          {
+            label: data.benchmark.label,
+            return_pct: data.benchmark.return_pct,
+            bench: true,
+          },
+        ].sort((x, y) => y.return_pct - x.return_pct)
+      : [];
+
   return (
     <section id="labo" ref={root} className={styles.section} aria-labelledby="labo-titre">
       <div className={`shell ${styles.grid}`}>
@@ -233,22 +246,30 @@ export function Lab() {
                       </tr>
                     </thead>
                     <tbody>
-                      {data.agents.map((a) => (
-                        <tr key={a.label}>
-                          <th scope="row">{a.label}</th>
-                          <td data-positive={a.return_pct > 0}>{pct(a.return_pct)}</td>
-                          <td>{a.trades}</td>
-                          <td>{a.win_rate_pct.toFixed(1)} %</td>
-                          <td>{a.max_drawdown_pct.toFixed(2)} %</td>
-                        </tr>
-                      ))}
-                      <tr className={styles.benchRow}>
-                        <th scope="row">{data.benchmark.label}</th>
-                        <td data-positive={data.benchmark.return_pct > 0}>
-                          {pct(data.benchmark.return_pct)}
-                        </td>
-                        <td colSpan={3}>Indice de référence</td>
-                      </tr>
+                      {/* L'indice est intercalé à son rang, pas relégué en bas :
+                          sinon il passe pour le moins performant et l'on ne voit
+                          plus quels agents lui sont inférieurs. */}
+                      {ranked.map((row) =>
+                        row.bench ? (
+                          <tr key="benchmark" className={styles.benchRow}>
+                            <th scope="row">{row.label}</th>
+                            <td data-positive={row.return_pct > 0}>
+                              {pct(row.return_pct)}
+                            </td>
+                            <td colSpan={3}>Indice de référence</td>
+                          </tr>
+                        ) : (
+                          <tr key={row.label}>
+                            <th scope="row">{row.label}</th>
+                            <td data-positive={row.return_pct > 0}>
+                              {pct(row.return_pct)}
+                            </td>
+                            <td>{row.trades}</td>
+                            <td>{row.win_rate_pct?.toFixed(1)} %</td>
+                            <td>{row.max_drawdown_pct?.toFixed(2)} %</td>
+                          </tr>
+                        ),
+                      )}
                     </tbody>
                   </table>
                 </div>
