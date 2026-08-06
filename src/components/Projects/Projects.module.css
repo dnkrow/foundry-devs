@@ -295,6 +295,14 @@
   .cardMedia {
     height: auto;
     align-self: stretch;
+    /* La largeur vient de la PISTE, jamais du rapport.
+       `align-self: stretch` fait venir la hauteur de la rangée ; si le rapport
+       restait actif, il en déduirait la largeur — qui ignore la piste. Une
+       rangée haute (texte long) produisait alors un média plus large que sa
+       colonne, et comme il est positionné, il peignait par-dessus le texte.
+       Le recadrage vertical est assuré par `object-fit: cover` sur l'image. */
+    aspect-ratio: auto;
+    min-width: 0;
   }
 
   /* Le détail technique reste caché tant qu'il n'est ni survolé ni focalisé. */
