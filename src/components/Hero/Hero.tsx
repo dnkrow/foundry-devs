@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Picture } from '../Picture/Picture';
+import { Picture, SHARED_HERO_SIZES } from '../Picture/Picture';
 import { site } from '../../data/site';
 import {
   D,
@@ -77,7 +77,7 @@ export function Hero() {
               alt="Intérieur d’un studio en pierre calcaire où des plaques de verre gravées de grilles sont posées comme des objets, éclairées par une lumière rasante."
               width={2720}
               height={1536}
-              sizes="100vw"
+              sizes={SHARED_HERO_SIZES}
               priority
               objectPosition="60% 50%"
             />

@@ -7,6 +7,22 @@ import styles from './Picture.module.css';
  */
 const WIDTHS = [640, 1024, 1600, 2048] as const;
 
+/**
+ * `sizes` commun à toutes les réutilisations du visuel `hero`.
+ *
+ * Ces cinq emplacements pointent le *même* fichier : le navigateur ne retient
+ * qu'un seul candidat pour l'ensemble et réemploie celui déjà en cache. Depuis
+ * le prérendu, les recadrages réduits sont présents dès le HTML initial et
+ * peuvent gagner la course : `hero-640` est alors téléchargé, puis réutilisé
+ * pour le hero pleine largeur — qui devient flou jusqu'au rechargement.
+ *
+ * Déclarer la même largeur partout rend le choix déterministe : le candidat
+ * retenu est celui du plus grand emplacement, et il ne coûte aucun octet de
+ * plus puisque c'est de toute façon le fichier dont le hero a besoin.
+ * Ne pas remplacer par un `vw` par emplacement, le bug reviendrait.
+ */
+export const SHARED_HERO_SIZES = '100vw';
+
 type PictureProps = {
   /** Nom de base du fichier dans `public/assets`, sans largeur ni extension. */
   name: string;

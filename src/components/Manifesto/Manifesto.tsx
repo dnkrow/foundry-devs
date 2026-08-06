@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Picture } from '../Picture/Picture';
+import { Picture, SHARED_HERO_SIZES } from '../Picture/Picture';
 import { D, EASE, gsap, useAnimation } from '../../lib/motion';
 import styles from './Manifesto.module.css';
 
@@ -84,7 +84,7 @@ export function Manifesto() {
               alt="Détail : plaques de verre gravées de trames régulières, superposées en volume."
               width={2720}
               height={1536}
-              sizes="(min-width: 62rem) 32vw, 100vw"
+              sizes={SHARED_HERO_SIZES}
               objectPosition="66% 62%"
             />
           </div>

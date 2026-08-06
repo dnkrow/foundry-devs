@@ -1,6 +1,6 @@
 import { useId, useRef, useState } from 'react';
 import { expertise } from '../../data/expertise';
-import { Picture } from '../Picture/Picture';
+import { Picture, SHARED_HERO_SIZES } from '../Picture/Picture';
 import { Collapse } from '../Collapse/Collapse';
 import { D, EASE, gsap, useAnimation } from '../../lib/motion';
 import styles from './Expertise.module.css';
@@ -111,7 +111,7 @@ export function Expertise() {
               alt=""
               width={2720}
               height={1536}
-              sizes="(min-width: 62rem) 30vw, 100vw"
+              sizes={SHARED_HERO_SIZES}
               objectPosition={CROPS[active] ?? CROPS[0]}
             />
           </div>
