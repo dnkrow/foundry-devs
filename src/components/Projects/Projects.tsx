@@ -129,25 +129,14 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       style={{ ['--i' as string]: index }}
     >
       <article className={styles.cardInner} aria-label={`Projet ${project.name}`}>
-        <div
-          className={styles.cardMedia}
-          style={
-            project.image && project.imageWidth && project.imageHeight
-              ? { ['--shot-ratio' as string]: `${project.imageWidth} / ${project.imageHeight}` }
-              : undefined
-          }
-        >
+        <div className={styles.cardMedia}>
           {project.image ? (
             <div className={styles.shot}>
               <Picture
                 name={project.image}
                 alt={project.imageAlt ?? ''}
-                /* Dimensions intrinsèques de la capture : elles réservent la
-                   place avant chargement. Coder en dur celles d'un projet
-                   déformerait les autres — les ratios diffèrent d'une capture
-                   à l'autre. Valeurs par défaut : celles de MAMA Bloom. */
-                width={project.imageWidth ?? 1690}
-                height={project.imageHeight ?? 912}
+                width={1690}
+                height={912}
                 /* Mesuré sur le rendu : au-delà de 96rem la carte est plafonnée
                    par le shell, la largeur cesse d'être proportionnelle au
                    viewport. Un `sizes` en vw y faisait choisir le 640. */

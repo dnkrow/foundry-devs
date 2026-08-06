@@ -29,13 +29,6 @@ export type Project = {
   readonly imageAlt: string | null;
   /** Largeurs réellement générées, si la source ne couvre pas toute l'échelle. */
   readonly imageWidths?: readonly number[] | undefined;
-  /**
-   * Dimensions intrinsèques de la capture. À renseigner dès que le ratio
-   * diffère de celui de MAMA Bloom (1690 × 912), sinon la place réservée
-   * avant chargement est fausse et la mise en page saute.
-   */
-  readonly imageWidth?: number | undefined;
-  readonly imageHeight?: number | undefined;
   /** Lien vers l'étude de cas ou le site en ligne, ou `null`. */
   readonly href: string | null;
   /** Libellé du lien. Il doit dire où il mène : un site en ligne n'est pas
@@ -72,11 +65,9 @@ export const projects: readonly Project[] = [
     image: 'matrix-trader',
     imageAlt:
       'Tableau de bord de Matrix Trader Pro sur fond sombre : bandeau de synthèse, indicateur de régime de marché, et une grille de neuf agents affichant chacun la valeur de son portefeuille, sa performance face à l’indice et sa courbe d’évolution.',
-    // La source fait 1846 px de large : annoncer 2048 dans le srcset
+    // La source fait 1690 px de large : annoncer 2048 dans le srcset
     // pointerait vers un fichier que le script ne génère pas.
     imageWidths: [640, 1024, 1600],
-    imageWidth: 1846,
-    imageHeight: 865,
     href: '/labo',
     hrefLabel: 'Voir le banc d’essai en direct',
   },

@@ -87,15 +87,18 @@
 
 /* ---- Média ---- */
 
-/* Le cadre adopte le rapport de SA capture, transmis par le composant : ainsi
-   l'image le remplit exactement, sans marge ni rognage. Un rapport figé
-   amputait toute capture d'un autre format — et une capture d'interface
-   rognée perd précisément ce qu'elle est censée montrer.
-   Repli sur 1690 × 912 pour les fiches sans visuel. */
+/* Rapport unique à toutes les fiches (1690 × 912) : l'image remplit le cadre
+   exactement, sans marge ni rognage.
+   NE PAS le rendre variable par projet. En grand écran la carte passe en deux
+   colonnes avec `height: auto; align-self: stretch` : la hauteur vient alors
+   de la rangée et c'est la LARGEUR que `aspect-ratio` en déduit. Un rapport
+   plus large produit donc une image qui déborde sur la colonne de texte et la
+   recouvre. Les captures se préparent au format cible en amont — mise à
+   l'échelle et bandes de fond assorties si besoin. */
 .cardMedia {
   position: relative;
   overflow: hidden;
-  aspect-ratio: var(--shot-ratio, 1690 / 912);
+  aspect-ratio: 1690 / 912;
   background: var(--c-silver-soft);
 }
 
