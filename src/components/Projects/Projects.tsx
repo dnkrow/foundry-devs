@@ -135,8 +135,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               <Picture
                 name={project.image}
                 alt={project.imageAlt ?? ''}
-                width={1690}
-                height={912}
+                /* Dimensions intrinsèques de la capture : elles réservent la
+                   place avant chargement. Coder en dur celles d'un projet
+                   déformerait les autres — les ratios diffèrent d'une capture
+                   à l'autre. Valeurs par défaut : celles de MAMA Bloom. */
+                width={project.imageWidth ?? 1690}
+                height={project.imageHeight ?? 912}
                 /* Mesuré sur le rendu : au-delà de 96rem la carte est plafonnée
                    par le shell, la largeur cesse d'être proportionnelle au
                    viewport. Un `sizes` en vw y faisait choisir le 640. */

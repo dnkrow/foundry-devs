@@ -23,7 +23,7 @@ const OUT_DIR = path.join(root, 'public', 'assets');
 const WIDTHS = [640, 1024, 1600, 2048];
 
 /** Captures d'interface, à encoder en haute qualité (voir plus bas). */
-const UI_CAPTURES = new Set(['mama-bloom']);
+const UI_CAPTURES = new Set(['mama-bloom', 'matrix-trader']);
 
 /**
  * Image de partage social.
