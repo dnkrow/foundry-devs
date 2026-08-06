@@ -182,8 +182,10 @@ export function Lab() {
             {data ? (
               <>
                 <p className={styles.period}>
-                  Du {frDate(data.since)} au {frDate(data.until)}. Capital de
-                  départ identique pour tous, ramené à une base 100.
+                  Rendements depuis le lancement, du {frDate(data.since)} au{' '}
+                  {frDate(data.until)}. Tous les portefeuilles partent du même
+                  capital, ramené à une base 100 — l’indice de référence
+                  compris, afin que la comparaison porte sur la même échelle.
                 </p>
 
                 <figure className={styles.chart}>
@@ -210,7 +212,8 @@ export function Lab() {
                   </svg>
                   <figcaption className={styles.caption}>
                     Trait vert : {data.benchmark.label}. Traits fins : les
-                    agents.
+                    agents. La courbe ne couvre que la période récente ; les
+                    rendements du tableau, eux, courent depuis le lancement.
                   </figcaption>
                 </figure>
 
