@@ -7,9 +7,19 @@ import { Expertise } from './components/Expertise/Expertise';
 import { Collective } from './components/Collective/Collective';
 import { Contact } from './components/Contact/Contact';
 import { Footer } from './components/Footer/Footer';
+import { Lab } from './components/Lab/Lab';
+import { LabTeaser } from './components/LabTeaser/LabTeaser';
 import { ScrollTrigger, initSmoothScroll } from './lib/motion';
+import { toRoute } from './routes';
 
-export default function App() {
+type AppProps = {
+  /** Chemin rendu. Fourni par le serveur au prérendu, par l'URL au montage. */
+  path?: string | undefined;
+};
+
+export default function App({ path = '/' }: AppProps) {
+  const route = toRoute(path);
+
   useEffect(() => {
     let dispose: (() => void) | undefined;
     let cancelled = false;
@@ -33,14 +43,21 @@ export default function App() {
       <a className="skip-link" href="#contenu">
         Aller au contenu
       </a>
-      <Nav />
+      <Nav home={route === '/'} />
       <main id="contenu">
-        <Hero />
-        <Manifesto />
-        <Projects />
-        <Expertise />
-        <Collective />
-        <Contact />
+        {route === '/labo' ? (
+          <Lab />
+        ) : (
+          <>
+            <Hero />
+            <Manifesto />
+            <Projects />
+            <Expertise />
+            <LabTeaser />
+            <Collective />
+            <Contact />
+          </>
+        )}
       </main>
       <Footer />
     </>

@@ -1,0 +1,57 @@
+/* Renvoi vers /labo. Composition asymétrique : titre à gauche, texte décalé
+   à droite et plus bas — pas de carte, pas de cadre. */
+
+.section {
+  padding-block: var(--section-y);
+}
+
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 62rem) {
+  .grid {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 4fr);
+    column-gap: clamp(3rem, 8vw, 8rem);
+    align-items: end;
+  }
+  .title {
+    grid-column: 1;
+  }
+  .aside {
+    grid-column: 2;
+    padding-block-end: 0.6rem;
+  }
+}
+
+.title {
+  font-family: var(--f-display);
+  font-size: var(--t-display);
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.aside p {
+  max-width: 42ch;
+  color: var(--c-ink-soft);
+  text-wrap: pretty;
+}
+
+.link {
+  display: inline-block;
+  margin-block-start: 1.25rem;
+  font-family: var(--f-display);
+  letter-spacing: -0.01em;
+  color: var(--c-accent-deep);
+  text-decoration: underline;
+  text-underline-offset: 0.28em;
+  text-decoration-thickness: 1px;
+  /* Cible tactile confortable (WCAG 2.5.8). */
+  padding-block: 0.5rem;
+}
+
+.link:hover {
+  text-decoration-thickness: 2px;
+}

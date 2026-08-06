@@ -11,7 +11,13 @@ import styles from './Nav.module.css';
  * qui écrit directement des attributs `data-*` : aucun listener de scroll ne
  * déclenche de rendu React.
  */
-export function Nav() {
+type NavProps = {
+  /** Hors page d'accueil, les ancres pointent vers `/` : les sections n'existent pas ici. */
+  home?: boolean | undefined;
+};
+
+export function Nav({ home = true }: NavProps) {
+  const anchor = (id: string) => (home ? `#${id}` : `/#${id}`);
   const headerRef = useRef<HTMLElement | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const panelRef = useRef<HTMLUListElement | null>(null);
@@ -113,6 +119,8 @@ export function Nav() {
   }, [menuOpen, closeMenu]);
 
   const goTo = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    // Hors accueil, on laisse le navigateur suivre le lien vers `/#id`.
+    if (!home) return;
     const target = document.getElementById(id);
     if (!target) return;
     event.preventDefault();
@@ -130,7 +138,7 @@ export function Nav() {
     <header ref={headerRef} className={styles.header} data-scrolled="false">
       <nav className={styles.bar} aria-label="Navigation principale">
         <a
-          href="#top"
+          href={home ? '#top' : '/'}
           className={styles.brand}
           onClick={(event) => goTo(event, 'top')}
         >
@@ -148,7 +156,7 @@ export function Nav() {
           {navItems.map(({ id, label }) => (
             <li key={id}>
               <a
-                href={`#${id}`}
+                href={anchor(id)}
                 className={styles.link}
                 data-nav-link={id}
                 data-active="false"
@@ -187,7 +195,7 @@ export function Nav() {
           {navItems.map(({ id, label }) => (
             <li key={id}>
               <a
-                href={`#${id}`}
+                href={anchor(id)}
                 className={styles.panelLink}
                 onClick={(event) => goTo(event, id)}
               >

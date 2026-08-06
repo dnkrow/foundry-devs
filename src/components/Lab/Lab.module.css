@@ -1,0 +1,249 @@
+/* Banc d'essai. Même palette que le reste du site : calcaire, encre, un seul
+   accent vert. Aucune bascule sombre ici — elle reste réservée au contact et
+   au pied de page. */
+
+.section {
+  padding-block: calc(var(--nav-h) + var(--section-y)) var(--section-y);
+}
+
+.grid {
+  display: grid;
+  gap: clamp(3rem, 7vw, 6rem);
+}
+
+/* Composition asymétrique : le titre déborde à gauche, le corps est décalé. */
+.head {
+  max-width: 52rem;
+}
+
+.title {
+  font-family: var(--f-display);
+  font-size: var(--t-hero);
+  line-height: 0.94;
+  letter-spacing: -0.03em;
+  margin-block: 0.6em 0;
+}
+
+.lead {
+  margin-block-start: 2rem;
+  max-width: var(--measure);
+  font-size: var(--t-lead);
+  color: var(--c-ink-soft);
+  text-wrap: pretty;
+}
+
+.body {
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4rem);
+}
+
+@media (min-width: 62rem) {
+  .body {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: start;
+  }
+  .results {
+    grid-column: 1 / -1;
+  }
+}
+
+.notice {
+  grid-column: 1 / -1;
+  border-inline-start: 2px solid var(--c-accent);
+  padding: 1rem 0 1rem 1.25rem;
+  max-width: var(--measure);
+  font-size: var(--t-small);
+  color: var(--c-ink-soft);
+}
+
+.notice strong {
+  color: var(--c-ink);
+}
+
+.prose h2 {
+  font-family: var(--f-display);
+  font-size: var(--t-title);
+  letter-spacing: -0.02em;
+  margin-block: 2.5rem 0.9rem;
+}
+
+.prose h2:first-child {
+  margin-block-start: 0;
+}
+
+.prose p {
+  max-width: var(--measure);
+  color: var(--c-ink-soft);
+  text-wrap: pretty;
+}
+
+.prose p + p {
+  margin-block-start: 1rem;
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.steps li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.stepIndex {
+  font-family: var(--f-display);
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  color: var(--c-accent);
+}
+
+/* — Résultats — */
+
+.resultsTitle {
+  font-family: var(--f-display);
+  font-size: var(--t-title);
+  letter-spacing: -0.02em;
+  margin-block: 0 0.75rem;
+}
+
+.period {
+  color: var(--c-ink-soft);
+  font-size: var(--t-small);
+  max-width: var(--measure);
+  margin-block-end: 2rem;
+}
+
+.chart {
+  margin: 0 0 2.5rem;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: clamp(13rem, 30vw, 22rem);
+  border-block: var(--line);
+  overflow: visible;
+}
+
+.lineAgent {
+  fill: none;
+  stroke: var(--c-ink);
+  stroke-width: 1;
+  stroke-opacity: 0.28;
+  stroke-linejoin: round;
+}
+
+.lineBench {
+  fill: none;
+  stroke: var(--c-accent);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.caption {
+  margin-block-start: 0.85rem;
+  font-size: var(--t-small);
+  color: var(--c-ink-soft);
+}
+
+/* Le tableau porte l'information : il reste lisible sans la courbe. */
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--t-small);
+  text-align: right;
+}
+
+.table th[scope='col'] {
+  font-family: var(--f-display);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: var(--t-label);
+  color: var(--c-ink-soft);
+  padding-block: 0.75rem;
+  border-block-end: var(--line);
+}
+
+.table th[scope='row'] {
+  text-align: left;
+  font-weight: 500;
+  color: var(--c-ink);
+}
+
+.table td,
+.table th {
+  padding-block: 0.7rem;
+  padding-inline-start: 1rem;
+  white-space: nowrap;
+}
+
+.table th[scope='col']:first-child,
+.table th[scope='row'] {
+  padding-inline-start: 0;
+  text-align: left;
+}
+
+.table tbody tr + tr th,
+.table tbody tr + tr td {
+  border-block-start: var(--line);
+}
+
+.table td[data-positive='true'] {
+  color: var(--c-accent-deep);
+}
+
+.benchRow th[scope='row'],
+.benchRow td {
+  color: var(--c-ink-soft);
+  font-style: italic;
+}
+
+.pending {
+  color: var(--c-ink-soft);
+  font-size: var(--t-small);
+}
+
+/* — Appel à l'action — */
+
+.cta {
+  grid-column: 1 / -1;
+  border-block-start: var(--line);
+  padding-block-start: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 3rem;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.cta p {
+  max-width: 34ch;
+  font-size: var(--t-lead);
+  text-wrap: pretty;
+}
+
+.ctaLink {
+  font-family: var(--f-display);
+  letter-spacing: -0.01em;
+  color: var(--c-accent-deep);
+  text-decoration: underline;
+  text-underline-offset: 0.28em;
+  text-decoration-thickness: 1px;
+  /* Cible tactile confortable (WCAG 2.5.8). */
+  padding-block: 0.5rem;
+}
+
+.ctaLink:hover {
+  text-decoration-thickness: 2px;
+}

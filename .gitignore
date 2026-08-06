@@ -9,3 +9,4 @@ dist-ssr
 *.tsbuildinfo
 
 .vercel
+.env*
