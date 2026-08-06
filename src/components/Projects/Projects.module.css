@@ -87,12 +87,15 @@
 
 /* ---- Média ---- */
 
-/* Rapport de la capture source (1690 × 912), tenu à toutes les tailles :
-   l'image remplit le cadre exactement, sans marge ni rognage. */
+/* Le cadre adopte le rapport de SA capture, transmis par le composant : ainsi
+   l'image le remplit exactement, sans marge ni rognage. Un rapport figé
+   amputait toute capture d'un autre format — et une capture d'interface
+   rognée perd précisément ce qu'elle est censée montrer.
+   Repli sur 1690 × 912 pour les fiches sans visuel. */
 .cardMedia {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 1690 / 912;
+  aspect-ratio: var(--shot-ratio, 1690 / 912);
   background: var(--c-silver-soft);
 }
 

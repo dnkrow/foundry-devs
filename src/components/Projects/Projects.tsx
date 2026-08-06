@@ -129,7 +129,14 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       style={{ ['--i' as string]: index }}
     >
       <article className={styles.cardInner} aria-label={`Projet ${project.name}`}>
-        <div className={styles.cardMedia}>
+        <div
+          className={styles.cardMedia}
+          style={
+            project.image && project.imageWidth && project.imageHeight
+              ? { ['--shot-ratio' as string]: `${project.imageWidth} / ${project.imageHeight}` }
+              : undefined
+          }
+        >
           {project.image ? (
             <div className={styles.shot}>
               <Picture
