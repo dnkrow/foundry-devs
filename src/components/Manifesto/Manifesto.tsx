@@ -88,10 +88,6 @@ export function Manifesto() {
               objectPosition="66% 62%"
             />
           </div>
-          <figcaption className={styles.caption}>
-            Le même visuel, recadré au plus près : les trames gravées dans le
-            verre deviennent une matière.
-          </figcaption>
         </figure>
       </div>
     </section>

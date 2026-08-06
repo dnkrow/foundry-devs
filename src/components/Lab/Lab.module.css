@@ -81,6 +81,49 @@
   margin-block-start: 1rem;
 }
 
+/* Leçons tirées : le terme porte le constat, la définition l'explique. */
+.lessons {
+  margin: 0;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.lessons dt {
+  font-family: var(--f-display);
+  letter-spacing: -0.01em;
+  color: var(--c-ink);
+  margin-block-end: 0.35rem;
+}
+
+.lessons dd {
+  margin: 0;
+  max-width: var(--measure);
+  color: var(--c-ink-soft);
+  border-inline-start: 2px solid
+    color-mix(in srgb, var(--c-accent) 45%, transparent);
+  padding-inline-start: 1rem;
+  text-wrap: pretty;
+}
+
+.skills {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.9rem;
+  max-width: var(--measure);
+}
+
+.skills li {
+  color: var(--c-ink-soft);
+  text-wrap: pretty;
+}
+
+.skills strong {
+  color: var(--c-ink);
+  font-weight: 500;
+}
+
 .steps {
   list-style: none;
   margin: 0;
@@ -110,6 +153,77 @@
   font-size: var(--t-title);
   letter-spacing: -0.02em;
   margin-block: 0 0.75rem;
+}
+
+/* Bandeau de synthèse. Reprend la lecture du tableau de bord local — un
+   chiffre dominant, le détail à droite — mais dans la palette du site :
+   aucun fond sombre, l'accent vert pour le seul signe positif. */
+.summary {
+  display: grid;
+  gap: 1.5rem 3rem;
+  align-items: end;
+  padding-block: 1.75rem;
+  border-block: var(--line);
+  margin-block-end: 2rem;
+}
+
+@media (min-width: 48rem) {
+  .summary {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+.summaryLabel {
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-ink-soft);
+  margin: 0;
+}
+
+.summaryValue {
+  font-family: var(--f-display);
+  font-size: clamp(2.6rem, 7vw, 4.4rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-block: 0.35rem 0.4rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.summaryValue[data-positive='true'] {
+  color: var(--c-accent-deep);
+}
+
+.summaryNote {
+  margin: 0;
+  color: var(--c-ink-soft);
+  font-size: var(--t-small);
+}
+
+.summarySide {
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+  font-size: var(--t-small);
+}
+
+.summarySide > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 2.5rem;
+}
+
+.summarySide dt {
+  color: var(--c-ink-soft);
+}
+
+.summarySide dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.summarySide dd[data-positive='true'] {
+  color: var(--c-accent-deep);
 }
 
 /* Fraîcheur de l'instantané. Le point reprend l'accent quand la donnée est
@@ -147,6 +261,10 @@
   margin: 0 0 2.5rem;
 }
 
+.plot {
+  position: relative;
+}
+
 .svg {
   display: block;
   width: 100%;
@@ -155,12 +273,86 @@
   overflow: visible;
 }
 
+/* Repères de niveau, tracés sous les courbes. La ligne de départ (base 100)
+   est appuyée : c'est elle qui sépare le gain de la perte. */
+.gridLines {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+
+.gridLines li {
+  position: absolute;
+  inset-inline: 0;
+  border-block-start: 1px dashed
+    color-mix(in srgb, var(--c-silver) 70%, transparent);
+}
+
+.gridLines li[data-base='true'] {
+  border-block-start-style: solid;
+  border-color: color-mix(in srgb, var(--c-ink) 28%, transparent);
+}
+
+.gridLines span {
+  position: absolute;
+  inset-inline-end: 0;
+  transform: translateY(-50%);
+  padding-inline-start: 0.5rem;
+  background: var(--c-limestone);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--c-ink-soft);
+}
+
 .lineAgent {
   fill: none;
   stroke: var(--c-ink);
   stroke-width: 1;
-  stroke-opacity: 0.28;
+  stroke-opacity: 0.22;
   stroke-linejoin: round;
+}
+
+.lineAgent[data-lead='true'] {
+  stroke-opacity: 0.85;
+  stroke-width: 1.5;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.5rem;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--t-small);
+  color: var(--c-ink-soft);
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend li::before {
+  content: '';
+  inline-size: 1.1rem;
+  block-size: 2px;
+  background: var(--c-ink);
+  opacity: 0.22;
+}
+
+.legend li[data-kind='lead']::before {
+  opacity: 0.85;
+}
+
+.legend li[data-kind='bench']::before {
+  background: var(--c-accent);
+  opacity: 1;
+  block-size: 3px;
 }
 
 .lineBench {

@@ -187,3 +187,37 @@
     height: 100svh;
   }
 }
+
+/* Renvoi discret vers le banc d'essai. Reste sous les appels à l'action :
+   la hiérarchie du hero ne doit pas bouger. */
+.labLink {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  margin-block-start: 1.75rem;
+  max-width: 46ch;
+  font-size: var(--t-small);
+  color: var(--c-ink-soft);
+  text-wrap: pretty;
+}
+
+.labDot {
+  inline-size: 0.45rem;
+  block-size: 0.45rem;
+  border-radius: 50%;
+  background: var(--c-accent);
+  flex: none;
+  translate: 0 -0.1em;
+}
+
+.labLink a {
+  color: var(--c-accent-deep);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-thickness: 1px;
+  white-space: nowrap;
+}
+
+.labLink a:hover {
+  text-decoration-thickness: 2px;
+}

@@ -34,6 +34,14 @@ type Agent = {
 
 type Snapshot = {
   generated_at: string;
+  /** Dernier signe de vie du bot. Distinct de l'heure de publication. */
+  data_updated_at: string | null;
+  paused: boolean;
+  cycle: number | null;
+  capital: number;
+  total_pnl: number;
+  total_return_pct: number;
+  alpha_pct: number;
   since: string | null;
   until: string | null;
   mode: string;
@@ -87,8 +95,18 @@ function sanitize(raw: unknown): Snapshot | null {
   const since = str(r['since'], 10);
   const until = str(r['until'], 10);
 
+  const heartbeat = str(r['data_updated_at'], 40);
+  const cycle = r['cycle'];
+
   return {
     generated_at: str(r['generated_at'], 40) || new Date().toISOString(),
+    data_updated_at: heartbeat || null,
+    paused: r['paused'] === true,
+    cycle: typeof cycle === 'number' && Number.isFinite(cycle) ? Math.trunc(cycle) : null,
+    capital: Math.max(0, Math.trunc(num(r['capital']))),
+    total_pnl: Math.trunc(num(r['total_pnl'])),
+    total_return_pct: num(r['total_return_pct']),
+    alpha_pct: num(r['alpha_pct']),
     since: since || null,
     until: until || null,
     // Verrouillé : la page annonce une simulation, la donnée doit le confirmer.

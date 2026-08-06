@@ -26,12 +26,21 @@ type Agent = {
 
 type Snapshot = {
   generated_at: string;
+  data_updated_at: string | null;
+  paused: boolean;
+  cycle: number | null;
+  capital: number;
+  total_pnl: number;
+  total_return_pct: number;
+  alpha_pct: number;
   since: string | null;
   until: string | null;
   mode: string;
   agents: Agent[];
   benchmark: { label: string; return_pct: number; curve: number[] };
 };
+
+const euro = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 });
 
 const pct = (n: number) => `${n > 0 ? '+' : ''}${n.toFixed(2)} %`;
 
@@ -168,6 +177,16 @@ export function Lab() {
   const min = flat.length ? Math.min(...flat) : 0;
   const max = flat.length ? Math.max(...flat) : 0;
 
+  /** Graduations rondes encadrant les données, base 100 toujours incluse. */
+  const levels = (() => {
+    if (!flat.length) return [];
+    const step = max - min > 40 ? 10 : max - min > 16 ? 5 : 2;
+    const out: number[] = [];
+    for (let v = Math.ceil(min / step) * step; v <= max; v += step) out.push(v);
+    if (min <= 100 && max >= 100 && !out.includes(100)) out.push(100);
+    return out.sort((a, b) => a - b);
+  })();
+
   /** Agents et indice classés ensemble, du meilleur au moins bon. */
   const ranked: (Partial<Agent> & { label: string; return_pct: number; bench: boolean })[] =
     data
@@ -266,7 +285,9 @@ export function Lab() {
             {data ? (
               <>
                 {(() => {
-                  const f = freshness(data.generated_at, now);
+                  // L'âge des DONNÉES, pas celui de la publication : la tâche
+                  // planifiée publie toutes les 5 min même bot éteint.
+                  const f = freshness(data.data_updated_at ?? data.generated_at, now);
                   return f ? (
                     <p
                       className={styles.freshness}
@@ -282,6 +303,40 @@ export function Lab() {
                   ) : null;
                 })()}
 
+                <div className={styles.summary}>
+                  <div className={styles.summaryMain}>
+                    <p className={styles.summaryLabel}>
+                      Résultat cumulé — si l’argent avait été réel
+                    </p>
+                    <p className={styles.summaryValue} data-positive={data.total_pnl > 0}>
+                      {data.total_pnl > 0 ? '+' : ''}
+                      {euro.format(data.total_pnl)}&nbsp;$
+                    </p>
+                    <p className={styles.summaryNote}>
+                      {pct(data.total_return_pct)} sur {data.agents.length} agents
+                    </p>
+                  </div>
+                  <dl className={styles.summarySide}>
+                    <div>
+                      <dt>Capital engagé</dt>
+                      <dd>{euro.format(data.capital)}&nbsp;$</dd>
+                    </div>
+                    <div>
+                      <dt>Écart à l’indice</dt>
+                      <dd data-positive={data.alpha_pct > 0}>
+                        {data.alpha_pct > 0 ? '+' : ''}
+                        {data.alpha_pct.toFixed(2)} pts
+                      </dd>
+                    </div>
+                    {data.cycle !== null ? (
+                      <div>
+                        <dt>Cycle</dt>
+                        <dd>{euro.format(data.cycle)}</dd>
+                      </div>
+                    ) : null}
+                  </dl>
+                </div>
+
                 <p className={styles.period}>
                   Rendements depuis le lancement, du {frDate(data.since)} au{' '}
                   {frDate(data.until)}. Tous les portefeuilles partent du même
@@ -290,27 +345,53 @@ export function Lab() {
                 </p>
 
                 <figure className={styles.chart}>
-                  <svg
-                    viewBox="0 0 100 100"
-                    preserveAspectRatio="none"
-                    className={styles.svg}
-                    role="img"
-                    aria-label={`Évolution comparée de ${data.agents.length} agents et de l’indice ${data.benchmark.label}.`}
-                  >
-                    {data.agents.map((a) => (
+                  <div className={styles.plot}>
+                    {/* Repères de niveau. Les valeurs sont en base 100, donc
+                        « 100 » est la ligne de départ : au-dessus, l'agent a
+                        gagné. C'est la lecture la plus utile du graphique. */}
+                    <ul className={styles.gridLines} aria-hidden="true">
+                      {levels.map((lv) => (
+                        <li
+                          key={lv}
+                          style={{ bottom: `${((lv - min) / (max - min || 1)) * 100}%` }}
+                          data-base={lv === 100}
+                        >
+                          <span>{lv}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <svg
+                      viewBox="0 0 100 100"
+                      preserveAspectRatio="none"
+                      className={styles.svg}
+                      role="img"
+                      aria-label={`Évolution comparée de ${data.agents.length} agents et de l’indice ${data.benchmark.label}, en base 100.`}
+                    >
+                      {data.agents.map((a, i) => (
+                        <path
+                          key={a.label}
+                          d={toPath(a.curve, min, max)}
+                          className={styles.lineAgent}
+                          /* Le meneur est souligné : sans repère, neuf traits
+                             de même valeur ne racontent rien. */
+                          data-lead={i === 0}
+                          vectorEffect="non-scaling-stroke"
+                        />
+                      ))}
                       <path
-                        key={a.label}
-                        d={toPath(a.curve, min, max)}
-                        className={styles.lineAgent}
+                        d={toPath(data.benchmark.curve, min, max)}
+                        className={styles.lineBench}
                         vectorEffect="non-scaling-stroke"
                       />
-                    ))}
-                    <path
-                      d={toPath(data.benchmark.curve, min, max)}
-                      className={styles.lineBench}
-                      vectorEffect="non-scaling-stroke"
-                    />
-                  </svg>
+                    </svg>
+                  </div>
+
+                  <ul className={styles.legend}>
+                    <li data-kind="lead">{data.agents[0]?.label} — en tête</li>
+                    <li data-kind="bench">{data.benchmark.label}</li>
+                    <li data-kind="agent">Les sept autres agents</li>
+                  </ul>
                   <figcaption className={styles.caption}>
                     Trait vert : {data.benchmark.label}. Traits fins : les
                     agents. La courbe ne couvre que la période récente ; les
@@ -369,6 +450,90 @@ export function Lab() {
                   : 'Chargement des résultats…'}
               </p>
             )}
+          </div>
+
+          <div className={styles.prose} data-lab-fade>
+            <h2>Ce que ça nous a appris</h2>
+            <p>
+              La valeur d’un système se lit autant dans les pannes traversées
+              que dans les fonctionnalités livrées. Quelques-unes, et ce
+              qu’elles ont changé :
+            </p>
+
+            <dl className={styles.lessons}>
+              <div>
+                <dt>Un disjoncteur ne vaut que testé en conditions réelles</dt>
+                <dd>
+                  Le coupe-circuit de perte maximale avait un chemin de
+                  contournement. Aucune relecture ne l’avait vu ; son premier
+                  déclenchement réel l’a exposé en quelques secondes.
+                </dd>
+              </div>
+              <div>
+                <dt>Un cache doit vieillir à l’horloge, pas au compteur</dt>
+                <dd>
+                  Une fraîcheur indexée sur un compteur de cycles remis à zéro
+                  à chaque redémarrage a gelé une donnée pendant seize jours,
+                  sans qu’aucune alerte ne se déclenche. Le système paraissait
+                  sain — il répétait la même réponse.
+                </dd>
+              </div>
+              <div>
+                <dt>Neuf agents sur un même quota, c’est une avalanche</dt>
+                <dd>
+                  Lancés ensemble, ils saturaient le fournisseur et se
+                  bloquaient mutuellement. La correction n’est pas de réessayer
+                  plus fort : c’est d’étaler les départs et de brider à la
+                  source.
+                </dd>
+              </div>
+              <div>
+                <dt>Un modèle qui « ne répond pas » répond souvent mal</dt>
+                <dd>
+                  Environ 16 % des cycles d’un agent étaient perdus sur ce qui
+                  ressemblait à une absence de réponse. C’était un format de
+                  sortie inattendu. Après correction : proche de zéro.
+                </dd>
+              </div>
+            </dl>
+
+            <h2>Ce que ce projet démontre</h2>
+            <p>
+              Ce sont les compétences que nous mettons au service de nos
+              clients, adossées ici à du code qui tourne — pas à une ligne de
+              CV.
+            </p>
+            <ul className={styles.skills}>
+              <li>
+                <strong>Systèmes concurrents</strong> — plusieurs processus sur
+                un état partagé, verrous, écritures atomiques, isolation des
+                pannes.
+              </li>
+              <li>
+                <strong>Modèles de langage en production</strong> — appels
+                outillés, bascule entre fournisseurs, gestion fine des modes de
+                panne propres à chaque modèle.
+              </li>
+              <li>
+                <strong>Résilience réseau</strong> — bridage à la source,
+                réessais progressifs, dégradation gracieuse : le contrôle du
+                risque tourne même quand plus aucun modèle ne répond.
+              </li>
+              <li>
+                <strong>Systèmes de risque</strong> — plafonds, arrêts,
+                dimensionnement des positions et coupe-circuit, empilés en
+                couches indépendantes.
+              </li>
+              <li>
+                <strong>Rigueur expérimentale</strong> — groupes de contrôle,
+                essais isolés, détection des facteurs confondants, mesures
+                publiées même défavorables.
+              </li>
+              <li>
+                <strong>Observabilité</strong> — journaux structurés, piste
+                d’audit, sauvegardes datées, tableau de bord temps réel.
+              </li>
+            </ul>
           </div>
 
           <aside className={styles.cta} data-lab-fade>

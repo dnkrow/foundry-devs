@@ -129,6 +129,16 @@ export function Hero() {
               Nous contacter
             </a>
           </div>
+
+          {/* Renvoi vers le banc d'essai. Volontairement en retrait : le hero
+              garde un seul appel à l'action principal, et le magnétisme reste
+              réservé à celui-ci. */}
+          <p className={styles.labLink} data-hero-fade>
+            <span className={styles.labDot} aria-hidden="true" />
+            En ce moment — neuf intelligences artificielles s’affrontent sur les
+            marchés.{' '}
+            <a href="/labo">Voir le banc d’essai</a>
+          </p>
         </div>
       </div>
     </section>
