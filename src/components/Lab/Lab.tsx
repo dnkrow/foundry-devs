@@ -127,8 +127,10 @@ export function Lab() {
           setFailed(false);
         })
         .catch(() => {
-          // Un échec ponctuel ne doit pas effacer des chiffres déjà affichés.
-          if (!cancelled) setFailed((previous) => previous || true);
+          // `failed` ne sert qu'à choisir le message tant qu'aucun chiffre
+          // n'est arrivé : `data` n'est jamais remis à null, donc un échec
+          // ponctuel n'efface pas un tableau déjà affiché.
+          if (!cancelled) setFailed(true);
         });
     };
 
