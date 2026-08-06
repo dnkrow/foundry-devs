@@ -142,6 +142,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                    viewport. Un `sizes` en vw y faisait choisir le 640. */
                 sizes="(min-width: 96rem) 52rem, (min-width: 62rem) 45vw, 82vw"
                 widths={project.imageWidths}
+                /* Capture d'interface : elle se montre entière. Le cadre suit
+                   la hauteur de la rangée, donc son rapport varie avec la
+                   longueur du texte — en `cover`, une fiche bavarde amputerait
+                   la capture de près de 40 % de sa largeur. */
+                fit="contain"
               />
             </div>
           ) : (
