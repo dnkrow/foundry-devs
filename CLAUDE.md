@@ -3,7 +3,8 @@
 Instructions pour Claude Code sur ce dépôt. À lire avant toute modification.
 
 Le site est le portfolio de **Foundry Devs**, collectif de développeurs
-indépendants à Toulouse. Page unique, sept chapitres, français.
+indépendants à Toulouse. En français, deux pages prérendues : l'accueil `/`,
+en sept chapitres qui s'enchaînent au scroll, et le banc d'essai `/labo`.
 
 ---
 
@@ -11,7 +12,7 @@ indépendants à Toulouse. Page unique, sept chapitres, français.
 
 ```bash
 npm run dev        # serveur de développement — http://localhost:5173
-npm run build      # tsc -b puis vite build
+npm run build      # types, bundle client, bundle SSR, puis prérendu des routes
 npm run typecheck  # types seuls
 npm run images     # régénère public/assets et public/og.jpg depuis assets-source/
 ```
@@ -31,14 +32,30 @@ exemple `vercel dev`. Ce n'est pas un bug.
 
 ```
 src/data/        Contenus. C'est ici qu'on édite les textes, pas dans les composants.
+src/routes.ts    Table des routes prérendues. Une route absente d'ici est servie vide.
+src/App.tsx      Choisit la composition selon la route. Pas de routeur client.
+src/entry-server.tsx  Rend le HTML au build ; src/main.tsx l'hydrate ensuite.
 src/lib/motion.ts  Hooks GSAP, smooth scroll, magnétisme.
 src/styles/      fonts.css (auto-hébergées), tokens.css (palette, échelle), global.css
 src/components/  Un dossier par section : Section.tsx + Section.module.css
-api/contact.ts   Route serveur, format Web standard (Request/Response)
+scripts/prerender.mjs  Écrit un HTML complet par route, métadonnées comprises.
+api/contact.ts   Formulaire de contact, transport Brevo.
+api/snapshot.ts  Instantané du banc d'essai : POST authentifié, GET public.
 ```
 
 Règle : **les données ne vivent jamais dans les composants.** Pour changer un
 projet, une expertise ou une coordonnée, éditez `src/data/`.
+
+Le HTML est **prérendu puis hydraté**. Deux conséquences : `src/main.tsx`
+appelle `hydrateRoot`, jamais `createRoot` — et le premier rendu doit être
+identique côté serveur et côté client. Un contenu qui dépend du navigateur
+(données distantes, dimensions, heure) s'affiche donc après montage, pas
+au premier rendu. Voir `Lab.tsx`, qui applique cette règle.
+
+Les métadonnées par page (`title`, `description`, `canonical`, Open Graph)
+vivent dans la table `META` de `scripts/prerender.mjs`, pas dans le bundle
+client. Une nouvelle route sans entrée hériterait du `canonical` de l'accueil,
+et les moteurs n'en indexeraient qu'une.
 
 ---
 

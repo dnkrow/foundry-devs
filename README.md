@@ -1,8 +1,9 @@
 # Foundry Devs — site vitrine
 
 Site portfolio d'un collectif de développeurs indépendants basé à Toulouse.
-Page unique, sept chapitres, thème clair avec une seule bascule vers le vert
-nuit pour le contact et le pied de page.
+Deux pages prérendues : l'accueil, en sept chapitres qui s'enchaînent au
+scroll, et `/labo`, le banc d'essai public. Thème clair avec une seule bascule
+vers le vert nuit, pour le contact et le pied de page.
 
 ---
 
@@ -21,7 +22,7 @@ Le site est servi sur <http://localhost:5173>.
 | Commande | Effet |
 | --- | --- |
 | `npm run dev` | Serveur de développement Vite |
-| `npm run build` | Vérification des types puis build de production dans `dist/` |
+| `npm run build` | Types, bundle client, bundle SSR, puis prérendu des routes dans `dist/` |
 | `npm run preview` | Sert le build de production localement |
 | `npm run typecheck` | Vérification TypeScript seule |
 | `npm run images` | Régénère `public/og.jpg` et décline `assets-source/` en AVIF/WebP/JPEG |
@@ -48,16 +49,36 @@ src/
     projects.ts    fiches projets
     expertise.ts   domaines de compétence
     method.ts      phases de travail et membres
+  routes.ts      Table des routes prérendues
+  App.tsx        Compose la page selon la route — pas de routeur client
+  entry-server.tsx  Rend le HTML au build ; main.tsx l'hydrate ensuite
   lib/motion.ts  Hooks d'animation, smooth scroll, magnétisme
   styles/        fonts.css, tokens.css, global.css
   components/    Un dossier par section, .tsx + .module.css
-api/contact.ts   Route serveur du formulaire (format Web standard)
-scripts/         chaîne de traitement d'images et composition de bannière
+api/
+  contact.ts     Formulaire de contact (format Web standard)
+  snapshot.ts    Instantané du banc d'essai : POST authentifié, GET public
+scripts/         images, bannière, et prerender.mjs (un HTML par route)
 brand/           logo, déclinaisons et bannières de profil
 public/          fonts, favicon, og.jpg, robots.txt, sitemap.xml
 ```
 
 **Pour modifier un contenu, éditez `src/data/` — jamais les composants.**
+
+### Pages et prérendu
+
+Le site reste un multi-pages classique : `npm run build` écrit un fichier HTML
+complet par route, et passer d'une page à l'autre est une navigation
+navigateur normale. Ajouter une page tient en deux gestes — la déclarer dans
+`ROUTES` (`src/routes.ts`), et lui donner ses métadonnées dans la table `META`
+de `scripts/prerender.mjs`. Sans la première, elle est servie vide ; sans la
+seconde, elle hérite du `canonical` de l'accueil et les moteurs n'en indexent
+qu'une.
+
+Le HTML est ensuite **hydraté**, pas reconstruit. Le premier rendu doit donc
+être identique côté serveur et côté client : tout ce qui dépend du navigateur
+— données distantes, dimensions, heure — s'affiche après montage. `Lab.tsx`
+sert de référence.
 
 ---
 
@@ -69,9 +90,9 @@ rien n'est inventé pour combler.
 
 | Fichier | Reste à renseigner |
 | --- | --- |
-| `src/data/projects.ts` | 3 fiches sur 4 — MAMA Bloom est renseigné |
+| `src/data/projects.ts` | La quatrième fiche — MAMA Bloom, Matrix Trader Pro et Maison Qalya sont renseignés |
 | `src/data/method.ts` | Les portraits des quatre membres |
-| `src/data/site.ts` | `linkedin`, `github`, `availability` |
+| `src/data/site.ts` | `linkedin`, `github`, `availability` — en attente des profils du collectif |
 
 Identité, domaine, adresse de contact et les quatre membres sont en place.
 
@@ -131,6 +152,34 @@ Pour tester la route localement, utilisez le runtime de votre hébergeur
 
 ---
 
+## Banc d'essai — `/labo`
+
+Neuf modèles de langage gèrent chacun un portefeuille simulé. Les chiffres
+viennent d'un bot externe, jamais du site : il publie un instantané sur
+`api/snapshot.ts`, la page le lit.
+
+```bash
+SNAPSHOT_TOKEN=…   # le POST y est authentifié ; sans lui, la route répond 503
+```
+
+- **POST** — réservé au bot, `Authorization: Bearer <token>`. Le corps est
+  re-filtré côté serveur sur une liste blanche : un champ que le bot n'aurait
+  pas dû pousser est ignoré, pas publié. L'instantané est stocké sur Vercel
+  Blob.
+- **GET** — public, en lecture seule, même origine : la CSP du site est en
+  `connect-src 'self'`, la page ne peut donc pas appeler un domaine de
+  stockage directement.
+
+Le texte explicatif de la page est prérendu — c'est lui qui porte le
+référencement. Les chiffres n'arrivent qu'après montage : le serveur n'a pas
+de données au build, et l'hydratation doit rester propre.
+
+Le bot tourne sur une machine qui peut être éteinte. La page distingue donc
+l'âge des **données** de celui de la **publication**, plutôt que d'afficher
+des chiffres périmés comme s'ils étaient frais.
+
+---
+
 ## Parti pris de motion
 
 Le mouvement raconte le passage de l'idée au produit. Chaque animation a une
@@ -176,9 +225,9 @@ Vérifié sur le rendu réel, pas seulement dans le code :
 
 ## Visuels
 
-**Un seul visuel** porte tout le site : `assets-source/hero.png`, image générée
-(Higgsfield, Seedream 5.0 Pro, 2720 × 1536). Elle est réutilisée cinq fois
-par recadrage, jamais dupliquée :
+**Un seul visuel généré** porte le site : `assets-source/hero.png` (Higgsfield,
+Seedream 5.0 Pro, 2720 × 1536). Il est réutilisé cinq fois par recadrage,
+jamais dupliqué :
 
 | Emplacement | Traitement |
 | --- | --- |
@@ -191,8 +240,10 @@ par recadrage, jamais dupliquée :
 `npm run images` régénère l'ensemble : quatre largeurs × trois formats (AVIF,
 WebP, JPEG), soit 19 Ko en AVIF 640 et 99 Ko en AVIF 1600.
 
-Les compositions SVG de `src/components/Surface/` restent utilisées pour les
-fiches projets, en attendant les captures réelles. Aucun portrait n'est généré.
+Le reste n'est pas généré : les fiches projets portent des **captures réelles**
+des sites livrés (1690 × 912), et les compositions SVG de
+`src/components/Surface/` ne servent plus que pour les emplacements encore
+vides. Aucun portrait n'est généré.
 
 ---
 
@@ -200,8 +251,9 @@ fiches projets, en attendant les captures réelles. Aucun portrait n'est génér
 
 **En ligne : <https://foundrydevs.codes>**
 
-Le build produit un site statique dans `dist/`, plus une fonction serveur pour
-`/api/contact` — le dossier `api/` est détecté automatiquement.
+Le build produit un site statique dans `dist/` — un fichier HTML complet par
+route — plus les fonctions serveur de `/api/contact` et `/api/snapshot` : le
+dossier `api/` est détecté automatiquement.
 
 ```bash
 vercel deploy --prod
@@ -222,5 +274,6 @@ volontaire. Déclarez les variables d'environnement (voir plus haut) dans les
 réglages du projet, puis redéployez.
 
 Le domaine `foundrydevs.codes` et son `www` sont rattachés au projet Vercel.
-Pour en changer, remplacez-le dans `index.html`, `public/robots.txt`,
-`public/sitemap.xml` et `src/data/site.ts`.
+Pour en changer, remplacez-le à cinq endroits : `index.html`,
+`public/robots.txt`, `public/sitemap.xml`, `src/data/site.ts` et la constante
+`ORIGIN` de `scripts/prerender.mjs`.
