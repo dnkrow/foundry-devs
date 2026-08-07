@@ -83,10 +83,13 @@ export function Projects() {
             </span>
           </span>
         </h2>
+        {/* Formulée comme une règle, pas comme un état : elle reste vraie
+            quel que soit le nombre de fiches, et n'aura pas à être reprise
+            à chaque projet ajouté. */}
         <p className={styles.intro}>
-          Cette sélection est en cours de constitution. Les fiches ci-dessous
-          sont des gabarits : elles seront remplacées par des projets réels,
-          avec leurs captures et leurs résultats.
+          Nous ne montrons que ce que nous avons construit. Chaque fiche
+          précise pour qui : un client, le collectif lui-même, ou une
+          démonstration assumée comme telle.
         </p>
 
         <div className={styles.railNav}>
