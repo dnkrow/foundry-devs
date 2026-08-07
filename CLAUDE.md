@@ -131,7 +131,7 @@ pas de portrait.
 
 ---
 
-## Images
+## Images & vidéos
 
 Un seul visuel généré porte le site — `assets-source/hero.png` — réutilisé par
 recadrage à cinq endroits : fond du hero, macro-recadrage du manifeste, aperçus
@@ -157,6 +157,44 @@ Deux points appris à l'usage :
 La bannière de profil se régénère par
 `node scripts/build-banner.mjs [largeur] [hauteur] [left|right]`.
 
+### Capture d'un site pour une fiche projet
+
+Les captures projet font **1690 × 912**, la taille du cadre. Prenez-les à cette
+taille exacte plutôt que de recadrer après coup, avec un navigateur en mode
+sans interface :
+
+```bash
+chrome --headless=new --hide-scrollbars --window-size=1690,912 \
+  --screenshot=assets-source/<nom>.png <url>
+```
+
+Puis `npm run images`, et le nom du fichier dans `UI_CAPTURES`.
+
+Attention : la hauteur du cadre média suit celle de la **colonne de texte** de
+la fiche. Des `kind`, `role` ou `outcome` plus longs que ceux des fiches
+voisines rendent la carte plus haute, et la capture — affichée en `contain` —
+s'y retrouve plus rognée en hauteur que les autres. Calez la longueur des
+libellés sur les fiches existantes plutôt que d'ajuster l'image.
+
+### Vidéo dans une fiche projet
+
+Une fiche peut porter une vidéo : champ `video` dans `src/data/projects.ts`,
+fichier dans `public/` (il ne passe pas par `npm run images`). Elle se
+superpose à la capture, qui reste dessous et garde son rôle : porter le texte
+alternatif, réserver la place dès le premier rendu, et redevenir seule visible
+si la lecture échoue.
+
+- **Même rapport que la capture, 1690 × 912.** Les deux occupent la même boîte
+  en `object-fit: contain` ; à un autre rapport, la vidéo ne recouvre plus la
+  capture et les deux se superposent de travers.
+- La lecture ne démarre qu'à l'entrée dans le viewport, et **jamais** sous
+  `prefers-reduced-motion`. La vidéo n'apparaît qu'à son premier `playing`,
+  pour ne pas laisser voir un cadre noir le temps du chargement.
+- Reconstituer une page animée plutôt que filmer l'écran donne un résultat
+  net et déterministe : capturer la page une fois avec le média de fond masqué
+  et le fond transparent (`--default-background-color=00000000`), puis
+  composer sous ce calque la vidéo de fond avec les mêmes filtres que le CSS.
+
 ---
 
 ## Marque
@@ -175,6 +213,14 @@ sur l'accent vert. N'introduisez pas de rose dans le site.
 ## Déploiement
 
 Production : <https://foundrydevs.codes>, projet Vercel `agence`.
+
+**Un push sur `main` part directement en production.** Le dépôt est relié à
+Vercel par l'intégration Git : rien ne s'interpose entre le push et le site
+public, ni validation ni préproduction. Vérifiez le rendu localement avant de
+pousser, et gardez un travail en cours sur une branche — une branche produit
+une préversion, elle ne touche pas au domaine.
+
+Déploiement manuel, si l'intégration est indisponible :
 
 ```bash
 vercel deploy --prod
@@ -212,14 +258,13 @@ Maison Qalya est une **marque fictive**, assumée comme telle dans la fiche et
 dans le pied de page de la démonstration : c'est une vitrine de savoir-faire,
 pas un client. Ne la présentez jamais comme une référence commerciale.
 
-Une fiche peut porter une vidéo (`video` dans `src/data/projects.ts`). Elle se
-superpose à la capture, qui reste le repli et porte le texte alternatif : même
-rapport 1690 × 912, sinon les deux ne se recouvrent pas. La lecture ne démarre
-qu'à l'entrée dans le viewport, et jamais sous `prefers-reduced-motion`.
-Attention aussi à la longueur de `kind`, `role` et `outcome` : la hauteur du
-cadre média suit celle de la colonne de texte, et une fiche plus bavarde que
-les autres se retrouve plus haute, donc sa capture plus rognée en hauteur.
+L'accroche de la section projets est écrite comme une **règle**, pas comme un
+état : « Nous ne montrons que ce que nous avons construit. Chaque fiche précise
+pour qui. » Elle ne compte pas les projets et ne parle pas des emplacements
+vides, pour ne pas avoir à être reprise à chaque ajout. Ne la remplacez pas par
+un décompte.
 
-Chantier connu, non engagé : le HTML servi ne contient aucun titre, tout le
-contenu étant injecté par React. Un prérendu au build est nécessaire pour que
-les moteurs voient la page.
+Le prérendu au build est en place : `npm run build` injecte le HTML des routes
+`/` et `/labo`, titres et contenus compris — les moteurs voient la page. Une
+nouvelle route s'ajoute à `ROUTES` dans `src/routes.ts`, sinon elle est servie
+vide.
