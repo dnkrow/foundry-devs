@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { projects, type Project } from '../../data/projects';
 import { isPlaceholder } from '../../data/site';
 import { Surface } from '../Surface/Surface';
@@ -148,6 +148,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                    la capture de près de 40 % de sa largeur. */
                 fit="contain"
               />
+              {project.video ? <ProjectMotion src={project.video} /> : null}
             </div>
           ) : (
             <div className={styles.crop} data-project-crop>
@@ -210,6 +211,66 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         </div>
       </article>
     </li>
+  );
+}
+
+/**
+ * Vitrine animée posée par-dessus la capture.
+ *
+ * La capture reste dessous : elle porte le texte alternatif, occupe la place
+ * dès le premier rendu, et redevient seule visible si la lecture échoue. La
+ * vidéo ne se télécharge qu'une fois la carte à l'écran (`preload="none"`
+ * jusque-là) et n'apparaît qu'au premier `playing`, pour ne jamais laisser
+ * voir un cadre noir. Sous `prefers-reduced-motion`, rien ne démarre.
+ */
+function ProjectMotion({ src }: { src: string }) {
+  const ref = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const reveal = () => video.setAttribute('data-playing', 'true');
+    video.addEventListener('playing', reveal);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry) return;
+        if (entry.isIntersecting) {
+          video.preload = 'auto';
+          void video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.3 },
+    );
+    observer.observe(video);
+
+    return () => {
+      observer.disconnect();
+      video.removeEventListener('playing', reveal);
+    };
+  }, []);
+
+  return (
+    <video
+      ref={ref}
+      className={styles.motion}
+      width={1690}
+      height={912}
+      muted
+      loop
+      playsInline
+      preload="none"
+      disablePictureInPicture
+      aria-hidden="true"
+      tabIndex={-1}
+    >
+      <source src={src} type="video/mp4" />
+    </video>
   );
 }
 

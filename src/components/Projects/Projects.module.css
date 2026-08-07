@@ -111,9 +111,34 @@
 /* Capture d'interface : le cadre adopte le rapport de la capture, si bien
    qu'elle le remplit exactement sans être rognée. */
 .shot {
+  position: relative;
   width: 100%;
   height: 100%;
   background: var(--c-limestone-warm);
+}
+
+/* Vidéo de démonstration superposée à la capture : même rapport, donc même
+   boîte et même `contain`. Elle reste invisible tant que la lecture n'a pas
+   commencé — la capture dessous fait le poster, sans double téléchargement. */
+.motion {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 420ms ease;
+  pointer-events: none;
+}
+
+.motion[data-playing='true'] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion {
+    display: none;
+  }
 }
 
 .crop {

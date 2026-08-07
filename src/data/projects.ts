@@ -29,6 +29,13 @@ export type Project = {
   readonly imageAlt: string | null;
   /** Largeurs réellement générées, si la source ne couvre pas toute l'échelle. */
   readonly imageWidths?: readonly number[] | undefined;
+  /**
+   * Vidéo jouée par-dessus la capture, chemin servi depuis `public/`.
+   * La capture reste le repli : c'est elle qui porte le texte alternatif, et
+   * elle s'affiche seule sous `prefers-reduced-motion`. Même rapport que le
+   * cadre (1690 × 912), sinon la vidéo ne se superpose pas à la capture.
+   */
+  readonly video?: string | undefined;
   /** Lien vers l'étude de cas ou le site en ligne, ou `null`. */
   readonly href: string | null;
   /** Libellé du lien. Il doit dire où il mène : un site en ligne n'est pas
@@ -72,16 +79,23 @@ export const projects: readonly Project[] = [
     hrefLabel: 'Voir le banc d’essai en direct',
   },
   {
-    id: 'projet-03',
-    name: '[PROJET 03]',
-    kind: '[Type de produit]',
-    role: '[Rôle de l’atelier]',
-    year: '[Année]',
-    stack: ['[Technologie]', '[Technologie]', '[Technologie]'],
-    outcome: '[Objectif du projet ou résultat réellement constaté.]',
-    image: null,
-    imageAlt: null,
-    href: null,
+    id: 'maison-qalya',
+    name: 'Maison Qalya',
+    kind: 'Vitrine e-commerce — concept',
+    role: 'Conception et développement',
+    year: '2026',
+    stack: ['HTML / CSS / JS', 'Vidéo générée et compositée', 'SEO & données structurées', 'Vercel'],
+    outcome:
+      'Marque fictive, vitrine réelle : sept pages conçues de bout en bout pour montrer ce que nous savons livrer à un artisan des métiers de bouche — carte, demande de devis, espace professionnel, et une ouverture filmée où l’on vient poser le plat sur la table. Elle se reprend telle quelle, pour une vraie enseigne.',
+    image: 'maison-qalya',
+    imageAlt:
+      'Page d’accueil de Maison Qalya : sur une table de mezzés en lumière chaude et volontairement floutée, le titre « L’art de recevoir avec Qalya » et deux boutons, Commander aujourd’hui et Demander un devis.',
+    // La source fait 1690 px de large : annoncer 2048 dans le srcset
+    // pointerait vers un fichier que le script ne génère pas.
+    imageWidths: [640, 1024, 1600],
+    video: '/maison-qalya.mp4',
+    href: 'https://maison-qalya-demo.vercel.app',
+    hrefLabel: 'Voir la démonstration en ligne',
   },
   {
     id: 'projet-04',

@@ -201,12 +201,24 @@ travail des autres sans avertissement.
 
 ## État des contenus
 
-Renseignés : identité, domaine, coordonnées, les quatre membres, et le premier
-projet (MAMA Bloom).
+Renseignés : identité, domaine, coordonnées, les quatre membres, et trois
+projets (MAMA Bloom, Matrix Trader Pro, Maison Qalya).
 
-Restent des placeholders visibles : trois fiches projets et les portraits des
-membres. Ils s'affichent tels quels dans la page — c'est voulu, ne les masquez
-pas et ne les comblez pas.
+Restent des placeholders visibles : la quatrième fiche projet et les portraits
+des membres. Ils s'affichent tels quels dans la page — c'est voulu, ne les
+masquez pas et ne les comblez pas.
+
+Maison Qalya est une **marque fictive**, assumée comme telle dans la fiche et
+dans le pied de page de la démonstration : c'est une vitrine de savoir-faire,
+pas un client. Ne la présentez jamais comme une référence commerciale.
+
+Une fiche peut porter une vidéo (`video` dans `src/data/projects.ts`). Elle se
+superpose à la capture, qui reste le repli et porte le texte alternatif : même
+rapport 1690 × 912, sinon les deux ne se recouvrent pas. La lecture ne démarre
+qu'à l'entrée dans le viewport, et jamais sous `prefers-reduced-motion`.
+Attention aussi à la longueur de `kind`, `role` et `outcome` : la hauteur du
+cadre média suit celle de la colonne de texte, et une fiche plus bavarde que
+les autres se retrouve plus haute, donc sa capture plus rognée en hauteur.
 
 Chantier connu, non engagé : le HTML servi ne contient aucun titre, tout le
 contenu étant injecté par React. Un prérendu au build est nécessaire pour que
