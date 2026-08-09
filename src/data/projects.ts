@@ -98,15 +98,18 @@ export const projects: readonly Project[] = [
     hrefLabel: 'Voir la démonstration en ligne',
   },
   {
-    id: 'projet-04',
-    name: '[PROJET 04]',
-    kind: '[Type de produit]',
-    role: '[Rôle de l’atelier]',
-    year: '[Année]',
-    stack: ['[Technologie]', '[Technologie]', '[Technologie]'],
-    outcome: '[Objectif du projet ou résultat réellement constaté.]',
-    image: null,
-    imageAlt: null,
-    href: null,
+    id: 'etbvault',
+    name: 'ETBVault',
+    kind: 'Suivi de prix du marché Pokémon TCG',
+    role: 'Conception et développement',
+    year: '2026',
+    stack: ['React 19', 'TypeScript', 'Express', 'Prisma / PostgreSQL'],
+    outcome:
+      'Suivre le prix des 76 Elite Trainer Box du marché français et la plus-value de sa propre collection. Les prix viennent de l’export officiel du Price Guide Cardmarket, relevé une fois par jour. Le site constate l’évolution, il ne conseille jamais d’acheter ni de vendre.',
+    image: 'etbvault-ui',
+    imageAlt:
+      'Catalogue d’ETBVault : grille sombre de coffrets Pokémon regroupés par ère, chacun avec le logo de son extension et son prix en euros.',
+    href: 'https://etb-vault.vercel.app',
+    hrefLabel: 'Voir le site en ligne',
   },
 ];
