@@ -140,13 +140,9 @@ export function Collective() {
             );
           })}
         </ul>
-        {members.some((member) => member.photo === null) ? (
-          <p className={styles.membersNote}>
-            Les portraits seront ajoutés dès qu’ils seront disponibles. En
-            attendant, chacun est représenté par ses initiales — nous ne
-            générons pas de visage.
-          </p>
-        ) : null}
+        {/* Pas de note d'attente : l'absence de photo n'est pas un chantier
+            en cours, c'est un choix. Les initiales composées suffisent, et le
+            site ne doit rien annoncer comme « à venir ». */}
       </div>
     </section>
   );

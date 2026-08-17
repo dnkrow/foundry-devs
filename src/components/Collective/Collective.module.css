@@ -178,13 +178,6 @@
   text-decoration-color: var(--c-accent);
 }
 
-.membersNote {
-  margin-top: 2rem;
-  font-size: var(--t-small);
-  font-style: italic;
-  color: var(--c-ink-soft);
-}
-
 @media (min-width: 48rem) {
   .phases {
     grid-template-columns: repeat(2, 1fr);

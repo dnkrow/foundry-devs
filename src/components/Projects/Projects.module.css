@@ -154,7 +154,6 @@
   position: absolute;
   inset-inline: 0;
   bottom: 0;
-  padding: 1.1rem 1.35rem;
   /* 94 % : en dessous, le texte passe sous 4.5:1 quand le média est clair. */
   background: color-mix(in srgb, var(--c-night) 94%, transparent);
   backdrop-filter: blur(8px);
@@ -163,12 +162,42 @@
   transition: translate var(--d-macro) var(--e-out);
 }
 
+/* Bandeau replié : c'est tout ce qui recouvre la capture au repos sur mobile. */
+.detailToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.7rem 1.35rem;
+  color: inherit;
+  text-align: left;
+}
+
+.detailToggle svg {
+  color: var(--c-on-night-accent);
+  rotate: 180deg;
+  transition: rotate var(--d-micro) var(--e-out);
+}
+
+.detailToggle[data-open='true'] svg {
+  rotate: 0deg;
+}
+
+.detailPanel {
+  padding-inline: 1.35rem;
+}
+
+.detailPanel > * {
+  padding-bottom: 1.1rem;
+}
+
 .detailLabel {
   font-size: var(--t-label);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--c-on-night-accent);
-  margin-bottom: 0.45rem;
 }
 
 .stackList {
@@ -239,6 +268,24 @@
 .outcome {
   max-width: 46ch;
   color: var(--c-ink-soft);
+}
+
+/* Même traitement que le livrable d'une phase, page d'accueil : un filet,
+   un libellé en petites capitales, le texte en dessous. */
+.proves {
+  max-width: 46ch;
+  padding-top: 0.9rem;
+  border-top: var(--line);
+  font-size: var(--t-small);
+}
+
+.provesLabel {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: var(--t-label);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--c-accent);
 }
 
 .link {
@@ -330,9 +377,15 @@
     min-width: 0;
   }
 
-  /* Le détail technique reste caché tant qu'il n'est ni survolé ni focalisé. */
+  /* Le détail technique reste caché tant qu'il n'est ni survolé ni focalisé :
+     le panneau entier glisse, il n'y a rien à déplier ni à cliquer. */
   .detail {
     translate: 0 100%;
+  }
+
+  .detailToggle {
+    min-height: 0;
+    padding: 1.1rem 1.35rem 0.45rem;
   }
 
   .cardInner:hover .detail,

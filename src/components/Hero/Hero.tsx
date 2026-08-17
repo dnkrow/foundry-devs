@@ -92,25 +92,28 @@ export function Hero() {
             <span className={styles.city}>{site.city}</span>
           </p>
 
+          {/* Le titre nomme la relation, pas le métier : c'est ce qu'un
+              responsable d'agence doit reconnaître en une seconde. */}
           <h1 className={styles.title}>
             <span className="line-mask">
-              <span data-hero-line>Nous développons des expériences</span>
+              <span data-hero-line>Votre agence vend.</span>
             </span>
             <span className="line-mask">
               <span data-hero-line>
-                numériques qui <em className="accent-word">restent</em>.
+                Nous <em className="accent-word">construisons</em>.
               </span>
             </span>
           </h1>
 
           <p className={styles.lead} data-hero-fade>
-            Collectif de développeurs à Toulouse. Nous concevons, construisons
-            et faisons évoluer des produits web sur mesure.
+            Équipe de développeurs full-stack à Toulouse — React, Next.js,
+            TypeScript, Python, IA. Nous intervenons en renfort ou en marque
+            blanche pour les agences et les équipes produit.
           </p>
 
           <div className={styles.actions} data-hero-fade>
-            <a ref={ctaRef} href="#projets" className={styles.cta}>
-              Voir nos projets
+            <a ref={ctaRef} href="#contact" className={styles.cta}>
+              Parler d’un projet
               <svg
                 width="18"
                 height="10"
@@ -125,8 +128,11 @@ export function Hero() {
                 />
               </svg>
             </a>
-            <a href="#contact" className={styles.ctaGhost}>
-              Nous contacter
+            {/* Un seul appel à l'action dominant, comme avant : le second reste
+                un lien souligné. L'entrée « Pour les agences » vit dans la
+                navigation et dans la section passerelle, pas ici. */}
+            <a href="#projets" className={styles.ctaGhost}>
+              Voir nos réalisations
             </a>
           </div>
 

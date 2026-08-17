@@ -31,6 +31,11 @@ const ORIGIN = 'https://foundrydevs.codes';
  */
 const META = {
   '/': null, // l'accueil garde le gabarit tel quel
+  '/agences': {
+    title: 'Sous-traitance développement web pour agences | Foundry Devs',
+    description:
+      'Renfort de développement et sous-traitance en marque blanche pour agences, studios et ESN. React, Next.js, TypeScript, Node.js, Python, IA. Équipe basée à Toulouse.',
+  },
   '/labo': {
     title:
       'Banc d’essai — neuf IA gèrent un portefeuille | Foundry Devs',

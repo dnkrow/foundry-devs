@@ -3,8 +3,15 @@
 Instructions pour Claude Code sur ce dépôt. À lire avant toute modification.
 
 Le site est le portfolio de **Foundry Devs**, collectif de développeurs
-indépendants à Toulouse. En français, deux pages prérendues : l'accueil `/`,
-en sept chapitres qui s'enchaînent au scroll, et le banc d'essai `/labo`.
+indépendants à Toulouse. En français, trois pages prérendues : l'accueil `/`,
+en huit chapitres qui s'enchaînent au scroll, l'offre de sous-traitance
+`/agences`, et le banc d'essai `/labo`.
+
+**Positionnement.** Le site s'adresse d'abord aux **agences web, studios et
+ESN** qui sous-traitent du développement — renfort ponctuel, projet au forfait,
+marque blanche — sans cesser de parler à un client final. Le hero l'annonce
+(« Votre agence vend. Nous construisons. »), `/agences` le détaille. Ne
+rebasculez pas le discours vers la seule prestation directe.
 
 ---
 
@@ -32,6 +39,7 @@ exemple `vercel dev`. Ce n'est pas un bug.
 
 ```
 src/data/        Contenus. C'est ici qu'on édite les textes, pas dans les composants.
+                 agencies.ts porte l'offre de sous-traitance (voir plus bas).
 src/routes.ts    Table des routes prérendues. Une route absente d'ici est servie vide.
 src/App.tsx      Choisit la composition selon la route. Pas de routeur client.
 src/entry-server.tsx  Rend le HTML au build ; src/main.tsx l'hydrate ensuite.
@@ -264,12 +272,24 @@ travail des autres sans avertissement.
 
 ## État des contenus
 
-Renseignés : identité, domaine, coordonnées, les quatre membres, et trois
-projets (MAMA Bloom, Matrix Trader Pro, Maison Qalya).
+Renseignés : identité, domaine, coordonnées, les quatre membres, et quatre
+projets (MAMA Bloom, Matrix Trader Pro, Maison Qalya, ETBVault).
 
-Restent des placeholders visibles : la quatrième fiche projet et les portraits
-des membres. Ils s'affichent tels quels dans la page — c'est voulu, ne les
-masquez pas et ne les comblez pas.
+**Plus aucun placeholder ne s'affiche.** Les gabarits de fiche non renseignée
+et les liens sociaux non fournis ont été retirés des données plutôt que montrés
+entre crochets : sur les pages qu'un prospect regarde, un `[URL LINKEDIN]` coûte
+plus cher que l'absence. Le mécanisme reste en place et documenté
+(`isPlaceholder`, `Surface`, « Étude de cas à venir ») pour la prochaine fiche
+en attente.
+
+Les portraits manquent toujours et c'est assumé : composition typographique à
+partir des initiales, **sans note d'attente** dans la page. On ne génère pas de
+visage, et le site n'annonce rien comme « à venir ».
+
+Le champ `proves` d'un projet dit ce que la fiche démontre techniquement — pour
+une agence qui évalue une capacité plutôt qu'un secteur. Gardez ces textes de
+longueur comparable d'une fiche à l'autre, comme les `outcome` : la hauteur du
+cadre média suit celle de la colonne de texte.
 
 Maison Qalya est une **marque fictive**, assumée comme telle dans la fiche et
 dans le pied de page de la démonstration : c'est une vitrine de savoir-faire,
@@ -282,6 +302,20 @@ vides, pour ne pas avoir à être reprise à chaque ajout. Ne la remplacez pas p
 un décompte.
 
 Le prérendu au build est en place : `npm run build` injecte le HTML des routes
-`/` et `/labo`, titres et contenus compris — les moteurs voient la page. Une
-nouvelle route s'ajoute à `ROUTES` dans `src/routes.ts`, sinon elle est servie
-vide.
+`/`, `/agences` et `/labo`, titres et contenus compris — les moteurs voient la
+page. Une nouvelle route s'ajoute à `ROUTES` dans `src/routes.ts`, sinon elle
+est servie vide ; pensez aussi à `META` dans `scripts/prerender.mjs` et à
+`public/sitemap.xml`.
+
+`src/data/agencies.ts` porte l'offre de sous-traitance. Son en-tête fixe une
+règle : **n'y ajoutez pas une technologie ou un outil qui ne soit ni attesté par
+un projet du portfolio, ni confirmé par l'équipe.** GitHub est le seul outil de
+workflow nommé — le reste se formule comme une adaptation à l'organisation du
+donneur d'ordre. Aucune antériorité de mission n'est revendiquée : l'offre
+décrit une capacité.
+
+Deux titres de la page `/agences` sont contraints par la largeur : les phrases
+de vingt-cinq signes ne tiennent sur une ligne qu'en pleine largeur du shell,
+pas dans une colonne. C'est pourquoi l'ouverture met le titre pleine largeur
+(comme `/labo`) et pourquoi la section passerelle de l'accueil utilise un titre
+court, la phrase complète passant dans l'accroche.

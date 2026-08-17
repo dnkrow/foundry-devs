@@ -5,9 +5,13 @@ import styles from './Contact.module.css';
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 type FieldErrors = Partial<Record<string, string>>;
 
+/* Les deux premières entrées sont les demandes d'agence : elles arrivent en
+   tête parce que c'est la priorité commerciale, sans exclure les autres. */
 const PROJECT_TYPES = [
-  'Site web sur mesure',
+  'Renfort d’équipe',
+  'Projet en marque blanche',
   'Application ou logiciel',
+  'Site web sur mesure',
   'Intégration IA',
   'API ou back-end',
   'Reprise d’un projet existant',
@@ -20,6 +24,15 @@ const BUDGETS = [
   '25 000 – 50 000 €',
   'Plus de 50 000 €',
   'À définir ensemble',
+] as const;
+
+/** L'échéance est la première contrainte d'un chef de projet : on la demande. */
+const DEADLINES = [
+  'Dès que possible',
+  'Sous un mois',
+  'D’un à trois mois',
+  'Plus de trois mois',
+  'Pas encore arrêtée',
 ] as const;
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -159,7 +172,7 @@ export function ContactForm() {
       </div>
 
       <div className={styles.field}>
-        <label htmlFor={`${id}-email`}>E-mail</label>
+        <label htmlFor={`${id}-email`}>E-mail professionnel</label>
         <input
           id={`${id}-email`}
           name="email"
@@ -173,7 +186,7 @@ export function ContactForm() {
 
       <div className={styles.field}>
         <label htmlFor={`${id}-company`}>
-          Entreprise <span className={styles.optional}>(optionnel)</span>
+          Agence ou société <span className={styles.optional}>(optionnel)</span>
         </label>
         <input
           id={`${id}-company`}
@@ -218,8 +231,22 @@ export function ContactForm() {
         </select>
       </div>
 
+      <div className={styles.field}>
+        <label htmlFor={`${id}-deadline`}>
+          Échéance <span className={styles.optional}>(optionnel)</span>
+        </label>
+        <select id={`${id}-deadline`} name="deadline" defaultValue="">
+          <option value="">Sans précision</option>
+          {DEADLINES.map((deadline) => (
+            <option key={deadline} value={deadline}>
+              {deadline}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className={`${styles.field} ${styles.fieldWide}`}>
-        <label htmlFor={`${id}-message`}>Votre projet</label>
+        <label htmlFor={`${id}-message`}>Le besoin</label>
         <textarea
           id={`${id}-message`}
           name="message"

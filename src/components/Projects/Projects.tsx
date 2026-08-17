@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { projects, type Project } from '../../data/projects';
 import { isPlaceholder } from '../../data/site';
 import { Surface } from '../Surface/Surface';
+import { Collapse } from '../Collapse/Collapse';
 import { Picture } from '../Picture/Picture';
 import {
   D,
@@ -121,9 +122,33 @@ export function Projects() {
   );
 }
 
+/**
+ * Vrai au-delà du point de bascule des cartes, et seulement après montage.
+ *
+ * Le premier rendu doit rester identique au HTML prérendu : on part donc du
+ * mobile, où le détail technique est replié, puis on l'ouvre définitivement en
+ * grand écran — là, c'est le survol qui le fait entrer, sans bouton.
+ */
+function useDesktop() {
+  const [desktop, setDesktop] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 62rem)');
+    const sync = () => setDesktop(query.matches);
+    sync();
+    query.addEventListener('change', sync);
+    return () => query.removeEventListener('change', sync);
+  }, []);
+
+  return desktop;
+}
+
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const draft = isPlaceholder(project.name);
   const variant = ((index % 4) + 1) as 1 | 2 | 3 | 4;
+  const panelId = `${useId()}-stack`;
+  const desktop = useDesktop();
+  const [open, setOpen] = useState(false);
 
   return (
     <li
@@ -159,14 +184,39 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             </div>
           )}
 
-          {/* Détail technique révélé au survol et au focus clavier. */}
-          <div className={styles.detail}>
-            <p className={styles.detailLabel}>Stack</p>
-            <ul className={styles.stackList}>
-              {project.stack.map((tech, i) => (
-                <li key={`${tech}-${i}`}>{tech}</li>
-              ))}
-            </ul>
+          {/* Détail technique : au survol et au focus clavier en grand écran,
+              par un bandeau dépliable sur mobile — sinon la liste couvrirait
+              la capture, qui est le sujet de la fiche. */}
+          {/* Fond nuit : l'anneau de focus doit passer sur le clair. */}
+          <div className={styles.detail} data-theme="night">
+            {desktop ? (
+              <p className={`${styles.detailToggle} ${styles.detailLabel}`}>
+                Stack
+              </p>
+            ) : (
+              <button
+                type="button"
+                className={styles.detailToggle}
+                aria-expanded={open}
+                aria-controls={panelId}
+                data-open={open}
+                onClick={() => setOpen((value) => !value)}
+              >
+                <span className={styles.detailLabel}>Stack</span>
+                <Chevron />
+              </button>
+            )}
+            <Collapse
+              open={desktop || open}
+              id={panelId}
+              className={styles.detailPanel}
+            >
+              <ul className={styles.stackList}>
+                {project.stack.map((tech, i) => (
+                  <li key={`${tech}-${i}`}>{tech}</li>
+                ))}
+              </ul>
+            </Collapse>
           </div>
         </div>
 
@@ -197,6 +247,15 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           </dl>
 
           <p className={styles.outcome}>{project.outcome}</p>
+
+          {/* Lecture technique de la fiche : ce qu'une agence peut nous
+              confier au vu de ce projet. */}
+          {project.proves ? (
+            <p className={styles.proves}>
+              <span className={styles.provesLabel}>Compétences exercées</span>
+              {project.proves}
+            </p>
+          ) : null}
 
           {project.href ? (
             <a
@@ -274,6 +333,14 @@ function ProjectMotion({ src }: { src: string }) {
     >
       <source src={src} type="video/mp4" />
     </video>
+  );
+}
+
+function Chevron() {
+  return (
+    <svg width="14" height="9" viewBox="0 0 14 9" fill="none" aria-hidden="true">
+      <path d="M1 8 7 2l6 6" stroke="currentColor" strokeWidth="1.4" />
+    </svg>
   );
 }
 

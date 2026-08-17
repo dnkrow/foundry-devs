@@ -13,25 +13,35 @@ export const isPlaceholder = (value: string): boolean =>
 
 export const site = {
   name: 'Foundry Devs',
-  tagline: 'Studio de développement indépendant',
+  /** Positionnement en une ligne. Affiché en tête du hero, avec la ville. */
+  tagline: 'Renfort technique et marque blanche',
   city: 'Toulouse',
   area: 'Toulouse et à distance',
   url: 'https://foundrydevs.codes',
   description:
-    'Foundry Devs est un collectif de développeurs à Toulouse : sites web sur mesure, applications, intégration IA, API et back-end.',
+    'Foundry Devs est un collectif de développeurs full-stack à Toulouse : renfort technique et sous-traitance en marque blanche pour les agences, applications web, API et intégration IA.',
 } as const;
 
 export const contact = {
   email: 'devsfoundry@gmail.com',
-  linkedin: '[URL LINKEDIN]',
-  github: '[URL GITHUB]',
   /** Ne renseigner que si la disponibilité est réelle, sinon laisser `null`. */
   availability: null as string | null,
 } as const;
 
-export const navItems = [
+export type NavItem = {
+  readonly id: string;
+  readonly label: string;
+  /**
+   * Route à part entière plutôt qu'ancre de la page d'accueil. Le lien est
+   * alors suivi normalement par le navigateur : pas de défilement interne.
+   */
+  readonly href?: string | undefined;
+};
+
+export const navItems: readonly NavItem[] = [
+  { id: 'agences', label: 'Pour les agences', href: '/agences' },
   { id: 'projets', label: 'Projets' },
   { id: 'expertise', label: 'Expertise' },
   { id: 'collectif', label: 'Collectif' },
   { id: 'contact', label: 'Contact' },
-] as const;
+];

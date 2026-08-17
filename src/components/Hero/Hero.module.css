@@ -109,7 +109,7 @@
 }
 
 .lead {
-  max-width: 46ch;
+  max-width: 50ch;
   font-size: var(--t-lead);
   color: var(--c-ink-soft);
   line-height: 1.45;
@@ -178,7 +178,9 @@
   }
 
   .lead {
-    max-width: 38ch;
+    /* La stack est nommée dans l'accroche : elle a besoin de trois lignes
+       pleines plutôt que de cinq lignes courtes. */
+    max-width: 48ch;
   }
 }
 

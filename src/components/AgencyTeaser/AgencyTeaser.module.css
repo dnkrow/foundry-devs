@@ -1,0 +1,91 @@
+/* Passerelle vers /agences. Composition asymétrique : le discours à gauche,
+   la liste des modes d'intervention en colonne étroite à droite, alignée en
+   bas. Pas de carte, pas de cadre — un filet et de l'espace. */
+
+.section {
+  padding-block: var(--section-y);
+  background: var(--c-limestone-warm);
+}
+
+.grid {
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4rem);
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.title {
+  font-size: var(--t-display);
+  max-width: 14ch;
+}
+
+.title em {
+  color: var(--c-accent);
+}
+
+.lead {
+  max-width: 52ch;
+  font-size: var(--t-lead);
+  color: var(--c-ink-soft);
+  line-height: 1.55;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-block-start: 0.5rem;
+  /* Cible tactile confortable (WCAG 2.5.8). */
+  padding-block: 0.5rem;
+  font-family: var(--f-display);
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+  color: var(--c-accent-deep);
+  text-decoration: underline;
+  text-underline-offset: 0.28em;
+  text-decoration-thickness: 1px;
+}
+
+.link svg {
+  transition: translate var(--d-micro) var(--e-out);
+}
+
+.link:hover {
+  text-decoration-thickness: 2px;
+}
+
+.link:hover svg {
+  translate: 4px 0;
+}
+
+.modes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: var(--line);
+}
+
+.modes li {
+  padding-block: 0.85rem;
+  border-bottom: var(--line);
+  font-family: var(--f-display);
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+}
+
+@media (min-width: 62rem) {
+  .grid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    column-gap: clamp(3rem, 8vw, 8rem);
+    align-items: end;
+  }
+
+  .modes {
+    padding-block-end: 0.4rem;
+  }
+}

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
-import { navItems, site } from '../../data/site';
+import { navItems, site, type NavItem } from '../../data/site';
 import { ScrollTrigger, prefersReducedMotion } from '../../lib/motion';
 import { Collapse } from '../Collapse/Collapse';
 import styles from './Nav.module.css';
@@ -17,7 +17,13 @@ type NavProps = {
 };
 
 export function Nav({ home = true }: NavProps) {
-  const anchor = (id: string) => (home ? `#${id}` : `/#${id}`);
+  /**
+   * Une entrée qui porte `href` est une page : on la sert telle quelle. Les
+   * autres sont des sections de l'accueil, donc des ancres — préfixées hors
+   * accueil pour rester valides depuis n'importe quelle page.
+   */
+  const anchor = (item: NavItem) =>
+    item.href ?? (home ? `#${item.id}` : `/#${item.id}`);
   const headerRef = useRef<HTMLElement | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const panelRef = useRef<HTMLUListElement | null>(null);
@@ -119,8 +125,9 @@ export function Nav({ home = true }: NavProps) {
   }, [menuOpen, closeMenu]);
 
   const goTo = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-    // Hors accueil, on laisse le navigateur suivre le lien vers `/#id`.
-    if (!home) return;
+    // La section peut exister sur une autre page que l'accueil — le formulaire
+    // de contact, par exemple, est présent sur `/agences`. On défile alors sur
+    // place ; sinon on laisse le navigateur suivre le lien vers `/#id`.
     const target = document.getElementById(id);
     if (!target) return;
     event.preventDefault();
@@ -153,16 +160,18 @@ export function Nav({ home = true }: NavProps) {
         </a>
 
         <ul className={styles.links}>
-          {navItems.map(({ id, label }) => (
-            <li key={id}>
+          {navItems.map((item) => (
+            <li key={item.id}>
               <a
-                href={anchor(id)}
+                href={anchor(item)}
                 className={styles.link}
-                data-nav-link={id}
+                data-nav-link={item.id}
                 data-active="false"
-                onClick={(event) => goTo(event, id)}
+                {...(item.href
+                  ? {}
+                  : { onClick: (event) => goTo(event, item.id) })}
               >
-                {label}
+                {item.label}
               </a>
             </li>
           ))}
@@ -192,14 +201,16 @@ export function Nav({ home = true }: NavProps) {
         className={styles.panel}
       >
         <ul ref={panelRef} className={styles.panelList} data-open={menuOpen}>
-          {navItems.map(({ id, label }) => (
-            <li key={id}>
+          {navItems.map((item) => (
+            <li key={item.id}>
               <a
-                href={anchor(id)}
+                href={anchor(item)}
                 className={styles.panelLink}
-                onClick={(event) => goTo(event, id)}
+                {...(item.href
+                  ? {}
+                  : { onClick: (event) => goTo(event, item.id) })}
               >
-                {label}
+                {item.label}
               </a>
             </li>
           ))}

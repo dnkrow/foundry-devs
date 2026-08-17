@@ -10,7 +10,7 @@
  * Ajouter une route ici suffit : `scripts/prerender.mjs` la génère.
  */
 
-export const ROUTES = ['/', '/labo'] as const;
+export const ROUTES = ['/', '/agences', '/labo'] as const;
 
 export type Route = (typeof ROUTES)[number];
 

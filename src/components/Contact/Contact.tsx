@@ -4,8 +4,13 @@ import { D, EASE, gsap, useAnimation } from '../../lib/motion';
 import { ContactForm } from './ContactForm';
 import styles from './Contact.module.css';
 
+type ContactProps = {
+  /** Faux sur `/agences` : la page ne doit pas se renvoyer vers elle-même. */
+  agencyLink?: boolean | undefined;
+};
+
 /** Unique bascule du site vers la surface sombre : la conclusion. */
-export function Contact() {
+export function Contact({ agencyLink = true }: ContactProps) {
   const root = useRef<HTMLElement | null>(null);
 
   useAnimation(root, () => {
@@ -39,18 +44,19 @@ export function Contact() {
           <p className={styles.label}>Contact</p>
           <h2 id="contact-titre" className={styles.title}>
             <span className="line-mask">
-              <span data-line>Construisons quelque chose</span>
+              <span data-line>Un projet à</span>
             </span>
             <span className="line-mask">
               <span data-line>
-                d’utile et <em className="accent-word">mémorable</em>.
+                <em className="accent-word">sous-traiter</em> ?
               </span>
             </span>
           </h2>
 
           <p className={styles.intro}>
-            Décrivez votre projet en quelques lignes. Nous répondons
-            personnellement, sans questionnaire commercial intermédiaire.
+            Décrivez le besoin en quelques lignes : le contexte, la stack si
+            elle est déjà arrêtée, l’échéance. Vous obtenez une réponse d’un
+            développeur, pas d’un commercial.
           </p>
 
           <dl className={styles.coords}>
@@ -65,32 +71,22 @@ export function Contact() {
               </dd>
             </div>
             <div>
-              <dt>LinkedIn</dt>
-              <dd>
-                {isPlaceholder(contact.linkedin) ? (
-                  <span className={styles.pending}>{contact.linkedin}</span>
-                ) : (
-                  <a href={contact.linkedin} rel="me noreferrer" target="_blank">
-                    Profil LinkedIn
-                  </a>
-                )}
-              </dd>
-            </div>
-            <div>
-              <dt>GitHub</dt>
-              <dd>
-                {isPlaceholder(contact.github) ? (
-                  <span className={styles.pending}>{contact.github}</span>
-                ) : (
-                  <a href={contact.github} rel="me noreferrer" target="_blank">
-                    Profil GitHub
-                  </a>
-                )}
-              </dd>
-            </div>
-            <div>
               <dt>Zone d’intervention</dt>
               <dd>{site.area}</dd>
+            </div>
+            <div>
+              <dt>Modalités</dt>
+              <dd>
+                Renfort ponctuel, projet au forfait, marque blanche
+                {agencyLink ? (
+                  <>
+                    {' — voir '}
+                    <a href="/agences">notre offre pour les agences</a>.
+                  </>
+                ) : (
+                  '.'
+                )}
+              </dd>
             </div>
             {contact.availability ? (
               <div>

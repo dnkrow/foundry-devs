@@ -74,6 +74,9 @@
 }
 
 .coords a {
+  display: inline-block;
+  /* Cible tactile ≥ 24 px de haut (WCAG 2.5.8). */
+  padding-block: 0.25rem;
   color: var(--c-on-night);
   text-decoration-color: color-mix(in srgb, var(--c-on-night) 45%, transparent);
   transition: text-decoration-color var(--d-micro) var(--e-out);

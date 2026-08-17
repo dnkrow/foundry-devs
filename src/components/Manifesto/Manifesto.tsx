@@ -61,14 +61,19 @@ export function Manifesto() {
           </h2>
 
           <p className={styles.body}>
-            Nous réunissons développement, direction technique et sens du détail
-            pour transformer une idée en produit rapide, clair et durable.
+            Quatre développeurs full-stack, une direction technique assumée en
+            interne, et du code que d’autres doivent pouvoir reprendre. Nous
+            travaillons pour des agences comme pour des clients directs.
           </p>
 
           <dl className={styles.facts}>
             <div>
               <dt>Interlocuteur</dt>
               <dd>Les personnes qui écrivent le code</dd>
+            </div>
+            <div>
+              <dt>Intervention</dt>
+              <dd>Projet au forfait, renfort ou marque blanche</dd>
             </div>
             <div>
               <dt>Terrain</dt>

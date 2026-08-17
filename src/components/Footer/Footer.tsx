@@ -10,23 +10,27 @@ export function Footer() {
         <div className={styles.brand}>
           <p className={styles.name}>{site.name}</p>
           <p className={styles.tagline}>
-            {site.tagline} — {site.city}
+            Développeurs full-stack à {site.city}. Renfort technique et
+            sous-traitance en marque blanche pour les agences.
           </p>
         </div>
 
         <nav className={styles.links} aria-label="Liens de pied de page">
           <ul>
             <li>
-              <a href="#projets">Projets</a>
+              <a href="/agences">Pour les agences</a>
             </li>
             <li>
-              <a href="#expertise">Expertise</a>
+              <a href="/#projets">Projets</a>
             </li>
             <li>
-              <a href="#collectif">Collectif</a>
+              <a href="/#expertise">Expertise</a>
             </li>
             <li>
-              <a href="#contact">Contact</a>
+              <a href="/#collectif">Collectif</a>
+            </li>
+            <li>
+              <a href="/labo">Banc d’essai</a>
             </li>
           </ul>
         </nav>
@@ -37,10 +41,22 @@ export function Footer() {
           ) : (
             <a href={`mailto:${contact.email}`}>{contact.email}</a>
           )}
-          <p className={styles.note}>
-            Site en cours de finalisation : les projets, les membres et les
-            coordonnées définitives restent à renseigner.
-          </p>
+          <a className={styles.cta} href="/#contact">
+            Démarrer une collaboration
+            <svg
+              width="18"
+              height="10"
+              viewBox="0 0 18 10"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M0 5h16m0 0-4.5-4.5M16 5l-4.5 4.5"
+                stroke="currentColor"
+                strokeWidth="1.2"
+              />
+            </svg>
+          </a>
         </div>
       </div>
 

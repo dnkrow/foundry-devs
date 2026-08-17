@@ -24,6 +24,7 @@ type Payload = {
   company: string;
   projectType: string;
   budget: string;
+  deadline: string;
   message: string;
   consent: string;
 };
@@ -63,6 +64,7 @@ function format(data: Payload): string {
     `Entreprise : ${data.company || '—'}`,
     `Type de projet : ${data.projectType}`,
     `Budget indicatif : ${data.budget || '—'}`,
+    `Échéance : ${data.deadline || '—'}`,
     '',
     data.message,
   ].join('\n');
@@ -148,6 +150,7 @@ export async function POST(request: Request): Promise<Response> {
     company: clean(raw.company),
     projectType: clean(raw.projectType),
     budget: clean(raw.budget),
+    deadline: clean(raw.deadline),
     message: clean(raw.message),
     consent: clean(raw.consent),
   };

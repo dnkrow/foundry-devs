@@ -9,6 +9,8 @@ import { Contact } from './components/Contact/Contact';
 import { Footer } from './components/Footer/Footer';
 import { Lab } from './components/Lab/Lab';
 import { LabTeaser } from './components/LabTeaser/LabTeaser';
+import { Agencies } from './components/Agencies/Agencies';
+import { AgencyTeaser } from './components/AgencyTeaser/AgencyTeaser';
 import { ScrollTrigger, initSmoothScroll } from './lib/motion';
 import { toRoute } from './routes';
 
@@ -47,12 +49,20 @@ export default function App({ path = '/' }: AppProps) {
       <main id="contenu">
         {route === '/labo' ? (
           <Lab />
+        ) : route === '/agences' ? (
+          <>
+            {/* Le formulaire n'est pas dupliqué : c'est la même section que sur
+                l'accueil, et tous les appels à l'action de la page y mènent. */}
+            <Agencies />
+            <Contact agencyLink={false} />
+          </>
         ) : (
           <>
             <Hero />
             <Manifesto />
             <Projects />
             <Expertise />
+            <AgencyTeaser />
             <LabTeaser />
             <Collective />
             <Contact />

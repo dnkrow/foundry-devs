@@ -63,11 +63,37 @@
   color: var(--c-on-night-soft);
 }
 
-.note {
-  font-size: var(--t-label);
-  line-height: 1.6;
-  color: var(--c-on-night-soft);
-  max-width: 36ch;
+/* Dernier appel à l'action du site. Contour plutôt que bloc plein : le pied de
+   page ne doit pas rivaliser avec le bouton d'envoi du formulaire, juste au-dessus. */
+/* Sélecteurs préfixés par `.reach` : la règle générique `.reach a` ci-dessus
+   est plus spécifique qu'une classe seule et écraserait le rembourrage. */
+.reach .cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-block-start: 0.35rem;
+  padding: 0.8rem 1.35rem;
+  border: 1px solid color-mix(in srgb, var(--c-on-night) 35%, transparent);
+  border-radius: var(--radius);
+  font-size: var(--t-small);
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  transition: background-color var(--d-micro) var(--e-out),
+    border-color var(--d-micro) var(--e-out), color var(--d-micro) var(--e-out);
+}
+
+.reach .cta svg {
+  transition: translate var(--d-micro) var(--e-out);
+}
+
+.reach .cta:hover {
+  background: var(--c-on-night);
+  border-color: var(--c-on-night);
+  color: var(--c-night);
+}
+
+.reach .cta:hover svg {
+  translate: 4px 0;
 }
 
 .legal {

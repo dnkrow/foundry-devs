@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- URL Vercel provisoire, à remplacer par le domaine définitif. Ajouter une
-     entrée par étude de cas le jour où elles obtiennent leur propre URL. -->
+<!-- Une entrée par route de `src/routes.ts`. Ajouter une entrée par étude de
+     cas le jour où elles obtiennent leur propre URL. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://foundrydevs.codes/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://foundrydevs.codes/agences</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://foundrydevs.codes/labo</loc>

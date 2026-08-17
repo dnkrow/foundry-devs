@@ -20,6 +20,17 @@ export type Project = {
   /** Objectif poursuivi ou résultat constaté. Aucun chiffre non vérifié. */
   readonly outcome: string;
   /**
+   * Ce que la fiche démontre techniquement, pour une agence qui évalue une
+   * capacité plutôt qu'un secteur. Uniquement des compétences réellement
+   * exercées sur ce projet — c'est une lecture du travail fait, pas un
+   * argumentaire. Optionnel.
+   *
+   * Gardez ces textes de longueur comparable d'une fiche à l'autre : la
+   * hauteur du cadre média suit celle de la colonne de texte, et une fiche
+   * plus bavarde que ses voisines fait paraître sa capture plus rognée.
+   */
+  readonly proves?: string | undefined;
+  /**
    * Nom de base du fichier dans `public/assets`, sans largeur ni extension —
    * déposez la source dans `assets-source/` et lancez `npm run images`.
    * `null` tant qu'aucune capture n'est fournie.
@@ -48,11 +59,13 @@ export const projects: readonly Project[] = [
     id: 'mama-bloom',
     name: 'MAMA Bloom',
     kind: 'Application web de suivi de grossesse',
-    role: 'Conception et développement',
+    role: 'Conception, architecture et développement',
     year: '2026',
     stack: ['Next.js 16', 'TypeScript', 'Prisma / PostgreSQL', 'Tailwind CSS'],
     outcome:
-      'Accompagner la grossesse semaine après semaine, sur un ton chaleureux et jamais clinique. Les données de santé sont hébergées en France, chez un hébergeur agréé HDS.',
+      'Accompagner la grossesse semaine après semaine, sur un ton chaleureux et jamais clinique. Nous avons construit l’ensemble : modèle de données, espace authentifié, contenu hebdomadaire et interface. Les données de santé sont hébergées en France, chez un hébergeur agréé HDS.',
+    proves:
+      'Next.js, TypeScript, Prisma et PostgreSQL sur un produit authentifié, avec des contraintes réelles d’hébergement de données de santé.',
     image: 'mama-bloom',
     imageAlt:
       'Page d’accueil de MAMA Bloom : titre éditorial « Ta grossesse, accompagnée semaine après semaine » et photographie d’une femme enceinte dans une pièce claire.',
@@ -63,12 +76,14 @@ export const projects: readonly Project[] = [
   {
     id: 'matrix-trader',
     name: 'Matrix Trader Pro',
-    kind: 'Banc d’essai algorithmique multi-agents',
-    role: 'Conception et développement',
+    kind: 'Système multi-agents piloté par des LLM',
+    role: 'Architecture et développement',
     year: '2026',
-    stack: ['Python 3.12', 'Architecture multi-processus', 'LLM en cascade', 'Alpaca (paper)'],
+    stack: ['Python 3.12', 'Orchestration multi-processus', 'LLM en cascade', 'API de marché'],
     outcome:
-      'Neuf agents pilotés par des modèles de langage gèrent chacun un portefeuille simulé, sur les mêmes données et sous la même contrainte de risque. La question posée est falsifiable : battre l’indice de référence, et pouvoir le prouver. D’où une référence naïve sans modèle, des groupes de contrôle et une mesure publiée y compris quand elle est défavorable.',
+      'Neuf agents pilotés par des modèles de langage gèrent chacun un portefeuille simulé, sur les mêmes données et sous la même contrainte de risque. Nous avons construit l’orchestrateur, la boucle de décision de chaque agent, l’ingestion des données de marché et la publication continue des résultats — y compris quand ils sont défavorables.',
+    proves:
+      'Architecture multi-agents, orchestration, LLM, Python, intégration d’API et traitement de données sur un système concurrent qui tourne en continu.',
     image: 'matrix-trader',
     imageAlt:
       'Tableau de bord de Matrix Trader Pro sur fond sombre : bandeau de synthèse, indicateur de régime de marché, et une grille de neuf agents affichant chacun la valeur de son portefeuille, sa performance face à l’indice et sa courbe d’évolution.',
@@ -87,6 +102,8 @@ export const projects: readonly Project[] = [
     stack: ['HTML / CSS / JS', 'Vidéo générée et compositée', 'SEO & données structurées', 'Vercel'],
     outcome:
       'Marque fictive, vitrine réelle : sept pages conçues de bout en bout pour montrer ce que nous savons livrer à un artisan des métiers de bouche — carte, demande de devis, espace professionnel, et une ouverture filmée où l’on vient poser le plat sur la table. Elle se reprend telle quelle, pour une vraie enseigne.',
+    proves:
+      'Front-end sans dépendance, référencement et données structurées, production de média et déploiement : un site de vente livré de bout en bout.',
     image: 'maison-qalya',
     imageAlt:
       'Page d’accueil de Maison Qalya : sur une table de mezzés en lumière chaude et volontairement floutée, le titre « L’art de recevoir avec Qalya » et deux boutons, Commander aujourd’hui et Demander un devis.',
@@ -106,10 +123,16 @@ export const projects: readonly Project[] = [
     stack: ['React 19', 'TypeScript', 'Express', 'Prisma / PostgreSQL'],
     outcome:
       'Suivre le prix des 76 Elite Trainer Box du marché français et la plus-value de sa propre collection. Les prix viennent de l’export officiel du Price Guide Cardmarket, relevé une fois par jour. Le site constate l’évolution, il ne conseille jamais d’acheter ni de vendre.',
+    proves:
+      'React et TypeScript sur un catalogue de données, API Express, Prisma et PostgreSQL, et l’ingestion quotidienne d’un export tiers.',
     image: 'etbvault-ui',
     imageAlt:
       'Catalogue d’ETBVault : grille sombre de coffrets Pokémon regroupés par ère, chacun avec le logo de son extension et son prix en euros.',
     href: 'https://etb-vault.vercel.app',
     hrefLabel: 'Voir le site en ligne',
   },
+  // Le gabarit à placeholders visibles a été retiré des données : il donnait au
+  // site un air inachevé sur la page la plus regardée par un prospect. Le rendu
+  // de secours (`isPlaceholder`, `Surface`, « Étude de cas à venir ») reste en
+  // place dans le composant, prêt à resservir pour une fiche en attente.
 ];
