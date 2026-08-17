@@ -42,13 +42,15 @@ export function Contact({ agencyLink = true }: ContactProps) {
       <div className={`shell ${styles.grid}`}>
         <div className={styles.aside}>
           <p className={styles.label}>Contact</p>
+          {/* Deux questions parallèles : le client qui arrive avec un projet,
+              l'agence qui cherche un renfort. Le formulaire sert les deux. */}
           <h2 id="contact-titre" className={styles.title}>
             <span className="line-mask">
-              <span data-line>Un projet à</span>
+              <span data-line>Un projet à construire ?</span>
             </span>
             <span className="line-mask">
               <span data-line>
-                <em className="accent-word">sous-traiter</em> ?
+                Un <em className="accent-word">renfort</em> à trouver ?
               </span>
             </span>
           </h2>
@@ -77,7 +79,7 @@ export function Contact({ agencyLink = true }: ContactProps) {
             <div>
               <dt>Modalités</dt>
               <dd>
-                Renfort ponctuel, projet au forfait, marque blanche
+                Projet au forfait, renfort ponctuel, marque blanche
                 {agencyLink ? (
                   <>
                     {' — voir '}

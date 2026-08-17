@@ -7,11 +7,22 @@ indépendants à Toulouse. En français, trois pages prérendues : l'accueil `/`
 en huit chapitres qui s'enchaînent au scroll, l'offre de sous-traitance
 `/agences`, et le banc d'essai `/labo`.
 
-**Positionnement.** Le site s'adresse d'abord aux **agences web, studios et
-ESN** qui sous-traitent du développement — renfort ponctuel, projet au forfait,
-marque blanche — sans cesser de parler à un client final. Le hero l'annonce
-(« Votre agence vend. Nous construisons. »), `/agences` le détaille. Ne
-rebasculez pas le discours vers la seule prestation directe.
+**Positionnement — deux publics, pas un.** Le site sert :
+
+1. les **entreprises et porteurs de projet** qui commandent en direct ;
+2. les **agences, studios et ESN** qui sous-traitent du développement —
+   renfort ponctuel, projet au forfait, marque blanche.
+
+La sous-traitance est la priorité commerciale, et elle a sa page (`/agences`),
+sa section sur l'accueil et son entrée de navigation. Mais **les pages
+communes ne doivent nommer aucun public à l'exclusion de l'autre.** Le titre du
+hero (« Vous avez le projet. Nous le construisons. ») et celui du contact
+(« Un projet à construire ? Un renfort à trouver ? ») sont vrais pour les deux ;
+c'est l'accroche, les liens et la section dédiée qui nomment les agences.
+
+Une première version disait « Votre agence vend. Nous construisons. » en titre
+d'accueil : plus frappant, mais le site avait alors l'air réservé aux agences.
+Ne refaites pas ce basculement — dans un sens comme dans l'autre.
 
 ---
 

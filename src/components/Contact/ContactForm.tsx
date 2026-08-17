@@ -5,15 +5,15 @@ import styles from './Contact.module.css';
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 type FieldErrors = Partial<Record<string, string>>;
 
-/* Les deux premières entrées sont les demandes d'agence : elles arrivent en
-   tête parce que c'est la priorité commerciale, sans exclure les autres. */
+/* Les natures de projet d'abord, les modalités d'agence ensuite : l'ordre ne
+   doit pas laisser croire que le formulaire est réservé aux agences. */
 const PROJECT_TYPES = [
-  'Renfort d’équipe',
-  'Projet en marque blanche',
-  'Application ou logiciel',
   'Site web sur mesure',
+  'Application ou logiciel',
   'Intégration IA',
   'API ou back-end',
+  'Renfort d’équipe',
+  'Projet en marque blanche',
   'Reprise d’un projet existant',
   'Autre',
 ] as const;

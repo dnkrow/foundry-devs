@@ -13,13 +13,17 @@ export const isPlaceholder = (value: string): boolean =>
 
 export const site = {
   name: 'Foundry Devs',
-  /** Positionnement en une ligne. Affiché en tête du hero, avec la ville. */
-  tagline: 'Renfort technique et marque blanche',
+  /**
+   * Positionnement en une ligne. Affiché en tête du hero, avec la ville.
+   * Volontairement neutre : le site sert deux publics, les agences qui
+   * sous-traitent et les clients directs. Voir `description`.
+   */
+  tagline: 'Collectif de développeurs full-stack',
   city: 'Toulouse',
   area: 'Toulouse et à distance',
   url: 'https://foundrydevs.codes',
   description:
-    'Foundry Devs est un collectif de développeurs full-stack à Toulouse : renfort technique et sous-traitance en marque blanche pour les agences, applications web, API et intégration IA.',
+    'Foundry Devs est un collectif de développeurs full-stack à Toulouse : applications web, API et intégration IA. En direct pour les entreprises, en renfort ou en marque blanche pour les agences.',
 } as const;
 
 export const contact = {

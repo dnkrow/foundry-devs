@@ -10,8 +10,8 @@ export function Footer() {
         <div className={styles.brand}>
           <p className={styles.name}>{site.name}</p>
           <p className={styles.tagline}>
-            Développeurs full-stack à {site.city}. Renfort technique et
-            sous-traitance en marque blanche pour les agences.
+            Développeurs full-stack à {site.city}. En direct pour les
+            entreprises, en renfort ou en marque blanche pour les agences.
           </p>
         </div>
 

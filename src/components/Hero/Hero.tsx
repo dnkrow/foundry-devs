@@ -92,23 +92,26 @@ export function Hero() {
             <span className={styles.city}>{site.city}</span>
           </p>
 
-          {/* Le titre nomme la relation, pas le métier : c'est ce qu'un
-              responsable d'agence doit reconnaître en une seconde. */}
+          {/* Le titre nomme la relation, pas le métier, et reste vrai pour les
+              deux publics : l'agence qui a vendu un projet comme l'entreprise
+              qui arrive avec le sien. Le cas des agences est nommé juste en
+              dessous, dans l'accroche et dans son propre lien. */}
           <h1 className={styles.title}>
             <span className="line-mask">
-              <span data-hero-line>Votre agence vend.</span>
+              <span data-hero-line>Vous avez le projet.</span>
             </span>
             <span className="line-mask">
               <span data-hero-line>
-                Nous <em className="accent-word">construisons</em>.
+                Nous le <em className="accent-word">construisons</em>.
               </span>
             </span>
           </h1>
 
           <p className={styles.lead} data-hero-fade>
-            Équipe de développeurs full-stack à Toulouse — React, Next.js,
-            TypeScript, Python, IA. Nous intervenons en renfort ou en marque
-            blanche pour les agences et les équipes produit.
+            Collectif de développeurs full-stack à Toulouse — React, Next.js,
+            TypeScript, Python, IA. En direct pour les entreprises et les
+            porteurs de projet, en renfort ou en marque blanche pour les
+            agences.
           </p>
 
           <div className={styles.actions} data-hero-fade>
@@ -128,9 +131,12 @@ export function Hero() {
                 />
               </svg>
             </a>
-            {/* Un seul appel à l'action dominant, comme avant : le second reste
-                un lien souligné. L'entrée « Pour les agences » vit dans la
-                navigation et dans la section passerelle, pas ici. */}
+            {/* Un seul appel à l'action dominant : les deux suivants restent
+                des liens soulignés. Celui vers `/agences` est le seul endroit
+                du hero où un public est nommé — le titre, lui, reste ouvert. */}
+            <a href="/agences" className={styles.ctaGhost}>
+              Pour les agences
+            </a>
             <a href="#projets" className={styles.ctaGhost}>
               Voir nos réalisations
             </a>
