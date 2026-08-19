@@ -170,11 +170,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                    viewport. Un `sizes` en vw y faisait choisir le 640. */
                 sizes="(min-width: 96rem) 52rem, (min-width: 62rem) 45vw, 82vw"
                 widths={project.imageWidths}
-                /* Capture d'interface : elle se montre entière. Le cadre suit
-                   la hauteur de la rangée, donc son rapport varie avec la
-                   longueur du texte — en `cover`, une fiche bavarde amputerait
-                   la capture de près de 40 % de sa largeur. */
-                fit="contain"
+                /* Le cadre a exactement le rapport de la capture : `cover` et
+                   `contain` y sont équivalents, et `cover` garantit en plus
+                   qu'aucun filet de fond n'apparaisse à l'arrondi sous-pixel.
+                   Rien n'est rogné tant que le cadre garde ce rapport. */
+                fit="cover"
               />
               {project.video ? <ProjectMotion src={project.video} /> : null}
             </div>
