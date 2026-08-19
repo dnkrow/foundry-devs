@@ -11,11 +11,21 @@
  *        la CSP du site est en `connect-src 'self'`, la page ne peut donc pas
  *        appeler un domaine de stockage directement.
  *
- * Sans `SNAPSHOT_TOKEN` configuré, le POST répond 503 : la route ne fait
- * jamais semblant d'accepter une publication.
+ *        La lecture va chercher l'URL publique du blob **directement**, sans
+ *        passer par le SDK. Le POST écrit toujours au même chemin
+ *        (`addRandomSuffix: false`), l'URL est donc déterministe et se
+ *        reconstruit depuis `BLOB_PUBLIC_URL`. Raison : tout appel du SDK
+ *        (`list`, `head`, `put`…) est facturé en Advanced Request — quota
+ *        2 000/mois — alors qu'un fetch de l'URL publique est une Simple
+ *        Request, quota 10 000/mois. Un `list()` par invocation a suffi à
+ *        épuiser le premier quota et à suspendre le store.
+ *
+ * Sans `SNAPSHOT_TOKEN`, le POST répond 503 ; sans `BLOB_PUBLIC_URL`, le GET
+ * fait de même. Aucun des deux ne fait semblant de fonctionner, et il n'y a
+ * pas de repli silencieux vers le SDK.
  */
 
-import { list, put } from '@vercel/blob';
+import { put } from '@vercel/blob';
 
 const BLOB_PATH = 'trading-snapshot.json';
 
@@ -122,22 +132,38 @@ function sanitize(raw: unknown): Snapshot | null {
 }
 
 export async function GET(): Promise<Response> {
+  // Origine publique du store, de la forme
+  // `https://<store-id>.public.blob.vercel-storage.com`. Pas de repli sur
+  // `list()` si elle manque : ce repli est précisément ce qui a vidé le quota.
+  const base = process.env['BLOB_PUBLIC_URL'];
+  if (!base) return json({ error: 'Lecture non configurée.' }, 503);
+
+  // Une barre finale dans la variable ne doit pas produire une double barre.
+  const origin = base.endsWith('/') ? base.slice(0, -1) : base;
+  const url = `${origin}/${BLOB_PATH}`;
+
+  let upstream: Response;
   try {
-    const { blobs } = await list({ prefix: BLOB_PATH, limit: 1 });
-    const blob = blobs[0];
-    if (!blob) return json({ error: 'Aucun instantané publié.' }, 404);
-
-    const upstream = await fetch(blob.url, { cache: 'no-store' });
-    if (!upstream.ok) return json({ error: 'Instantané illisible.' }, 502);
-
-    // Cache CDN court : la page interroge toutes les 30 s, l'essentiel des
-    // requêtes est donc servi par le bord sans réveiller la fonction. Sans
-    // ça, chaque visiteur qui laisse l'onglet ouvert coûterait une
-    // invocation toutes les 30 secondes.
-    return json(await upstream.json(), 200, 'public, s-maxage=15, stale-while-revalidate=300');
+    upstream = await fetch(url, { cache: 'no-store' });
   } catch {
     return json({ error: 'Stockage indisponible.' }, 503);
   }
+
+  if (upstream.status === 404) return json({ error: 'Aucun instantané publié.' }, 404);
+  if (!upstream.ok) return json({ error: 'Instantané illisible.' }, 502);
+
+  let payload: unknown;
+  try {
+    payload = await upstream.json();
+  } catch {
+    return json({ error: 'Instantané illisible.' }, 502);
+  }
+
+  // Cache CDN d'une minute : la page interroge au même rythme, l'essentiel
+  // des requêtes est donc servi par le bord sans réveiller la fonction. Sans
+  // ça, chaque visiteur qui laisse l'onglet ouvert coûterait une invocation
+  // par minute.
+  return json(payload, 200, 'public, s-maxage=60, stale-while-revalidate=300');
 }
 
 export async function POST(request: Request): Promise<Response> {

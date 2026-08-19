@@ -116,8 +116,10 @@ export function Lab() {
    *
    * Pas de connexion permanente : les données ne bougent qu'au rythme des
    * cycles du bot, un flux ouvert en continu coûterait des invocations sans
-   * rien apporter. Le cache CDN court fait que la plupart de ces requêtes
-   * n'atteignent jamais la fonction.
+   * rien apporter. Une minute entre deux appels, calée sur le `s-maxage=60`
+   * de la route : la plupart de ces requêtes n'atteignent jamais la fonction,
+   * et celles qui passent ne déclenchent plus d'appel au SDK Blob — c'est un
+   * rythme plus serré qui avait épuisé le quota d'Advanced Requests.
    *
    * La boucle s'arrête quand l'onglet passe en arrière-plan, et rattrape
    * immédiatement au retour : inutile d'interroger une page que personne
@@ -145,7 +147,7 @@ export function Lab() {
 
     const schedule = () => {
       window.clearInterval(timer);
-      if (!document.hidden) timer = window.setInterval(load, 30_000);
+      if (!document.hidden) timer = window.setInterval(load, 60_000);
     };
 
     const onVisibility = () => {
